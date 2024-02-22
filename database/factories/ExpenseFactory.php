@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -19,9 +20,9 @@ class ExpenseFactory extends Factory
     public function definition(): array
     {
         return [
-            'wallet_id'=> $this->faker->randomElement(Wallet::all()),
+            'wallet_id'=> Wallet::where('user_id',User::first()->id)->inRandomOrder()->first(),
             'user_id'=>User::first(),
-            'category_id'=> $this->faker->randomElement( User::first()->category),
+            'category_id'=> Category::where('user_id',User::first()->id)->inRandomOrder()->first(),
             'amount'=>$this->faker->randomFloat(2,1,100),
             'date'=> $this->faker->dateTimeBetween('now','+1 month'),
             'currency'=>$this->faker->randomElement(Wallet::CURRENCIES)
