@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
              'name' => 'Eldos Ulanbekov',
              'email' => 'test@example.com',
          ]);
-         $this->call([WalletSeeder::class,CategorySeeder::class]);
+         $this->call([WalletSeeder::class,CategorySeeder::class,ExpenseSeeder::class]);
     }
 }
