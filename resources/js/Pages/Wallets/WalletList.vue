@@ -27,7 +27,7 @@ defineProps(['wallets']);
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="grid grid-cols-2 gap-2">
                         <div v-for="(wallet,index) in this.wallets" :key="index">
-                            <Card :balance="wallet.balance" :card-name="wallet.name" :card-type="wallet.type"
+                            <Card :balance="wallet.balance" :card-name="wallet.name" :card-type="wallet.type" :card-id="wallet.id"
                                   :currency-type="wallet.currency"></Card>
                         </div>
                     </div>

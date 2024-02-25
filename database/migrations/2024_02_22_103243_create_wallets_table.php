@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('type');
             $table->string('currency');
-            $table->float('balance');
+            $table->unsignedBigInteger('balance');
             $table->timestamps();
         });
     }
