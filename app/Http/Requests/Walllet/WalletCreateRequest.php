@@ -28,7 +28,7 @@ class WalletCreateRequest extends FormRequest
             'name'=>['required','max:40','min:3'],
             'type'=>['required'],
             'currency'=>['required',Rule::in(Wallet::CURRENCIES)],
-            'balance'=>['required','integer','not_in:0','regex:^[1-9][0-9]+^']
+            'balance'=>['required','integer',]
         ];
     }
 }

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Walllet\WalletCreateRequest;
 use App\Models\Wallet;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -36,7 +38,7 @@ class WalletController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(WalletCreateRequest $request)
+    public function store(WalletCreateRequest $request): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         $wallet = new Wallet($request->validated());
         $wallet->user_id = Auth::id();
@@ -71,8 +73,9 @@ class WalletController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        //
+        Wallet::with('user')->where('id','=',$id)->where('user_id',Auth::id())->first()->delete();
+        return redirect(RouteServiceProvider::HOME);
     }
 }
