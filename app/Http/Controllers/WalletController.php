@@ -16,7 +16,7 @@ class WalletController extends Controller
     public function index(): Response
     {
         $wallets = Wallet::with('user')->where('user_id',Auth::id())->get();
-        return Inertia::render('WalletList');
+        return Inertia::render('Wallets/WalletList',['wallets'=>$wallets]);
     }
 
     /**
