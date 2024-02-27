@@ -22,7 +22,7 @@ class WalletController extends Controller
      */
     public function index(): Response
     {
-        $wallets = Wallet::with('user')->where('user_id',Auth::id())->get();
+        $wallets = Wallet::with('user')->where('user_id',Auth::id())->paginate(2);
         return Inertia::render('Wallets/WalletList',['wallets'=>$wallets]);
     }
 
