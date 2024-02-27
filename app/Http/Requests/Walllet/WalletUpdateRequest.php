@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class WalletCreateRequest extends FormRequest
+class WalletUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,8 +27,6 @@ class WalletCreateRequest extends FormRequest
         return [
             'name'=>['required','max:40','min:3'],
             'type'=>['required',Rule::in(Wallet::TYPES)],
-            'currency'=>['required',Rule::in(Wallet::CURRENCIES)],
-            'balance'=>['required','integer',]
         ];
     }
 }

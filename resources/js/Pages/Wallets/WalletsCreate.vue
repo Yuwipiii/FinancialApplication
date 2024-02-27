@@ -31,7 +31,6 @@ const submit = () => {
             <div class="flex justify-between">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">Create Wallet</h2>
             </div>
-
         </template>
 
         <template #main>

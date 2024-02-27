@@ -20,7 +20,7 @@ Route::get('/',function (){
     return Inertia::render('Welcome');
 })->middleware('guest');
 
-Route::resource('wallets', \App\Http\Controllers\WalletController::class)->middleware(['auth','verified']);
+Route::resource('wallets', \App\Http\Controllers\WalletController::class)->except(['edit'])->middleware(['auth','verified']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

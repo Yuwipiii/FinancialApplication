@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Walllet\WalletCreateRequest;
+use App\Http\Requests\Walllet\WalletUpdateRequest;
 use App\Models\Wallet;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Application;
@@ -49,25 +50,21 @@ class WalletController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): Response
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $wallet = Wallet::with('user')->where('id',$id)->first();
+        $types = Wallet::TYPES;
+        return Inertia::render('Wallets/WalletsShow',['wallet'=>$wallet,'types'=>$types]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(WalletUpdateRequest $request, string $id)
     {
-        //
+        $wallet = Wallet::find($id);
+        $wallet->update($request->validated());
+        return redirect(route('wallets.show',$wallet->id));
     }
 
     /**
