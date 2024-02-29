@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->call(GetCurrencyDataCommand::class)->daily();
+        $schedule->call(GetCurrencyDataCommand::class);
     }
 
     /**
