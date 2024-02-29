@@ -54,4 +54,9 @@ class User extends Authenticatable
         return $this->hasMany(Category::class);
     }
 
+    public function upcomeCategories(): HasMany
+    {
+        return $this->hasMany(UpcomeCategory::class);
+    }
+
 }
