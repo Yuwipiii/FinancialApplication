@@ -19,20 +19,16 @@ class Wallet extends Model
         'balance'
     ];
 
-    const BANK= 'Bank card';
+    const BANK = 'Bank card';
     const CASH = 'Cash';
-    const RU = "RU";
     const KGS = 'KGS';
-    const EUR ='EUR';
     const USD = 'USD';
     const TYPES = [
         self::CASH,
         self::BANK
     ];
 
-    const CURRENCIES =[
-        self::EUR,
-        self::RU,
+    const CURRENCIES = [
         self::KGS,
         self::USD
     ];
@@ -41,6 +37,7 @@ class Wallet extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function expenses(): HasMany
     {
         return $this->hasMany(Expense::class);

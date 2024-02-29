@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('base');
             $table->string('counter');
-            $table->float('mid');
+            $table->unsignedDouble('mid');
             $table->timestamp('time');
         });
     }
