@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reports', function (Blueprint $table) {
+        Schema::create('transfers', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->float('total_amount');
-            $table->string('currency');
+            $table->foreignId('from_wallet_id')->references('id')->on('wallets')->constrained()->cascadeOnDelete();
+            $table->foreignId('to_wallet_id')->references('id')->on('wallets')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('amount');
+            $table->string('note')->nullable();
+            $table->date('date');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reports');
+        Schema::dropIfExists('transfers');
     }
 };
