@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('amount');
             $table->date('date');
             $table->string('currency');
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

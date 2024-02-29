@@ -90,7 +90,7 @@ const submit = () => {
                                 autofocus
                                 autocomplete="balance"
                                 min="0"
-                                step="0.01"
+                                step="1"
                             />
                             <InputError class="mt-2" :message="form.errors.balance"/>
                         </div>

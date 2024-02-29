@@ -60,7 +60,7 @@ class WalletController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(WalletUpdateRequest $request, string $id)
+    public function update(WalletUpdateRequest $request, string $id): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         $wallet = Wallet::find($id);
         $wallet->update($request->validated());
@@ -73,6 +73,6 @@ class WalletController extends Controller
     public function destroy(string $id): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         Wallet::with('user')->where('id','=',$id)->where('user_id',Auth::id())->first()->delete();
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(route('wallets.index'));
     }
 }

@@ -33,32 +33,19 @@ defineProps(['wallets']);
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="grid grid-cols-2 gap-2">
                         <div v-for="(wallet,index) in this.wallets['data']" :key="index">
-                            <Transition class="slide-fade">
-                                <Card :balance="wallet.balance" :card-name="wallet.name" :card-type="wallet.type"
-                                      :card-id="wallet.id"
-                                      :currency-type="wallet.currency"></Card>
-                            </Transition>
+                            <Card  :balance="wallet.balance"
+                                  :card-name="wallet.name" :card-type="wallet.type"
+                                  :card-id="wallet.id"
+                                  :currency-type="wallet.currency"></Card>
                         </div>
                     </div>
                     <SimplePaginator class="flex justify-self-center"
-                        :paginator="wallets"></SimplePaginator>
+                                     :paginator="wallets"></SimplePaginator>
                 </div>
             </div>
         </template>
     </AuthenticatedLayout>
 </template>
 <style>
-.slide-fade-enter-active {
-    transition: all 0.3s ease-out;
-}
 
-.slide-fade-leave-active {
-    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-}
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-    transform: translateX(20px);
-    opacity: 0;
-}
 </style>

@@ -21,6 +21,7 @@ Route::get('/',function (){
 })->middleware('guest');
 
 Route::resource('wallets', \App\Http\Controllers\WalletController::class)->except(['edit'])->middleware(['auth','verified']);
+Route::get('/',[\App\Http\Controllers\DashboardController::class,'dashboard'])->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
