@@ -57,9 +57,9 @@ const submit = () => {
                         </div>
 
                         <div class="mt-5">
-                            <InputLabel for="name" value="Wallet Type"/>
+                            <InputLabel for="type" value="Wallet Type"/>
                             <div class="flex mt-1">
-                                <select class="bg-slate-700/50 rounded-lg " v-model="form.type">
+                                <select id="type" class="bg-slate-700/50 rounded-lg " v-model="form.type">
                                     <option disabled value="">Select currency of wallet</option>
                                     <option v-for="(type,index) in types" :key="index" :value="type">{{type}}</option>
                                 </select>
@@ -68,9 +68,9 @@ const submit = () => {
                         </div>
 
                         <div class="mt-5">
-                            <InputLabel for="name" value="Wallet Currency"/>
+                            <InputLabel for="currency" value="Wallet Currency"/>
                             <div class="flex mt-1">
-                                <select class="bg-slate-700/50 rounded-lg " v-model="form.currency">
+                                <select id="currency" class="bg-slate-700/50 rounded-lg " v-model="form.currency">
                                     <option disabled value="">Select currency of wallet</option>
                                     <option v-for="(currency,index) in currencies" :key="index" :value="currency.valueOf()">{{currency}}</option>
                                 </select>
@@ -80,7 +80,7 @@ const submit = () => {
 
 
                         <div>
-                            <InputLabel for="name" value="Balance"/>
+                            <InputLabel for="balance" value="Balance"/>
                             <TextInput
                                 id="balance"
                                 type="number"
