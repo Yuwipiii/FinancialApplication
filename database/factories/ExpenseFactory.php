@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\Currency;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,7 +26,7 @@ class ExpenseFactory extends Factory
             'category_id'=> Category::where('user_id',User::first()->id)->inRandomOrder()->first(),
             'amount'=>$this->faker->randomFloat(2,1,100),
             'date'=> $this->faker->dateTimeBetween('now','+1 month'),
-            'currency'=>$this->faker->randomElement(Wallet::CURRENCIES)
+            'currency_id'=>$this->faker->randomElement(Currency::all()->pluck('id'))
         ];
     }
 }

@@ -10,4 +10,8 @@ class Currency extends Model
     use HasFactory;
     public $timestamps = false;
 
+    public function wallets()
+    {
+        return $this->hasMany(Wallet::class);
+    }
 }

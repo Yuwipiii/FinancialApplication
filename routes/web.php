@@ -22,7 +22,8 @@ Route::get('/',function (){
 
 Route::resource('wallets', \App\Http\Controllers\WalletController::class)->except(['edit'])->middleware(['auth','verified']);
 Route::get('/',[\App\Http\Controllers\DashboardController::class,'dashboard'])->middleware(['auth'])->name('dashboard');
-Route::post('/createExpense',[\App\Http\Controllers\DashboardController::class,'createExpense'])->name('expenses.create')->middleware(['auth']);
+Route::post('/expense/create',[\App\Http\Controllers\DashboardController::class,'createExpense'])->middleware(['auth'])->name('expenses.create');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

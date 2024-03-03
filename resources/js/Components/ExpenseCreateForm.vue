@@ -10,9 +10,9 @@ const form = useForm(
     {
         wallet_id: '',
         category_id: '',
-        amount: '',
+        amount: 1,
         date: '',
-        currency: '',
+        currency_id: 1,
         note: ''
     }
 );
@@ -27,6 +27,7 @@ const submit = () => {
     <form @submit.prevent="submit">
         <div class="grid justify-items-stretch mt-3 ps-3 pe-3  bg-slate-400 pt-2 pb-2 rounded-lg shadow-2xl">
             <div class="flex justify-items-stretch gap-4">
+
                 <div>
                     <InputLabel for="wallet_id" value="From"/>
                     <div class="flex mt-1">
@@ -39,18 +40,33 @@ const submit = () => {
                     </div>
                     <InputError class="mt-2" :message="form.errors.wallet_id"/>
                 </div>
+
                 <div>
                     <InputLabel for="name" value="Type of expense"/>
                     <div class="flex mt-1">
                         <select class="bg-slate-200/50 rounded-lg " v-model="form.category_id">
                             <option disabled value="">Select wallet</option>
-                            <option v-for="(category,index) in categories" :key="index" :value="categories.id">
+                            <option v-for="(category,index) in categories" :key="index" :value="category.id">
                                 {{ category.name }}
                             </option>
                         </select>
                     </div>
                     <InputError class="mt-2" :message="form.errors.category_id"/>
                 </div>
+
+                <div>
+                    <InputLabel for="name" value="Currency"/>
+                    <div class="flex mt-1">
+                        <select class="bg-slate-200/50 rounded-lg " v-model="form.currency_id">
+                            <option disabled value="">Select currency</option>
+                            <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">
+                                {{ currency.id }}
+                            </option>
+                        </select>
+                    </div>
+                    <InputError class="mt-2" :message="form.errors.currency_id"/>
+                </div>
+
                 <div>
                     <InputLabel for="date" value="Date:"/>
                     <TextInput
@@ -62,14 +78,9 @@ const submit = () => {
                         autocomplete="date"
 
                     />
-                    <InputError class="mt-2" :message="form.errors.amount"/>
+                    <InputError class="mt-2" :message="form.errors.date"/>
                 </div>
-                <div class="flex mt-1">
-                    <PrimaryButton  :class="{ 'opacity-25': form.processing }"
-                                   :disabled="form.processing">
-                        Add Expense
-                    </PrimaryButton>
-                </div>
+
             </div>
 
 
@@ -100,8 +111,12 @@ const submit = () => {
                 />
                 <InputError class="mt-2" :message="form.errors.note"/>
             </div>
-
-
+        </div>
+        <div class="flex mt-1">
+            <PrimaryButton  :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing">
+                Add Expense
+            </PrimaryButton>
         </div>
     </form>
 </template>
