@@ -5,32 +5,36 @@ import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {useToast} from 'vue-toast-notification';
+import {watch} from "vue";
 
-defineProps(['wallets', 'categories', 'currencies'])
+
+defineProps(['from_wallets', 'to_wallets', 'currencies'])
 const form = useForm(
     {
-        wallet_id: '',
-        category_id: '',
-        amount: 1,
+        from_wallet_id: '',
+        to_wallet_id: '',
+        amount: '1',
         date: '',
-        currency_id: 1,
+        currency_id: '',
         note: ''
     }
 );
 
-const  submit =  () => {
-    form.post(route('expenses.create'), {
+const submit = () => {
+    form.post(route('transfers.create'), {
             onSuccess: () => {
                 const $toast = useToast();
-                let instance = $toast.success('You have successfully created a expense account for your wallet!');
+                let instance = $toast.success('You have successfully created a transfer!');
             },
             onError: () => {
                 const $toast = useToast();
-                let intance = $toast.error('An error occurred when creating an expense');
+                let intance = $toast.error('An error occurred when creating an transfer');
             }
         }
     );
 };
+
+
 </script>
 
 <template>
@@ -40,27 +44,31 @@ const  submit =  () => {
                 <div>
                     <InputLabel for="wallet_id" value="From"/>
                     <div class="flex mt-1">
-                        <select id="wallet_id" class="bg-slate-200/50 rounded-lg " v-model="form.wallet_id">
+                        <select id="wallet_id" class="bg-slate-200/50 rounded-lg " v-model="form.from_wallet_id">
                             <option disabled value="">Select wallet</option>
-                            <option v-for="(wallet,index) in wallets" :key="index" :value="wallet.id">
-                                {{ wallet.name }}
+                            <option v-for="(from_wallet,index) in from_wallets" :key="index" :value="from_wallet.id">
+                                {{ from_wallet.name }}
                             </option>
                         </select>
                     </div>
-                    <InputError class="mt-2" :message="form.errors.wallet_id"/>
+                    <InputError class="mt-2" :message="form.errors.from_wallet_id"/>
                 </div>
-                <div>
-                    <InputLabel for="name" value="Type of expense"/>
+
+                <div v-if="form.from_wallet_id">
+                    <InputLabel for="wallet_id" value="To"/>
                     <div class="flex mt-1">
-                        <select class="bg-slate-200/50 rounded-lg " v-model="form.category_id">
+                        <select id="wallet_id" class="bg-slate-200/50 rounded-lg" v-model="form.to_wallet_id">
                             <option disabled value="">Select wallet</option>
-                            <option v-for="(category,index) in categories" :key="index" :value="category.id">
-                                {{ category.name }}
-                            </option>
+                            <template v-for="(to_wallet,index) in to_wallets">
+                                <option v-if="to_wallet.id !== form.from_wallet_id" :key="index" :value="to_wallet.id">
+                                    {{ to_wallet.name }}
+                                </option>
+                            </template>
                         </select>
                     </div>
-                    <InputError class="mt-2" :message="form.errors.category_id"/>
+                    <InputError class="mt-2" :message="form.errors.to_wallet_id"/>
                 </div>
+
 
                 <div>
                     <InputLabel for="name" value="Currency"/>

@@ -4,9 +4,10 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {Head, router} from "@inertiajs/vue3";
 import Card from "@/Components/Card.vue";
 import ExpenseCreateForm from "@/Components/ExpenseCreateForm.vue";
+import TransferCreateForm from "@/Components/TransferCreateForm.vue";
 
 export default {
-    components: {ExpenseCreateForm, Card, AuthenticatedLayout, Head},
+    components: {TransferCreateForm, ExpenseCreateForm, Card, AuthenticatedLayout, Head},
     props: {
         'netWorthUSD': {
             type: Number,
@@ -27,7 +28,7 @@ export default {
         formatPrice(value) {
             return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         }, showWallet(cardId) {
-            router.get(route('wallets.show', cardId))
+            router.get(route('wallets.show', cardId),)
         }
     },
     data() {
@@ -101,17 +102,17 @@ export default {
                                 <div
                                     @click="this.showExpense  = !this.showExpense;this.showTransfer =false;this.showIncome =false"
                                     class="flex justify-center rounded-lg  border-2 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
-                                    01
+                                    Expense
                                 </div>
                                 <div
                                     @click="this.showIncome  = !this.showIncome;this.showTransfer =false;this.showExpense =false"
                                     class="flex justify-center rounded-lg border-2  border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
-                                    02
+                                    Transfer
                                 </div>
                                 <div
                                     @click="this.showTransfer = !this.showTransfer;this.showIncome = false; this.showExpense =false"
                                     class="flex justify-center rounded-lg border-2  border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
-                                    03
+                                    Income
                                 </div>
                             </div>
                             <div v-if="this.showExpense">
@@ -121,9 +122,9 @@ export default {
 
                             </div>
                             <div v-else-if="showIncome">
-                                <div
-                                    class="flex mt-3 justify-around bg-slate-400 pt-2 pb-2 rounded-lg shadow-2xl">
-                                    Бвыф
+                                <div>
+                                    <TransferCreateForm  :from_wallets='wallets' :to_wallets='wallets' :currencies="currencies">
+                                    </TransferCreateForm>
                                 </div>
                             </div>
                             <div v-else-if="showTransfer">

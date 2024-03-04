@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('from_wallet_id')->references('id')->on('wallets')->constrained()->cascadeOnDelete();
             $table->foreignId('to_wallet_id')->references('id')->on('wallets')->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('amount');
+            $table->foreignId('currency_id')->constrained()->cascadeOnDelete();
             $table->string('note')->nullable();
             $table->date('date');
             $table->timestamps();

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ExpenseCreateRequest;
+use App\Http\Requests\TransferCreateRequest;
 use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Expense;
+use App\Models\Transfer;
 use App\Models\Wallet;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
@@ -33,6 +35,20 @@ class DashboardController extends Controller
         $wallet =$expense->wallet;
         $wallet->balance -= $expense->amount;
         $wallet->update();
+        return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function createTransfer(TransferCreateRequest $request)
+    {
+        $transfer = new Transfer($request->validated());
+        $transfer->user_id = Auth::id();
+        $fromWallet = $transfer->fromWallet;
+        $toWallet = $transfer->toWallet;
+        $fromWallet->balance -= $transfer->amount;
+        $toWallet->balance -= $transfer->amount;
+        $toWallet->update();
+        $fromWallet->update();
+        $transfer->save();
         return redirect(RouteServiceProvider::HOME);
 
     }
