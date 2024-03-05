@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transfers', function (Blueprint $table) {
+        Schema::create('incomes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('from_wallet_id')->references('id')->on('wallets')->constrained()->cascadeOnDelete();
-            $table->foreignId('to_wallet_id')->references('id')->on('wallets')->constrained()->cascadeOnDelete();
+            $table->foreignId('wallet_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('income_category_id')->constrained()->cascadeOnDelete();
             $table->unsignedDecimal('amount',15,2);
-            $table->foreignId('currency_id')->constrained()->cascadeOnDelete();
-            $table->string('note')->nullable();
             $table->date('date');
+            $table->foreignId('currency_id')->constrained()->cascadeOnDelete();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transfers');
+        Schema::dropIfExists('incomes');
     }
 };

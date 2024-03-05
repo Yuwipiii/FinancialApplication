@@ -51,4 +51,8 @@ class Wallet extends Model
     {
         return $this->hasMany(Transfer::class, 'to_wallet_id');
     }
+    public function incomes(): void
+    {
+        $this->hasMany(Income::class);
+    }
 }

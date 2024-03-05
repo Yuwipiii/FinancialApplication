@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\UpcomeCategory>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\IncomeCategory>
  */
-class UpcomeCategoryFactory extends Factory
+class IncomeCategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +18,7 @@ class UpcomeCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id'=>1,
+            'user_id'=>User::first()->id,
             'name'=>$this->faker->word
         ];
     }

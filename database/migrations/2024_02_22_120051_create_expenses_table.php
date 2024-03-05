@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('wallet_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->decimal('amount');
+            $table->unsignedDecimal('amount',15,2);
             $table->date('date');
             $table->foreignId('currency_id')->constrained()->cascadeOnDelete();
             $table->text('note')->nullable();

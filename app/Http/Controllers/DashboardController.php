@@ -52,4 +52,9 @@ class DashboardController extends Controller
         return redirect(RouteServiceProvider::HOME);
 
     }
+
+    public function createIncome()
+    {
+
+    }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('base');
             $table->string('counter');
-            $table->unsignedDouble('mid');
+            $table->unsignedDecimal('mid',15,2);
             $table->timestamp('time');
         });
     }
