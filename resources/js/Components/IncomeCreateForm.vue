@@ -103,7 +103,7 @@ const submit = () => {
                     required
                     autocomplete="amount"
                     min="1"
-                    step="1"
+                    step="0.01"
                 />
                 <InputError class="mt-2" :message="form.errors.amount"/>
             </div>
