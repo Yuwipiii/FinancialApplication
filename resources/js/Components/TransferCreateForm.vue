@@ -126,13 +126,14 @@ const submit = () => {
                 />
                 <InputError class="mt-2" :message="form.errors.note"/>
             </div>
+            <div class="flex mt-1">
+                <PrimaryButton :class="{ 'opacity-25': form.processing }"
+                               :disabled="form.processing">
+                    Add Expense
+                </PrimaryButton>
+            </div>
         </div>
-        <div class="flex mt-1">
-            <PrimaryButton :class="{ 'opacity-25': form.processing }"
-                           :disabled="form.processing">
-                Add Expense
-            </PrimaryButton>
-        </div>
+
     </form>
 </template>
 

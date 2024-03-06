@@ -5,9 +5,10 @@ import {Head, router} from "@inertiajs/vue3";
 import Card from "@/Components/Card.vue";
 import ExpenseCreateForm from "@/Components/ExpenseCreateForm.vue";
 import TransferCreateForm from "@/Components/TransferCreateForm.vue";
+import IncomeCreateForm from "@/Components/IncomeCreateForm.vue";
 
 export default {
-    components: {TransferCreateForm, ExpenseCreateForm, Card, AuthenticatedLayout, Head},
+    components: {IncomeCreateForm, TransferCreateForm, ExpenseCreateForm, Card, AuthenticatedLayout, Head},
     props: {
         'netWorthUSD': {
             type: Number,
@@ -22,6 +23,8 @@ export default {
             required: true
         }, 'currencies': {
             required: true
+        },'incomeCategories':{
+            required:true
         }
     },
     methods: {
@@ -128,9 +131,9 @@ export default {
                                 </div>
                             </div>
                             <div v-else-if="showTransfer">
-                                <div
-                                    class="flex mt-3 justify-around bg-slate-400 pt-2 pb-2 rounded-lg shadow-2xl">
-                                    Бвыф
+                                <div>
+                                    <IncomeCreateForm :income-categories="incomeCategories" :currencies="currencies" :wallets="wallets">
+                                    </IncomeCreateForm>
                                 </div>
                             </div>
                         </div>
