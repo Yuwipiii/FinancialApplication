@@ -21,7 +21,7 @@ const form = useForm(
 );
 
 const submit = () => {
-    form.post(route('transfers.wallet.create'), {
+    form.post(route('transfers.create'), {
             onSuccess: () => {
                 const $toast = useToast();
                 let instance = $toast.success('You have successfully created a transfer!');
