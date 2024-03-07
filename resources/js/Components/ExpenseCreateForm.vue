@@ -19,7 +19,7 @@ const form = useForm(
 );
 
 const submit = () => {
-    form.post(route('expenses.create'), {
+    form.post(route('expenses.wallet.create'), {
             onSuccess: () => {
                 const $toast = useToast();
                 let instance = $toast.success('You have successfully created a expense account for your wallet!');

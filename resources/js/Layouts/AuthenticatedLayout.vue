@@ -32,6 +32,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('wallets.index')" :active="route().current('wallets.index')">
                                     Wallets
                                 </NavLink>
+                                <NavLink :href="route('expenses.index')" :active="route().current('expenses.index')">
+                                    Expenses
+                                </NavLink>
                             </div>
                         </div>
 
@@ -114,6 +117,9 @@ const showingNavigationDropdown = ref(false);
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('wallets.index')" :active="route().current('wallets.index')">
                             Wallets
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('expenses.index')" :active="route().current('expenses.index')">
+                            Expenses
                         </ResponsiveNavLink>
                     </div>
 
