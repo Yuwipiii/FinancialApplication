@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Currency;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,6 +21,7 @@ class CategoryFactory extends Factory
         return [
             'name'=>$this->faker->word,
             'user_id'=>User::first(),
+            'currency_id'=>Currency::first(),
             'monthly_limit'=>$this->faker->randomFloat(2,1,10000)
         ];
     }

@@ -32,8 +32,8 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('wallets.index')" :active="route().current('wallets.index')">
                                     Wallets
                                 </NavLink>
-                                <NavLink :href="route('expenses.index')" :active="route().current('expenses.index')">
-                                    Expenses
+                                <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
+                                    Expense Category
                                 </NavLink>
                             </div>
                         </div>
@@ -118,8 +118,8 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('wallets.index')" :active="route().current('wallets.index')">
                             Wallets
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('expenses.index')" :active="route().current('expenses.index')">
-                            Expenses
+                        <ResponsiveNavLink :href="route('categories.index')" :active="route().current('categories.index')">
+                            Expense Category
                         </ResponsiveNavLink>
                     </div>
 

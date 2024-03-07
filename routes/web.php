@@ -27,6 +27,8 @@ Route::post('/expenses/create', [\App\Http\Controllers\DashboardController::clas
 Route::post('/transfers/create', [\App\Http\Controllers\DashboardController::class, 'createTransfer'])->middleware(['auth'])->name('transfers.create');
 Route::post('/incomes/create', [\App\Http\Controllers\DashboardController::class, 'createIncome'])->middleware(['auth'])->name('incomes.create');
 
+Route::resource('categories',\App\Http\Controllers\CategoriesController::class)->middleware(['auth']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

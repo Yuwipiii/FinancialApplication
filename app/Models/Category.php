@@ -26,4 +26,8 @@ class Category extends Model
         return $this->hasMany(Expense::class);
     }
 
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
+    }
 }
