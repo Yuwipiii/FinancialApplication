@@ -1,5 +1,5 @@
 <template>
-    <div @click="showWallet" >
+    <div @click="showCategory" >
         <div class="card group/item  bg-slate-800/50 hover:bg-stone-400 drop-shadow-lg">
             <div class="flex flex-col mb-3">
                 <div class="flex justify-between">
@@ -99,7 +99,7 @@ export default {
         formatPrice(value) {
             return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         },
-        showWallet() {
+        showCategory() {
             router.get(route('categories.show', this.categoryId))
         }
     }

@@ -7,7 +7,6 @@ use App\Http\Requests\Walllet\WalletUpdateRequest;
 use App\Models\Wallet;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;

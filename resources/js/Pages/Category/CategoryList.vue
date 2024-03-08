@@ -93,7 +93,7 @@ export default {
                             <form @submit.prevent="submit" class="bg-slate-800/50 rounded-lg p-3 ">
                                 <h1 class="block font-medium text-2xl">Create new expense category</h1>
                                 <div>
-                                    <InputLabel for="name" value="Expense category namee"/>
+                                    <InputLabel for="name" value="Expense category name"/>
                                     <TextInput
                                         id="name"
                                         type="text"
