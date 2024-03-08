@@ -23,17 +23,9 @@ class WalletController extends Controller
     public function index(): Response
     {
         $wallets = Wallet::with('user')->where('user_id',Auth::id())->paginate(2);
-        return Inertia::render('Wallets/WalletList',['wallets'=>$wallets]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): Response
-    {
         $types = Wallet::TYPES;
         $currencies = Wallet::CURRENCIES;
-        return Inertia::render('Wallets/WalletsCreate',['types'=>$types,'currencies'=>$currencies]);
+        return Inertia::render('Wallets/WalletList',['wallets'=>$wallets,'types'=>$types,'currencies'=>$currencies]);
     }
 
     /**

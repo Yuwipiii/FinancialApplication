@@ -41,7 +41,7 @@
             </div>
             <div>
                 <div class="card-info text-end">
-                    <p><strong class="label">Monthly Limit of category expense:</strong> {{ formatPrice(categoryMonthlyLimit) + " " + categoryCurrency.base}}
+                    <p><strong class="label">Monthly limit of category expense:</strong> {{ formatPrice(categoryMonthlyLimit) + " " + categoryCurrency.base}}
                     </p>
                 </div>
             </div>

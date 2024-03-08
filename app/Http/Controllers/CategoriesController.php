@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryCreateRequest;
 use App\Models\Category;
+use App\Models\Currency;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,23 +21,20 @@ class CategoriesController extends Controller
     public function index(): Response
     {
         $categories = Category::with('user','currency')->where('user_id',Auth::id())->paginate(3);
-        return Inertia::render('Category/CategoryList',['categories'=>$categories]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $currencies  = Currency::all();
+        return Inertia::render('Category/CategoryList',['categories'=>$categories,'currencies'=>$currencies]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryCreateRequest $request): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        //
+        $category = new Category($request->validated());
+        $category->user_id = Auth::id();
+        $category->save();
+        return redirect(route('categories.index'));
+
     }
 
     /**
@@ -62,7 +64,7 @@ class CategoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         $category = Category::with('user')->where('id',$id)->where('user_id',Auth::id())->delete();
         return redirect(route('categories.index'));
