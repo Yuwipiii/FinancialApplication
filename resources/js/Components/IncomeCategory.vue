@@ -1,5 +1,5 @@
 <template>
-    <div @click="showCategory" >
+    <div @click="showIncomeCategory" >
         <div class="card group/item  bg-slate-800/50 hover:bg-stone-400 drop-shadow-lg">
             <div class="flex flex-col mb-3">
                 <div class="flex justify-between">
@@ -19,7 +19,7 @@
 
                     <Modal :show="this.showDeleteModal" @close="closeDeleteModal">
                         <div class="p-6">
-                            <h2 class="text-lg font-medium text-gray-900">Are you sure you want to delete category expense
+                            <h2 class="text-lg font-medium text-gray-900">Are you sure you want to delete income category
                                 ?</h2>
 
                             <p class="mt-1 text-sm text-gray-600">
@@ -31,18 +31,12 @@
 
                                 <DangerButton
                                     class="ms-3"
-                                    @click="deleteCategory"
+                                    @click="deleteIncomeCategory"
                                 >Confirm
                                 </DangerButton>
                             </div>
                         </div>
                     </Modal>
-                </div>
-            </div>
-            <div>
-                <div class="card-info text-end">
-                    <p><strong class="label">Monthly limit of category expense:</strong> {{ formatPrice(categoryMonthlyLimit) + " " + categoryCurrency.base}}
-                    </p>
                 </div>
             </div>
         </div>
@@ -75,13 +69,6 @@ export default {
         categoryName: {
             type: String,
             required: true
-        },
-        categoryMonthlyLimit:{
-            type:Number,
-            required:true
-        },
-        categoryCurrency:{
-            required:true
         }
     },
     methods: {
@@ -91,16 +78,13 @@ export default {
         closeDeleteModal() {
             this.showDeleteModal = false;
         },
-        deleteCategory() {
-            router.delete(route('categories.destroy', this.categoryId), {
+        deleteIncomeCategory() {
+            router.delete(route('incomeCategories.destroy', this.categoryId), {
                 onSuccess: () => this.closeDeleteModal(),
             })
         },
-        formatPrice(value) {
-            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-        },
-        showCategory() {
-            router.get(route('categories.show', this.categoryId))
+        showIncomeCategory() {
+            router.get(route('incomeCategories.show', this.categoryId))
         }
     }
 };
@@ -115,8 +99,4 @@ export default {
     color: black;
 }
 
-
-.label {
-    font-weight: bold;
-}
 </style>

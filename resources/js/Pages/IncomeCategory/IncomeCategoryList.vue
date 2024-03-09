@@ -2,22 +2,22 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head, useForm} from '@inertiajs/vue3';
 import SimplePaginator from "@/Components/Pagination.vue";
-import Category from "@/Components/Category.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import {useToast} from "vue-toast-notification";
+import IncomeCategory from "@/Components/IncomeCategory.vue";
 
 export default {
     components: {
+        IncomeCategory,
         InputError,
         TextInput,
         InputLabel,
         PrimaryButton,
         Head,
         AuthenticatedLayout,
-        Category,
         SimplePaginator
     },
     data() {
@@ -25,16 +25,11 @@ export default {
             isCreate: false,
             form: useForm({
                 name: '',
-                monthly_limit:1,
-                currency_id:""
             })
         }
     },
     props: {
-        'categories': {
-            required: true
-        },
-        'currencies':{
+        'incomeCategories': {
             required: true
         }
     },
@@ -42,18 +37,18 @@ export default {
         showCreate() {
             this.isCreate = !this.isCreate;
         },
-        submit(){
-            this.form.post(route('categories.store'),{
+        submit() {
+            this.form.post(route('IncomeCategories.store'), {
                 onSuccess: () => {
                     const $toast = useToast();
-                    let instance = $toast.success('You have successfully created a expense category!');
-                    this.isCreate= false;
+                    let instance = $toast.success('You have successfully created a income category!');
+                    this.isCreate = false;
                     this.form.reset();
                 },
                 onError: () => {
                     const $toast = useToast();
-                    let intance = $toast.error('An error occurred when creating an expense category');
-                    this.isCreate =false;
+                    let intance = $toast.error('An error occurred when creating an income category');
+                    this.isCreate = false;
                 }
             })
         }
@@ -64,12 +59,12 @@ export default {
 </script>
 
 <template>
-    <Head title="Expense category"/>
+    <Head title="Income category"/>
 
     <AuthenticatedLayout>
         <template #header>
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Expense Category</h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Income category</h2>
                 <button @click="this.showCreate">
                     <svg v-if="!isCreate === true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                          stroke-width="1.5"
@@ -91,9 +86,9 @@ export default {
                     <Transition name="slide-fade">
                         <div v-if="this.isCreate">
                             <form @submit.prevent="submit" class="bg-slate-800/50 rounded-lg p-3 ">
-                                <h1 class="block font-medium text-2xl">Create new expense category</h1>
+                                <h1 class="block font-medium text-2xl">Create new income category</h1>
                                 <div>
-                                    <InputLabel for="name" value="Expense category name"/>
+                                    <InputLabel for="name" value="Income category name"/>
                                     <TextInput
                                         id="name"
                                         type="text"
@@ -106,38 +101,7 @@ export default {
                                     <InputError class="mt-2" :message="form.errors.name"/>
                                 </div>
 
-                                <div>
-                                    <InputLabel for="monthlyLimit" value="Monthly limit of expense"/>
-                                    <TextInput
-                                        id="monthLiLimit"
-                                        type="number"
-                                        class="mt-1 block w-full bg-slate-700/50"
-                                        v-model="form.monthly_limit"
-                                        required
-                                        min=1,
-                                        step="0.01"
-
-                                    />
-                                    <InputError class="mt-2" :message="form.errors.name"/>
-                                </div>
-
-
-                                <div>
-                                    <InputLabel for="name" value="Currency"/>
-                                    <div class="flex mt-1">
-                                        <select class="mt-1 block w-full bg-slate-700/50 rounded-lg " v-model="form.currency_id">
-                                            <option disabled value="">Select currency</option>
-                                            <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">
-                                                {{ currency.base }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <InputError class="mt-2" :message="form.errors.currency_id"/>
-                                </div>
-
-
                                 <div class="flex items-center justify-end mt-4">
-
                                     <PrimaryButton class="ms-4">
                                         Create
                                     </PrimaryButton>
@@ -146,15 +110,13 @@ export default {
                         </div>
                         <div v-else>
                             <div class="grid grid-cols-2 gap-2">
-                                <div v-for="(category,index) in this.categories['data']" :key="index">
-                                    <Category :category-currency="category['currency']"
-                                              :category-monthly-limit="category.monthly_limit"
-                                              :category-name="category.name"
-                                              :category-id='category.id'></Category>
+                                <div v-for="(incomeCategory,index) in this.incomeCategories['data']" :key="index">
+                                    <IncomeCategory :category-name="incomeCategory.name"
+                                                    :category-id="incomeCategory.id"></IncomeCategory>
                                 </div>
                             </div>
                             <SimplePaginator class="flex justify-self-center"
-                                             :paginator="categories"></SimplePaginator>
+                                             :paginator="incomeCategories"></SimplePaginator>
                         </div>
 
                     </Transition>

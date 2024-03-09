@@ -28,6 +28,8 @@ Route::post('/transfers/create', [\App\Http\Controllers\DashboardController::cla
 Route::post('/incomes/create', [\App\Http\Controllers\DashboardController::class, 'createIncome'])->middleware(['auth'])->name('incomes.create');
 
 Route::resource('categories',\App\Http\Controllers\CategoriesController::class)->except('edit','create')->middleware(['auth']);
+Route::resource('incomeCategories',\App\Http\Controllers\IncomeCategoriesController::class)->except('edit','create')->middleware(['auth']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
