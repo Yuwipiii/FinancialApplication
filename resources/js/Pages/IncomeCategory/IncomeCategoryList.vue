@@ -38,7 +38,7 @@ export default {
             this.isCreate = !this.isCreate;
         },
         submit() {
-            this.form.post(route('IncomeCategories.store'), {
+            this.form.post(route('incomeCategories.store'), {
                 onSuccess: () => {
                     const $toast = useToast();
                     let instance = $toast.success('You have successfully created a income category!');

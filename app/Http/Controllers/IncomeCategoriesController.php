@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IncomeCategoryRequest;
 use App\Models\IncomeCategory;
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -21,9 +24,12 @@ class IncomeCategoriesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(IncomeCategoryRequest $request): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        //
+        $incomeCategory = new IncomeCategory($request->validated());
+        $incomeCategory->user_id = Auth::id();
+        $incomeCategory->save();
+        return redirect(route('incomeCategories.index'));
     }
 
     /**
