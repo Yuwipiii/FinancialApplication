@@ -6,9 +6,20 @@ import Card from "@/Components/Card.vue";
 import ExpenseCreateForm from "@/Components/ExpenseCreateForm.vue";
 import TransferCreateForm from "@/Components/TransferCreateForm.vue";
 import IncomeCreateForm from "@/Components/IncomeCreateForm.vue";
+import IncomesTable from "@/Components/IncomesTable.vue";
+import ExpensesTable from "@/Components/ExpensesTable.vue";
 
 export default {
-    components: {IncomeCreateForm, TransferCreateForm, ExpenseCreateForm, Card, AuthenticatedLayout, Head},
+    components: {
+        ExpensesTable,
+        IncomesTable,
+        IncomeCreateForm,
+        TransferCreateForm,
+        ExpenseCreateForm,
+        Card,
+        AuthenticatedLayout,
+        Head
+    },
     props: {
         'netWorthUSD': {
             type: Number,
@@ -23,7 +34,13 @@ export default {
             required: true
         }, 'currencies': {
             required: true
-        },'incomeCategories':{
+        }, 'incomeCategories': {
+            required: true
+        }, 'incomes': {
+            required: true
+        },'expenses':{
+            required:true
+        },'transfers':{
             required:true
         }
     },
@@ -39,7 +56,10 @@ export default {
             showNetWorth: false,
             showExpense: false,
             showTransfer: false,
-            showIncome: false
+            showIncome: false,
+            showIncomeTable:false,
+            showTransferTable:false,
+            showExpenseTable:false
         }
     }
 }
@@ -58,53 +78,54 @@ export default {
         <template #main>
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="grid grid-cols-3 gap-3">
-                        <div><h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">Net
+                    <div>
+                        <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">Net
                             Worth</h2>
-
-                            <div
-                                class="flex flex-col bg-slate-400 p-4 rounded-lg shadow-2xl hover:scale-95 hover:bg-slate-400/50 ps-5 pe-5"
-                                @click="this.showNetWorth  = !this.showNetWorth">
-                                <div class="flex justify-between">
-                                    <p class="text-emerald-800 text-2xl">{{
-                                            formatPrice(this.netWorthUSD)
-                                        }}</p>
-                                    <p class="text-emerald-800 text-2xl">USD</p>
-                                </div>
-                                <div class="flex justify-between">
-                                    <p class="text-emerald-800 text-2xl">{{
-                                            formatPrice(this.netWorthKGS)
-                                        }}</p>
-                                    <p class="text-emerald-800 text-2xl">KGS</p>
-                                </div>
+                        <div
+                            class="flex flex-col bg-slate-400 p-4 rounded-lg shadow-2xl hover:scale-95 hover:bg-slate-400/50 ps-5 pe-5"
+                            @click="this.showNetWorth  = !this.showNetWorth">
+                            <div class="flex justify-between">
+                                <p class="text-emerald-800 text-2xl">{{
+                                        formatPrice(this.netWorthUSD)
+                                    }}</p>
+                                <p class="text-emerald-800 text-2xl">USD</p>
                             </div>
-                            <Transition name="bounce">
-                                <div
-                                    v-if="this.showNetWorth">
-                                    <div v-for="(wallet,index) in this.wallets" :key="index">
-                                        <div @click="showWallet(wallet.id)"
-                                             class="flex mt-3 justify-around bg-slate-200 pt-2 pb-2 rounded-lg shadow-2xl hover:scale-95 hover:bg-slate-400/50 ">
-                                            <div>
-                                                <p>{{ wallet.name }}</p>
-                                                <p>{{ wallet.type }}</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-emerald-800">
-                                                    {{ formatPrice(wallet.balance) + " " + wallet.currency }}
-                                                </p>
-                                            </div>
+                            <div class="flex justify-between">
+                                <p class="text-emerald-800 text-2xl">{{
+                                        formatPrice(this.netWorthKGS)
+                                    }}</p>
+                                <p class="text-emerald-800 text-2xl">KGS</p>
+                            </div>
+                        </div>
+                        <Transition name="bounce">
+                            <div
+                                v-if="this.showNetWorth">
+                                <div v-for="(wallet,index) in this.wallets" :key="index">
+                                    <div @click="showWallet(wallet.id)"
+                                         class="flex mt-3 justify-around bg-slate-200 pt-2 pb-2 rounded-lg shadow-2xl hover:scale-95 hover:bg-slate-400/50 ">
+                                        <div>
+                                            <p>{{ wallet.name }}</p>
+                                            <p>{{ wallet.type }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-emerald-800">
+                                                {{ formatPrice(wallet.balance) + " " + wallet.currency }}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                            </Transition>
-                        </div>
-                        <div class="col-span-2">
+                            </div>
+                        </Transition>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="col-span-3">
                             <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">New
                                 Transaction</h2>
                             <div class="grid grid-cols-3 gap-1">
                                 <div
-                                    @click="this.showExpense  = !this.showExpense;this.showTransfer =false;this.showIncome =false"
-                                    class="flex justify-center rounded-lg  border-2 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
+                                    id="income"
+                                    @click="this.showExpense  = !this.showExpense;this.showTransfer =false;this.showIncome =false;"
+                                    class="flex justify-center rounded-lg  border-2 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50">
                                     Expense
                                 </div>
                                 <div
@@ -119,27 +140,68 @@ export default {
                                 </div>
                             </div>
                             <div v-if="this.showExpense">
+                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
+                                    Expense</h2>
                                 <ExpenseCreateForm
                                     :categories="categories" :wallets='wallets'
                                     :currencies="currencies"></ExpenseCreateForm>
 
                             </div>
                             <div v-else-if="showIncome">
+                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
+                                    Transfer</h2>
                                 <div>
-                                    <TransferCreateForm  :from_wallets='wallets' :to_wallets='wallets' :currencies="currencies">
+                                    <TransferCreateForm :from_wallets='wallets' :to_wallets='wallets'
+                                                        :currencies="currencies">
                                     </TransferCreateForm>
                                 </div>
                             </div>
                             <div v-else-if="showTransfer">
+                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
+                                    Income</h2>
                                 <div>
-                                    <IncomeCreateForm :income-categories="incomeCategories" :currencies="currencies" :wallets="wallets">
+                                    <IncomeCreateForm :income-categories="incomeCategories" :currencies="currencies"
+                                                      :wallets="wallets">
                                     </IncomeCreateForm>
                                 </div>
                             </div>
                         </div>
-                        <div>
+
+                        <div class="col-span-3">
+                            <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">Recent
+                                Transactions</h2>
+                            <div class="grid grid-cols-3 gap-1">
+                                <div
+                                    @click="this.showExpenseTable  = !this.showExpenseTable;this.showTransferTable =false;this.showIncomeTable =false;"
+                                    class="flex justify-center rounded-lg  border-2 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50">
+                                    Expense
+                                </div>
+                                <div
+                                    @click="this.showTransferTable = !this.showTransferTable;this.showIncomeTable = false; this.showExpenseTable =false"
+                                    class="flex justify-center rounded-lg border-2  border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
+                                    Transfer
+                                </div>
+                                <div
+                                    @click="this.showIncomeTable  = !this.showIncomeTable;this.showTransferTable =false;this.showExpenseTable =false"
+                                    class="flex justify-center rounded-lg border-2  border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
+                                    Income
+                                </div>
+                            </div>
+
+                            <div v-if="this.showIncomeTable" >
+                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
+                                   Recent income</h2>
+                                <IncomesTable :incomes="incomes"></IncomesTable>
+                            </div>
+                            <div v-else-if="showExpenseTable">
+                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
+                                    Recent expense</h2>
+                                <ExpensesTable  :expenses="expenses">
+                                </ExpensesTable>
+                            </div>
 
                         </div>
+
                     </div>
                 </div>
             </div>

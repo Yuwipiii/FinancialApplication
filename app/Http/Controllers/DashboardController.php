@@ -13,6 +13,7 @@ use App\Models\IncomeCategory;
 use App\Models\Transfer;
 use App\Models\Wallet;
 use App\Providers\RouteServiceProvider;
+use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,7 +32,10 @@ class DashboardController extends Controller
         $categories = Category::with('user')->where('user_id', Auth::id())->get();
         $currencies = Currency::all();
         $incomeCategories = IncomeCategory::with('user')->where('user_id', Auth::id())->get();
-        return Inertia::render('Dashboard', ['incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorthKGS' => $netWorthKGS, 'netWorthUSD' => $netWorthUSD, 'categories' => $categories, 'currencies' => $currencies]);
+        $incomes  = Income::with('currency','wallet','income_category')->where('user_id',Auth::id())->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->get();
+        $transfers = Transfer::with('currency','from_wallet','to_wallet')->where('user_id',Auth::id())->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->get();
+        $expenses = Expense::with('currency','wallet','category')->where('user_id',Auth::id())->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->get();
+        return Inertia::render('Dashboard', ['incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorthKGS' => $netWorthKGS, 'netWorthUSD' => $netWorthUSD,'transfers'=>$transfers,'expenses'=>$expenses,'incomes'=>$incomes, 'categories' => $categories, 'currencies' => $currencies]);
     }
 
     public function createExpense(ExpenseCreateRequest $request): RedirectResponse
