@@ -32,12 +32,12 @@ export default {
             this.form.post(route('transfers.create'), {
                     onSuccess: () => {
                         const $toast = useToast();
-                        this.showModal=false;
+                        this.closeModal()
                         let instance = $toast.success('You have successfully created a transfer!');
                     },
                     onError: () => {
                         const $toast = useToast();
-                        this.showModal=false;
+                        this.closeModal();
                         let intance = $toast.error('An error occurred when creating an transfer');
                     }
                 }
@@ -60,7 +60,7 @@ export default {
     <Modal :show="showModal" @close="closeModal">
         <form @submit.prevent="submit">
             <div class="grid justify-items-stretch  p-5 bg-slate-400  rounded-lg shadow-2xl">
-                <h2 class="text-lg font-medium text-gray-900">Expense create</h2>
+                <h2 class="text-lg font-medium text-gray-900">Transfer create</h2>
                 <div class="flex flex-col gap-1">
                     <div>
                         <InputLabel for="wallet_id" value="From"/>
@@ -152,7 +152,7 @@ export default {
                 <div class="flex mt-1">
                     <PrimaryButton :class="{ 'opacity-25': form.processing }"
                                    :disabled="form.processing">
-                        Add Expense
+                        Add Transfer
                     </PrimaryButton>
                     <SecondaryButton class="ml-3" @click="closeModal"> Cancel</SecondaryButton>
                 </div>

@@ -7,8 +7,7 @@ import InputError from "@/Components/InputError.vue";
 import TextInput from "@/Components/TextInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import ToastPlugin, {useToast} from "vue-toast-notification";
-import {ref} from "vue";
+import  {useToast} from "vue-toast-notification";
 
 export default {
     components: {SecondaryButton, PrimaryButton, TextInput, InputError, InputLabel, Modal},
@@ -32,7 +31,7 @@ export default {
                 currency_id: 1,
                 note: ''
             }),
-            showModal: ref(false)
+            showModal: false
         }
     },
     methods: {
@@ -40,13 +39,13 @@ export default {
             this.form.post(route('expenses.create'), {
                     onSuccess: () => {
                         const $toast = useToast();
+                        this.closeModal();
                         let instance = $toast.success('You have successfully created a expense account for your wallet!');
-                        this.showModal =false;
                     },
                     onError: () => {
                         const $toast = useToast();
+                        this.closeModal();
                         let intance = $toast.error('An error occurred when creating an expense');
-                        this.showModal = false;
                     }
                 }
             );
@@ -85,7 +84,7 @@ export default {
                         <InputLabel for="name" value="Type of expense"/>
                         <div class="flex mt-1">
                             <select class="bg-slate-200/50 rounded-lg " v-model="form.category_id">
-                                <option disabled value="">Select wallet</option>
+                                <option disabled value="">Select expense</option>
                                 <option v-for="(category,index) in categories" :key="index" :value="category.id">
                                     {{ category.name }}
                                 </option>

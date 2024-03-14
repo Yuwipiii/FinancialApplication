@@ -6,6 +6,7 @@ import InputError from "@/Components/InputError.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import Modal from "@/Components/Modal.vue";
+import {useToast} from "vue-toast-notification";
 
 export default {
     components: {Modal, InputLabel, TextInput, InputError, PrimaryButton, SecondaryButton},
@@ -31,12 +32,12 @@ export default {
             this.form.post(route('incomes.create'), {
                 onSuccess: () => {
                     const $toast = useToast();
-                    this.showModal = false;
+                    this.closeModal();
                     let instance = $toast.success('You have successfully created a income account for your wallet!');
                 },
                 onError: () => {
                     const $toast = useToast();
-                    this.showModal = false;
+                    this.closeModal()
                     let intance = $toast.error('An error occurred when creating an income');
                 }
             })
@@ -76,7 +77,7 @@ export default {
                         <InputLabel for="name" value="Type of expense"/>
                         <div class="flex mt-1">
                             <select class="bg-slate-200/50 rounded-lg " v-model="form.income_category_id">
-                                <option disabled value="">Select wallet</option>
+                                <option disabled value="">Select income type</option>
                                 <option v-for="(category,index) in incomeCategories" :key="index" :value="category.id">
                                     {{ category.name }}
                                 </option>
@@ -144,7 +145,7 @@ export default {
                 <div class="flex mt-1">
                     <PrimaryButton :class="{ 'opacity-25': form.processing }"
                                    :disabled="form.processing">
-                        Add Expense
+                        Add Income
                     </PrimaryButton>
                     <SecondaryButton class="ml-3" @click="closeModal"> Cancel</SecondaryButton>
                 </div>

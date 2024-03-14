@@ -109,7 +109,7 @@ export default {
                             <div
                                 v-if="this.showNetWorth">
                                 <div v-for="(wallet,index) in this.wallets" :key="index">
-                                    <div  @click="showWallet(wallet.id)"
+                                    <div @click="showWallet(wallet.id)"
                                          class="flex mt-3 justify-around bg-slate-200 pt-2 pb-2 rounded-lg shadow-2xl hover:scale-95 hover:bg-slate-400/50 ">
                                         <div>
                                             <p>{{ wallet.name }}</p>
@@ -137,7 +137,8 @@ export default {
                                 <TransferCreateForm :from_wallets='wallets' :to_wallets='wallets'
                                                     :currencies="currencies">
                                 </TransferCreateForm>
-                                <IncomeCreateForm :currencies="currencies" :income-categories="incomeCategories" :wallets="wallets"></IncomeCreateForm>
+                                <IncomeCreateForm :currencies="currencies" :income-categories="incomeCategories"
+                                                  :wallets="wallets"></IncomeCreateForm>
                             </div>
 
                         </div>
@@ -145,22 +146,23 @@ export default {
                         <div class="col-span-3">
                             <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">Recent
                                 Transactions</h2>
-                            <div class="grid grid-cols-3 gap-1">
+                            <div class="grid grid-cols-3  rounded-lg border-2  border-slate-400">
                                 <div
                                     @click="this.showExpenseTable  = !this.showExpenseTable;this.showTransferTable =false;this.showIncomeTable =false;this.showNetWorth=false "
-                                    class="flex justify-center rounded-lg  border-2 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50">
+                                    class="flex justify-center border-r-2 border-slate-400  pt-4 pb-4  hover:bg-slate-400/50">
                                     Expense
                                 </div>
                                 <div
                                     @click="this.showTransferTable = !this.showTransferTable;this.showIncomeTable = false; this.showExpenseTable =false;this.showNetWorth=false"
-                                    class="flex justify-center rounded-lg border-2  border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
+                                    class="flex justify-center border-r-2 border-slate-400  pt-4 pb-4  hover:bg-slate-400/50">
                                     Transfer
                                 </div>
                                 <div
                                     @click="this.showIncomeTable  = !this.showIncomeTable;this.showTransferTable =false;this.showExpenseTable =false;this.showNetWorth=false"
-                                    class="flex justify-center rounded-lg border-2  border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
+                                    class="flex justify-center border-r-2 border-slate-400  pt-4 pb-4  hover:bg-slate-400/50">
                                     Income
                                 </div>
+
                             </div>
                             <div v-if="this.showIncomeTable">
                                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
