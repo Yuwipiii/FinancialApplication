@@ -9,9 +9,13 @@ import IncomeCreateForm from "@/Components/IncomeCreateForm.vue";
 import IncomesTable from "@/Components/IncomesTable.vue";
 import ExpensesTable from "@/Components/ExpensesTable.vue";
 import TransfersTable from "@/Components/TransfersTable.vue";
+import Modal from "@/Components/Modal.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 export default {
     components: {
+        SecondaryButton,
+        Modal,
         TransfersTable,
         ExpensesTable,
         IncomesTable,
@@ -40,10 +44,10 @@ export default {
             required: true
         }, 'incomes': {
             required: true
-        },'expenses':{
-            required:true
-        },'transfers':{
-            required:true
+        }, 'expenses': {
+            required: true
+        }, 'transfers': {
+            required: true
         }
     },
     methods: {
@@ -51,6 +55,8 @@ export default {
             return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         }, showWallet(cardId) {
             router.get(route('wallets.show', cardId),)
+        }, closeExpenseCreate() {
+            this.showExpense = false;
         }
     },
     data() {
@@ -59,9 +65,9 @@ export default {
             showExpense: false,
             showTransfer: false,
             showIncome: false,
-            showIncomeTable:false,
-            showTransferTable:false,
-            showExpenseTable:false
+            showIncomeTable: false,
+            showTransferTable: false,
+            showExpenseTable: false
         }
     }
 }
@@ -124,32 +130,24 @@ export default {
                             <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">New
                                 Transaction</h2>
                             <div class="grid grid-cols-3 gap-1">
+                                <ExpenseCreateForm
+                                    :categories="categories" :wallets='wallets'
+                                    :currencies="currencies">
+                                </ExpenseCreateForm>
                                 <div
-                                    id="income"
-                                    @click="this.showExpense  = !this.showExpense;this.showTransfer =false;this.showIncome =false;"
-                                    class="flex justify-center rounded-lg  border-2 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50">
-                                    Expense
-                                </div>
-                                <div
-                                    @click="this.showIncome  = !this.showIncome;this.showTransfer =false;this.showExpense =false"
+                                    @click="this.showIncome  = !this.showIncome;this.showTransfer =false;this.showExpense =false;"
                                     class="flex justify-center rounded-lg border-2  border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
                                     Transfer
                                 </div>
                                 <div
-                                    @click="this.showTransfer = !this.showTransfer;this.showIncome = false; this.showExpense =false"
+                                    @click="this.showTransfer = !this.showTransfer;this.showIncome = false; this.showExpense =false;"
                                     class="flex justify-center rounded-lg border-2  border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
                                     Income
                                 </div>
                             </div>
-                            <div v-if="this.showExpense">
-                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
-                                    Expense</h2>
-                                <ExpenseCreateForm
-                                    :categories="categories" :wallets='wallets'
-                                    :currencies="currencies"></ExpenseCreateForm>
 
-                            </div>
-                            <div v-else-if="showIncome">
+
+                            <div v-if="showIncome">
                                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
                                     Transfer</h2>
                                 <div>
@@ -174,30 +172,30 @@ export default {
                                 Transactions</h2>
                             <div class="grid grid-cols-3 gap-1">
                                 <div
-                                    @click="this.showExpenseTable  = !this.showExpenseTable;this.showTransferTable =false;this.showIncomeTable =false;"
+                                    @click="this.showExpenseTable  = !this.showExpenseTable;this.showTransferTable =false;this.showIncomeTable =false;this.showNetWorth=false "
                                     class="flex justify-center rounded-lg  border-2 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50">
                                     Expense
                                 </div>
                                 <div
-                                    @click="this.showTransferTable = !this.showTransferTable;this.showIncomeTable = false; this.showExpenseTable =false"
+                                    @click="this.showTransferTable = !this.showTransferTable;this.showIncomeTable = false; this.showExpenseTable =false;this.showNetWorth=false"
                                     class="flex justify-center rounded-lg border-2  border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
                                     Transfer
                                 </div>
                                 <div
-                                    @click="this.showIncomeTable  = !this.showIncomeTable;this.showTransferTable =false;this.showExpenseTable =false"
+                                    @click="this.showIncomeTable  = !this.showIncomeTable;this.showTransferTable =false;this.showExpenseTable =false;this.showNetWorth=false"
                                     class="flex justify-center rounded-lg border-2  border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
                                     Income
                                 </div>
                             </div>
-                            <div v-if="this.showIncomeTable" >
+                            <div v-if="this.showIncomeTable">
                                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
-                                   Recent incomes</h2>
+                                    Recent incomes</h2>
                                 <IncomesTable :incomes="incomes"></IncomesTable>
                             </div>
                             <div v-else-if="showExpenseTable">
                                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
                                     Recent expenses</h2>
-                                <ExpensesTable  :expenses="expenses">
+                                <ExpensesTable :expenses="expenses">
                                 </ExpensesTable>
                             </div>
                             <div v-else-if="showTransferTable">
