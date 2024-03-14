@@ -109,7 +109,7 @@ export default {
                             <div
                                 v-if="this.showNetWorth">
                                 <div v-for="(wallet,index) in this.wallets" :key="index">
-                                    <div @click="showWallet(wallet.id)"
+                                    <div  @click="showWallet(wallet.id)"
                                          class="flex mt-3 justify-around bg-slate-200 pt-2 pb-2 rounded-lg shadow-2xl hover:scale-95 hover:bg-slate-400/50 ">
                                         <div>
                                             <p>{{ wallet.name }}</p>
@@ -134,37 +134,12 @@ export default {
                                     :categories="categories" :wallets='wallets'
                                     :currencies="currencies">
                                 </ExpenseCreateForm>
-                                <div
-                                    @click="this.showIncome  = !this.showIncome;this.showTransfer =false;this.showExpense =false;"
-                                    class="flex justify-center rounded-lg border-2  border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
-                                    Transfer
-                                </div>
-                                <div
-                                    @click="this.showTransfer = !this.showTransfer;this.showIncome = false; this.showExpense =false;"
-                                    class="flex justify-center rounded-lg border-2  border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 ">
-                                    Income
-                                </div>
+                                <TransferCreateForm :from_wallets='wallets' :to_wallets='wallets'
+                                                    :currencies="currencies">
+                                </TransferCreateForm>
+                                <IncomeCreateForm :currencies="currencies" :income-categories="incomeCategories" :wallets="wallets"></IncomeCreateForm>
                             </div>
 
-
-                            <div v-if="showIncome">
-                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
-                                    Transfer</h2>
-                                <div>
-                                    <TransferCreateForm :from_wallets='wallets' :to_wallets='wallets'
-                                                        :currencies="currencies">
-                                    </TransferCreateForm>
-                                </div>
-                            </div>
-                            <div v-else-if="showTransfer">
-                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
-                                    Income</h2>
-                                <div>
-                                    <IncomeCreateForm :income-categories="incomeCategories" :currencies="currencies"
-                                                      :wallets="wallets">
-                                    </IncomeCreateForm>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="col-span-3">
