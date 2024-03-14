@@ -33,7 +33,7 @@ class DashboardController extends Controller
         $currencies = Currency::all();
         $incomeCategories = IncomeCategory::with('user')->where('user_id', Auth::id())->get();
         $incomes  = Income::with('currency','wallet','income_category')->where('user_id',Auth::id())->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->get();
-        $transfers = Transfer::with('currency','from_wallet','to_wallet')->where('user_id',Auth::id())->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->get();
+        $transfers = Transfer::with('currency','fromWallet','toWallet')->where('user_id',Auth::id())->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->get();
         $expenses = Expense::with('currency','wallet','category')->where('user_id',Auth::id())->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->get();
         return Inertia::render('Dashboard', ['incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorthKGS' => $netWorthKGS, 'netWorthUSD' => $netWorthUSD,'transfers'=>$transfers,'expenses'=>$expenses,'incomes'=>$incomes, 'categories' => $categories, 'currencies' => $currencies]);
     }
@@ -55,8 +55,8 @@ class DashboardController extends Controller
         $transfer->user_id = Auth::id();
         $fromWallet = $transfer->fromWallet;
         $toWallet = $transfer->toWallet;
-        $fromWallet->balance -= $this->convert($transfer->amount, $transfer->currnecy->base, $fromWallet->currency);
-        $toWallet->balance += $this->convert($transfer->amount, $transfer->currnecy->base, $toWallet->currency);
+        $fromWallet->balance -= $this->convert($transfer->amount, $transfer->currency->base, $fromWallet->currency);
+        $toWallet->balance += $this->convert($transfer->amount, $transfer->currency->base, $toWallet->currency);
         $toWallet->update();
         $fromWallet->update();
         $transfer->save();

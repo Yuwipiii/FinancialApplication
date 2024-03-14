@@ -8,9 +8,11 @@ import TransferCreateForm from "@/Components/TransferCreateForm.vue";
 import IncomeCreateForm from "@/Components/IncomeCreateForm.vue";
 import IncomesTable from "@/Components/IncomesTable.vue";
 import ExpensesTable from "@/Components/ExpensesTable.vue";
+import TransfersTable from "@/Components/TransfersTable.vue";
 
 export default {
     components: {
+        TransfersTable,
         ExpensesTable,
         IncomesTable,
         IncomeCreateForm,
@@ -187,21 +189,23 @@ export default {
                                     Income
                                 </div>
                             </div>
-
                             <div v-if="this.showIncomeTable" >
                                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
-                                   Recent income</h2>
+                                   Recent incomes</h2>
                                 <IncomesTable :incomes="incomes"></IncomesTable>
                             </div>
                             <div v-else-if="showExpenseTable">
                                 <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
-                                    Recent expense</h2>
+                                    Recent expenses</h2>
                                 <ExpensesTable  :expenses="expenses">
                                 </ExpensesTable>
                             </div>
-
+                            <div v-else-if="showTransferTable">
+                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
+                                    Recent transfers</h2>
+                                <TransfersTable :transfers="transfers"></TransfersTable>
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>

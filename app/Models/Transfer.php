@@ -38,7 +38,7 @@ class Transfer extends Model
         return $this->belongsTo(Wallet::class, 'to_wallet_id');
     }
 
-    public function currnecy(): BelongsTo
+    public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);
     }
