@@ -25,11 +25,11 @@ class DashboardController extends Controller
 {
     public function dashboard(): Response
     {
-        $wallets = Wallet::with('user')->where('user_id', Auth::id())->get();
-        $netWorthKGS = number_format(array_sum($wallets->where('currency', 'KGS')->pluck('balance')->toArray()), 2, '.', ' ');
-        $netWorthUSD = number_format(array_sum($wallets->where('currency', 'USD')->pluck('balance')->toArray()), 2, '.', ' ');
-        $categories = Category::with('user')->where('user_id', Auth::id())->get();
+        $wallets = Wallet::with('user','currency')->where('user_id', Auth::id())->get();
         $currencies = Currency::all();
+        $netWorthKGS = number_format(array_sum($wallets->where('currency_id', Currency::where('base', 'KGS')->first()->id)->pluck('balance')->toArray()), 2, '.', ' ');
+        $netWorthUSD = number_format(array_sum($wallets->where('currency_id', Currency::where('base', 'USD')->first()->id)->pluck('balance')->toArray()), 2, '.', ' ');
+        $categories = Category::with('user')->where('user_id', Auth::id())->get();
         $incomeCategories = IncomeCategory::with('user')->where('user_id', Auth::id())->get();
         $incomes = Income::with('currency', 'wallet', 'income_category')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
         $transfers = Transfer::with('currency', 'fromWallet', 'toWallet')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();

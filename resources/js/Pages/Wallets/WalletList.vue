@@ -24,7 +24,7 @@ export default {
             form:useForm({
                 name: '',
                 type: '',
-                currency: '',
+                currency_id: '',
                 balance: ''
             })
         }
@@ -126,12 +126,14 @@ export default {
                                 <div class="mt-5">
                                     <InputLabel for="currency" value="Wallet Currency"/>
                                     <div class="flex mt-1">
-                                        <select id="currency" class="bg-slate-700/50 rounded-lg " v-model="form.currency">
-                                            <option disabled value="">Select currency of wallet</option>
-                                            <option v-for="(currency,index) in currencies" :key="index" :value="currency.valueOf()">{{currency}}</option>
+                                        <select id="currency" class="bg-slate-700/50 rounded-lg " v-model="form.currency_id">
+                                            <option disabled value="">Select currency</option>
+                                            <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">
+                                                {{ currency.base }}
+                                            </option>
                                         </select>
                                     </div>
-                                    <InputError class="mt-2" :message="form.errors.currency"/>
+                                    <InputError class="mt-2" :message="form.errors.currency_id"/>
                                 </div>
 
 
@@ -167,7 +169,7 @@ export default {
                                     <Card :balance="wallet.balance"
                                           :card-name="wallet.name" :card-type="wallet.type"
                                           :card-id="wallet.id"
-                                          :currency-type="wallet.currency"></Card>
+                                          :currency-type="wallet.currency['base']"></Card>
                                 </div>
                             </div>
                             <SimplePaginator class="flex justify-self-center"

@@ -27,7 +27,7 @@ class WalletCreateRequest extends FormRequest
         return [
             'name'=>['required','max:40','min:3'],
             'type'=>['required',Rule::in(Wallet::TYPES)],
-            'currency'=>['required',Rule::in(Wallet::CURRENCIES)],
+            'currency_id'=>['required','exists:currencies,id'],
             'balance'=>['required','integer',]
         ];
     }

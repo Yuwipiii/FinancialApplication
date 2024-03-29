@@ -22,7 +22,7 @@ class WalletFactory extends Factory
             'user_id'=> User::first(),
             'name'=>$this->faker->word,
             'type'=> $this->faker->randomElement(Wallet::TYPES),
-            'currency'=> $this->faker->randomElement(Wallet::CURRENCIES),
+            'currency_id'=> $this->faker->numberBetween(1,2),
             'balance'=>$this->faker->randomFloat(2,1,1000000)
         ];
     }

@@ -117,7 +117,7 @@ export default {
                                         </div>
                                         <div>
                                             <p class="text-emerald-800">
-                                                {{ formatPrice(wallet.balance) + " " + wallet.currency }}
+                                                {{ formatPrice(wallet.balance) + " " + wallet.currency['base'] }}
                                             </p>
                                         </div>
                                     </div>

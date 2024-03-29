@@ -13,6 +13,6 @@ class WalletSeeder extends Seeder
      */
     public function run(): void
     {
-        Wallet::factory(5)->create();
+        Wallet::factory(['balance'=>100])->count(1)->create();
     }
 }
