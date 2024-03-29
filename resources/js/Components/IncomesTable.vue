@@ -1,5 +1,33 @@
-<script setup>
-defineProps(['incomes'])
+<script>
+import Modal from "@/Components/Modal.vue";
+import DangerButton from "@/Components/DangerButton.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import {router} from "@inertiajs/vue3";
+
+export default {
+    components: {SecondaryButton, DangerButton, Modal},
+    props: {
+        incomes:{required: true}
+    },
+    data(){
+        return{
+            showDeleteModal:false
+        }
+    },methods:{
+        confirmDelete() {
+            this.showDeleteModal = true;
+        },
+        closeDeleteModal() {
+            this.showDeleteModal = false;
+        },
+        deleteIncome(id) {
+            router.delete(route('incomes.destroy', id), {
+                onSuccess: () => this.closeDeleteModal(),
+            })
+        },
+    }
+
+}
 </script>
 
 <template>
@@ -27,22 +55,45 @@ defineProps(['incomes'])
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(income,index) in this.incomes" :key="index" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <tr v-for="(income,index) in this.incomes" :key="index"
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{income['wallet']['name']}}
+                        {{ income['wallet']['name'] }}
                     </td>
                     <td class="px-6 py-4">
-                        {{income['date']}}
+                        {{ income['date'] }}
                     </td>
                     <td class="px-6 py-4">
-                        {{income['income_category']['name']}}
+                        {{ income['income_category']['name'] }}
                     </td>
                     <td class="px-6 py-4">
-                        {{income['amount'] + " " + income['currency']['base']}}
+                        {{ income['amount'] + " " + income['currency']['base'] }}
                     </td>
-                    <td class="px-6 py-4 text-right">
-                        <a href="#"
-                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    <td class="px-6 py-4 text-right grid grid-cols-2 gap-1">
+                        <button @click.stop="confirmDelete"
+                            class="font-medium text-gray-900 bg-red-700      rounded-lg p-2 ark:text-white hover:underline">Delete
+                        </button>
+                        <Modal :show="this.showDeleteModal" @close="closeDeleteModal">
+                            <div class="p-6">
+                                <h2 class="text-lg font-medium text-gray-900">Are you sure you want to delete income
+                                    ?</h2>
+                                <p class="mt-1 text-sm text-gray-600">
+                                    After deleting the income, the entire income history and data associated with the
+                                    wallet will be permanently lost
+                                </p>
+                                <div class="mt-6 flex justify-end">
+                                    <SecondaryButton @click="closeDeleteModal"> Cancel</SecondaryButton>
+                                    <DangerButton
+                                        class="ms-3"
+                                        @click="deleteIncome(income['id'])"
+                                    >Confirm
+                                    </DangerButton>
+                                </div>
+                            </div>
+                        </Modal>
+                        <button
+                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit
+                        </button>
                     </td>
                 </tr>
                 </tbody>

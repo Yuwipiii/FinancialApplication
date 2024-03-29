@@ -11,6 +11,8 @@ class Currency extends Model
     use HasFactory;
     public $timestamps = false;
 
+    protected $fillable=['base','counter','mid'];
+
     public function wallets(): HasMany
     {
         return $this->hasMany(Wallet::class);

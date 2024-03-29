@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('type');
-            $table->string('currency');
-            $table->unsignedDecimal('balance',15,2);
+            $table->foreignId('currency_id')->constrained()->cascadeOnDelete();
+            $table->Decimal('balance',15,2);
             $table->timestamps();
         });
     }

@@ -15,22 +15,15 @@ class Wallet extends Model
         'user_id',
         'name',
         'type',
-        'currency',
+        'currency_id',
         'balance'
     ];
 
     const BANK = 'Bank card';
     const CASH = 'Cash';
-    const KGS = 'KGS';
-    const USD = 'USD';
     const TYPES = [
         self::CASH,
         self::BANK
-    ];
-
-    const CURRENCIES = [
-        self::KGS,
-        self::USD
     ];
 
     public function user(): BelongsTo
@@ -42,6 +35,7 @@ class Wallet extends Model
     {
         return $this->hasMany(Expense::class);
     }
+
     public function transfersFrom(): HasMany
     {
         return $this->hasMany(Transfer::class, 'from_wallet_id');
@@ -51,8 +45,14 @@ class Wallet extends Model
     {
         return $this->hasMany(Transfer::class, 'to_wallet_id');
     }
-    public function incomes(): void
+
+    public function incomes(): HasMany
     {
-        $this->hasMany(Income::class);
+        return $this->hasMany(Income::class);
+    }
+
+    public function currency(): BelongsTo
+    {
+       return  $this->belongsTo(Currency::class);
     }
 }
