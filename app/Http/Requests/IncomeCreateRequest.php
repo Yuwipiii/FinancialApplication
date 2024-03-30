@@ -24,7 +24,7 @@ class IncomeCreateRequest extends FormRequest
     {
         return [
             'wallet_id'=>['required','exists:wallets,id'],
-            'income_category_id'=>['required','exists:income_categories,id'],
+            'income_category_id'=>['nullable','exists:income_categories,id'],
             'amount'=>['required','numeric','min:1'],
             'date'=>['required','date'],
             'currency_id'=>['required','exists:currencies,id'],

@@ -7,7 +7,7 @@ import InputError from "@/Components/InputError.vue";
 import TextInput from "@/Components/TextInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import  {useToast} from "vue-toast-notification";
+import {useToast} from "vue-toast-notification";
 
 export default {
     components: {SecondaryButton, PrimaryButton, TextInput, InputError, InputLabel, Modal},
@@ -41,17 +41,19 @@ export default {
                         const $toast = useToast();
                         this.closeModal();
                         let instance = $toast.success('You have successfully created a expense account for your wallet!');
+                        this.form.reset();
                     },
                     onError: () => {
                         const $toast = useToast();
                         this.closeModal();
                         let intance = $toast.error('An error occurred when creating an expense');
+                        this.form.reset();
                     }
                 }
             );
         },
-        closeModal(){
-            this.showModal=false;
+        closeModal() {
+            this.showModal = false;
         }
     }
 }
@@ -87,6 +89,9 @@ export default {
                                 <option disabled value="">Select expense</option>
                                 <option v-for="(category,index) in categories" :key="index" :value="category.id">
                                     {{ category.name }}
+                                </option>
+                                <option :value="null">
+                                    Other
                                 </option>
                             </select>
                         </div>

@@ -25,16 +25,15 @@ class DashboardController extends Controller
 {
     public function dashboard(): Response
     {
-        $wallets = Wallet::with('user','currency')->where('user_id', Auth::id())->get();
+        $wallets = Wallet::with('user', 'currency')->where('user_id', Auth::id())->get();
         $currencies = Currency::all();
         $netWorthKGS = number_format(array_sum($wallets->where('currency_id', Currency::where('base', 'KGS')->first()->id)->pluck('balance')->toArray()), 2, '.', ' ');
         $netWorthUSD = number_format(array_sum($wallets->where('currency_id', Currency::where('base', 'USD')->first()->id)->pluck('balance')->toArray()), 2, '.', ' ');
         $categories = Category::with('user')->where('user_id', Auth::id())->get();
         $incomeCategories = IncomeCategory::with('user')->where('user_id', Auth::id())->get();
         $incomes = Income::with('currency', 'wallet', 'income_category')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
-        $transfers = Transfer::with('currency', 'fromWallet', 'toWallet')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
         $expenses = Expense::with('currency', 'wallet', 'category')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
-        return Inertia::render('Dashboard', ['incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorthKGS' => $netWorthKGS, 'netWorthUSD' => $netWorthUSD, 'transfers' => $transfers, 'expenses' => $expenses, 'incomes' => $incomes, 'categories' => $categories, 'currencies' => $currencies]);
+        return Inertia::render('Dashboard', ['incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorthKGS' => $netWorthKGS, 'netWorthUSD' => $netWorthUSD, 'expenses' => $expenses, 'incomes' => $incomes, 'categories' => $categories, 'currencies' => $currencies]);
     }
 
     public function createExpense(ExpenseCreateRequest $request): RedirectResponse
@@ -42,25 +41,15 @@ class DashboardController extends Controller
         $expense = new Expense($request->validated());
         $expense->user_id = Auth::id();
         $expense->save();
-        $wallet = $expense->wallet;
-        $wallet->balance -= $this->convert($expense->amount, $expense->currency->base, $wallet->currency->base);
-        $wallet->update();
-        return redirect(RouteServiceProvider::HOME);
-    }
-
-    public function createTransfer(TransferCreateRequest $request): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
-    {
-        $transfer = new Transfer($request->validated());
-        $transfer->user_id = Auth::id();
-        $fromWallet = $transfer->fromWallet;
-        $toWallet = $transfer->toWallet;
-        $fromWallet->balance -= $this->convert($transfer->amount, $transfer->currency->base, $fromWallet->currency->base);
-        $toWallet->balance += $this->convert($transfer->amount, $transfer->currency->base, $toWallet->currency->base);
+        $toWallet = $expense->wallet;
+        if ($expense->currency->id == $toWallet->currency->id) {
+            $toWallet->balance -= $expense->amount;
+        } else {
+            $cur = Currency::where('base', $expense->currency->base)->first();
+            $toWallet->balance -= $expense->amount * $cur->mid;
+        }
         $toWallet->update();
-        $fromWallet->update();
-        $transfer->save();
         return redirect(RouteServiceProvider::HOME);
-
     }
 
     public function createIncome(IncomeCreateRequest $request): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
@@ -68,18 +57,15 @@ class DashboardController extends Controller
         $income = new Income($request->validated());
         $income->user_id = Auth::id();
         $toWallet = $income->wallet;
-        $toWallet->balance += $this->convert($income->amount, $income->currency, $toWallet->currency);
+        if ($income->currency->id == $toWallet->currency->id) {
+            $toWallet->balance += $income->amount;
+        } else {
+            $currency = Currency::where('base', $income->currency->base)->first();
+            $toWallet->balance += $income->amount * $currency->mid;
+        }
         $toWallet->update();
         $income->save();
         return redirect(RouteServiceProvider::HOME);
     }
 
-    private function convert($amount, $fromCurrency, $toCurrency): float|int
-    {
-        if ($fromCurrency == $toCurrency) {
-            return $amount;
-        }
-        return $amount * $toCurrency->mid;
-
-    }
 }

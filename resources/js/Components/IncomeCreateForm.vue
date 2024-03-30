@@ -34,11 +34,13 @@ export default {
                     const $toast = useToast();
                     this.closeModal();
                     let instance = $toast.success('You have successfully created a income account for your wallet!');
+                    this.form.reset();
                 },
                 onError: () => {
                     const $toast = useToast();
                     this.closeModal()
                     let intance = $toast.error('An error occurred when creating an income');
+                    this.form.reset();
                 }
             })
         },
@@ -80,6 +82,9 @@ export default {
                                 <option disabled value="">Select income type</option>
                                 <option v-for="(category,index) in incomeCategories" :key="index" :value="category.id">
                                     {{ category.name }}
+                                </option>
+                                <option  :value="null">
+                                    Other
                                 </option>
                             </select>
                         </div>

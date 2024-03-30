@@ -26,7 +26,7 @@ class ExpenseCreateRequest extends FormRequest
     {
         return [
             'wallet_id'=>['required','exists:wallets,id'],
-            'category_id'=>['required','exists:categories,id'],
+            'category_id'=>['nullable','exists:categories,id'],
             'amount'=>['required','numeric','min:1'],
             'date'=>['required','date'],
             'currency_id'=>['required','exists:currencies,id'],

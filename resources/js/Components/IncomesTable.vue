@@ -63,7 +63,10 @@ export default {
                     <td class="px-6 py-4">
                         {{ income['date'] }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4" v-if="income['income_category'] === null">
+                        Other
+                    </td>
+                    <td class="px-6 py-4" v-else>
                         {{ income['income_category']['name'] }}
                     </td>
                     <td class="px-6 py-4">

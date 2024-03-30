@@ -4,11 +4,9 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {Head, router} from "@inertiajs/vue3";
 import Card from "@/Components/Card.vue";
 import ExpenseCreateForm from "@/Components/ExpenseCreateForm.vue";
-import TransferCreateForm from "@/Components/TransferCreateForm.vue";
 import IncomeCreateForm from "@/Components/IncomeCreateForm.vue";
 import IncomesTable from "@/Components/IncomesTable.vue";
 import ExpensesTable from "@/Components/ExpensesTable.vue";
-import TransfersTable from "@/Components/TransfersTable.vue";
 import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 
@@ -16,11 +14,9 @@ export default {
     components: {
         SecondaryButton,
         Modal,
-        TransfersTable,
         ExpensesTable,
         IncomesTable,
         IncomeCreateForm,
-        TransferCreateForm,
         ExpenseCreateForm,
         Card,
         AuthenticatedLayout,
@@ -46,8 +42,6 @@ export default {
             required: true
         }, 'expenses': {
             required: true
-        }, 'transfers': {
-            required: true
         }
     },
     methods: {
@@ -55,18 +49,14 @@ export default {
             return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         }, showWallet(cardId) {
             router.get(route('wallets.show', cardId),)
-        }, closeExpenseCreate() {
-            this.showExpense = false;
         }
     },
     data() {
         return {
             showNetWorth: false,
             showExpense: false,
-            showTransfer: false,
             showIncome: false,
             showIncomeTable: false,
-            showTransferTable: false,
             showExpenseTable: false
         }
     }
@@ -125,40 +115,32 @@ export default {
                             </div>
                         </Transition>
                     </div>
-                    <div class="grid grid-cols-3 gap-4">
-                        <div class="col-span-3">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="col-span-2">
                             <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">New
                                 Transaction</h2>
-                            <div class="grid grid-cols-3 gap-1">
+                            <div class="grid grid-cols-2 gap-1">
                                 <ExpenseCreateForm
                                     :categories="categories" :wallets='wallets'
                                     :currencies="currencies">
                                 </ExpenseCreateForm>
-                                <TransferCreateForm :from_wallets='wallets' :to_wallets='wallets'
-                                                    :currencies="currencies">
-                                </TransferCreateForm>
                                 <IncomeCreateForm :currencies="currencies" :income-categories="incomeCategories"
                                                   :wallets="wallets"></IncomeCreateForm>
                             </div>
 
                         </div>
 
-                        <div class="col-span-3">
+                        <div class="col-span-2">
                             <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">Recent
                                 Transactions</h2>
-                            <div class="grid grid-cols-3  rounded-lg border-2  border-slate-400">
+                            <div class="grid grid-cols-2  rounded-lg border-2  border-slate-400">
                                 <div
-                                    @click="this.showExpenseTable  = !this.showExpenseTable;this.showTransferTable =false;this.showIncomeTable =false;this.showNetWorth=false "
+                                    @click="this.showExpenseTable  = !this.showExpenseTable;this.showIncomeTable =false;this.showNetWorth=false "
                                     class="flex justify-center border-r-2 border-slate-400  pt-4 pb-4  hover:bg-slate-400/50">
                                     Expense
                                 </div>
                                 <div
-                                    @click="this.showTransferTable = !this.showTransferTable;this.showIncomeTable = false; this.showExpenseTable =false;this.showNetWorth=false"
-                                    class="flex justify-center border-r-2 border-slate-400  pt-4 pb-4  hover:bg-slate-400/50">
-                                    Transfer
-                                </div>
-                                <div
-                                    @click="this.showIncomeTable  = !this.showIncomeTable;this.showTransferTable =false;this.showExpenseTable =false;this.showNetWorth=false"
+                                    @click="this.showIncomeTable  = !this.showIncomeTable;this.showExpenseTable =false;this.showNetWorth=false"
                                     class="flex justify-center border-r-2 border-slate-400  pt-4 pb-4  hover:bg-slate-400/50">
                                     Income
                                 </div>
@@ -174,11 +156,6 @@ export default {
                                     Recent expenses</h2>
                                 <ExpensesTable :expenses="expenses">
                                 </ExpensesTable>
-                            </div>
-                            <div v-else-if="showTransferTable">
-                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
-                                    Recent transfers</h2>
-                                <TransfersTable :transfers="transfers"></TransfersTable>
                             </div>
                         </div>
                     </div>

@@ -17,10 +17,6 @@ class Currency extends Model
     {
         return $this->hasMany(Wallet::class);
     }
-    public function transfers(): HasMany
-    {
-        return $this->hasMany(Transfer::class);
-    }
     public function expenses(): HasMany
     {
         return $this->hasMany(Expense::class);

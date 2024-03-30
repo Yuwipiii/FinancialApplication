@@ -36,16 +36,6 @@ class Wallet extends Model
         return $this->hasMany(Expense::class);
     }
 
-    public function transfersFrom(): HasMany
-    {
-        return $this->hasMany(Transfer::class, 'from_wallet_id');
-    }
-
-    public function transfersTo(): HasMany
-    {
-        return $this->hasMany(Transfer::class, 'to_wallet_id');
-    }
-
     public function incomes(): HasMany
     {
         return $this->hasMany(Income::class);
@@ -53,6 +43,6 @@ class Wallet extends Model
 
     public function currency(): BelongsTo
     {
-       return  $this->belongsTo(Currency::class);
+        return $this->belongsTo(Currency::class);
     }
 }
