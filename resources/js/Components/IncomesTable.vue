@@ -3,17 +3,19 @@ import Modal from "@/Components/Modal.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import {router} from "@inertiajs/vue3";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 export default {
-    components: {SecondaryButton, DangerButton, Modal},
+    components: {PrimaryButton, SecondaryButton, DangerButton, Modal},
     props: {
-        incomes:{required: true}
+        incomes: {required: true}
     },
-    data(){
-        return{
-            showDeleteModal:false
+    data() {
+        return {
+            showDeleteModal: false,
+            showEditModal: false
         }
-    },methods:{
+    }, methods: {
         confirmDelete() {
             this.showDeleteModal = true;
         },
@@ -24,7 +26,11 @@ export default {
             router.delete(route('incomes.destroy', id), {
                 onSuccess: () => this.closeDeleteModal(),
             })
-        },
+        }, closeEditModal() {
+            this.showEditModal = false;
+        }, confirmEditModal() {
+            this.showEditModal = true;
+        }
     }
 
 }
@@ -74,7 +80,8 @@ export default {
                     </td>
                     <td class="px-6 py-4 text-right grid grid-cols-2 gap-1">
                         <button @click.stop="confirmDelete"
-                            class="font-medium text-gray-900 bg-red-700      rounded-lg p-2 ark:text-white hover:underline">Delete
+                                class="font-medium text-gray-900 bg-red-700      rounded-lg p-2 ark:text-white hover:underline">
+                            Delete
                         </button>
                         <Modal :show="this.showDeleteModal" @close="closeDeleteModal">
                             <div class="p-6">
@@ -94,9 +101,6 @@ export default {
                                 </div>
                             </div>
                         </Modal>
-                        <button
-                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit
-                        </button>
                     </td>
                 </tr>
                 </tbody>
