@@ -26,13 +26,8 @@ export default {
             router.delete(route('incomes.destroy', id), {
                 onSuccess: () => this.closeDeleteModal(),
             })
-        }, closeEditModal() {
-            this.showEditModal = false;
-        }, confirmEditModal() {
-            this.showEditModal = true;
         }
     }
-
 }
 </script>
 

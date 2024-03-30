@@ -29,7 +29,8 @@ Route::post('/incomes/create', [\App\Http\Controllers\DashboardController::class
 Route::resource('categories', \App\Http\Controllers\CategoriesController::class)->except('edit', 'create')->middleware(['auth']);
 Route::resource('incomeCategories', \App\Http\Controllers\IncomeCategoriesController::class)->except('edit', 'create')->middleware(['auth']);
 
-Route::resource('incomes', \App\Http\Controllers\IncomesController::class)->except(['create', 'show', 'edit'])->middleware(['auth']);
+Route::resource('incomes', \App\Http\Controllers\IncomesController::class)->except(['create', 'show', 'edit', 'update'])->middleware(['auth']);
+Route::resource('expenses', \App\Http\Controllers\ExpensesController::class)->except(['create', 'show', 'edit', 'update'])->middleware(['auth']);
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
