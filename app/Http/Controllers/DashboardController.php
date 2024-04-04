@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Charts\MothlyExpensesChart;
 use App\Charts\WeeklyExpensesIncomeBarChart;
+use App\Charts\YearlyExpensesPieChart;
 use App\Http\Requests\ExpenseCreateRequest;
 use App\Http\Requests\IncomeCreateRequest;
 use App\Models\Category;
@@ -23,17 +23,16 @@ use Inertia\Response;
 
 class DashboardController extends Controller
 {
-    public function dashboard(WeeklyExpensesIncomeBarChart $chart): Response
+    public function dashboard(WeeklyExpensesIncomeBarChart $weeklyExpensesIncomeBarChart,YearlyExpensesPieChart $YearlyExpensesPieChart): Response
     {
-        $wallets = Wallet::with('user', 'currency')->where('user_id', Auth::id())->get();
+        $wallets = Wallet::with('user')->where('user_id', Auth::id())->get();
         $currencies = Currency::all();
-        $netWorthKGS = number_format(array_sum($wallets->where('currency_id', Currency::where('base', 'KGS')->first()->id)->pluck('balance')->toArray()), 2, '.', ' ');
-        $netWorthUSD = number_format(array_sum($wallets->where('currency_id', Currency::where('base', 'USD')->first()->id)->pluck('balance')->toArray()), 2, '.', ' ');
+        $netWorth = number_format(array_sum($wallets->pluck('balance')->toArray()), 2, '.', ' ');
         $categories = Category::with('user')->where('user_id', Auth::id())->get();
         $incomeCategories = IncomeCategory::with('user')->where('user_id', Auth::id())->get();
-        $incomes = Income::with('currency', 'wallet', 'income_category')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
-        $expenses = Expense::with('currency', 'wallet', 'category')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
-        return Inertia::render('Dashboard', ['chart'=>$chart->build(Auth::id()),'incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorthKGS' => $netWorthKGS, 'netWorthUSD' => $netWorthUSD, 'expenses' => $expenses, 'incomes' => $incomes, 'categories' => $categories, 'currencies' => $currencies]);
+        $incomes = Income::with('wallet', 'income_category')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
+        $expenses = Expense::with( 'wallet', 'category')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
+        return Inertia::render('Dashboard', ['YearlyExpensesPieChart'=>$YearlyExpensesPieChart->build(Auth::id()),'weeklyExpensesIncomeBarChart'=>$weeklyExpensesIncomeBarChart->build(Auth::id()),'incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorth' => $netWorth,  'expenses' => $expenses, 'incomes' => $incomes, 'categories' => $categories, 'currencies' => $currencies]);
     }
 
     public function createExpense(ExpenseCreateRequest $request): RedirectResponse
@@ -42,12 +41,7 @@ class DashboardController extends Controller
         $expense->user_id = Auth::id();
         $expense->save();
         $toWallet = $expense->wallet;
-        if ($expense->currency->id == $toWallet->currency->id) {
-            $toWallet->balance -= $expense->amount;
-        } else {
-            $cur = Currency::where('base', $expense->currency->base)->first();
-            $toWallet->balance -= $expense->amount * $cur->mid;
-        }
+        $toWallet->balance -= $expense->amount;
         $toWallet->update();
         return redirect(RouteServiceProvider::HOME);
     }
@@ -57,12 +51,7 @@ class DashboardController extends Controller
         $income = new Income($request->validated());
         $income->user_id = Auth::id();
         $toWallet = $income->wallet;
-        if ($income->currency->id == $toWallet->currency->id) {
-            $toWallet->balance += $income->amount;
-        } else {
-            $currency = Currency::where('base', $income->currency->base)->first();
-            $toWallet->balance += $income->amount * $currency->mid;
-        }
+        $toWallet->balance += $income->amount;
         $toWallet->update();
         $income->save();
         return redirect(RouteServiceProvider::HOME);

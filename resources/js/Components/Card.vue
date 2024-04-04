@@ -44,7 +44,7 @@
             </div>
             <div>
                 <div class="card-info text-end">
-                    <p><strong class="label text-xl">Balance:</strong> {{ formatPrice(balance) + " " + currencyType }}
+                    <p><strong class="label text-xl">Balance:</strong> {{ formatPrice(balance) + " KGS" }}
                     </p>
                 </div>
             </div>
@@ -77,10 +77,6 @@ export default {
             required: true
         },
         cardName: {
-            type: String,
-            required: true
-        },
-        currencyType: {
             type: String,
             required: true
         },

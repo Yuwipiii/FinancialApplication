@@ -15,7 +15,6 @@ class Wallet extends Model
         'user_id',
         'name',
         'type',
-        'currency_id',
         'balance'
     ];
 
@@ -39,10 +38,5 @@ class Wallet extends Model
     public function incomes(): HasMany
     {
         return $this->hasMany(Income::class);
-    }
-
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Currency::class);
     }
 }

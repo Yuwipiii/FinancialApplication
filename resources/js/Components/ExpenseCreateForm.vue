@@ -17,9 +17,7 @@ export default {
         },
         categories: {
             required: true
-        }, currencies: {
-            required: true
-        }
+        },
     },
     data() {
         return {
@@ -28,7 +26,6 @@ export default {
                 category_id: '',
                 amount: 1,
                 date: '',
-                currency_id: 1,
                 note: ''
             }),
             showModal: false
@@ -99,19 +96,6 @@ export default {
                     </div>
 
                     <div>
-                        <InputLabel for="name" value="Currency"/>
-                        <div class="flex mt-1">
-                            <select class="bg-slate-200/50 rounded-lg " v-model="form.currency_id">
-                                <option disabled value="">Select currency</option>
-                                <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">
-                                    {{ currency.base }}
-                                </option>
-                            </select>
-                        </div>
-                        <InputError class="mt-2" :message="form.errors.currency_id"/>
-                    </div>
-
-                    <div>
                         <InputLabel for="date" value="Date:"/>
                         <TextInput
                             id="date"
@@ -124,7 +108,6 @@ export default {
                         />
                         <InputError class="mt-2" :message="form.errors.date"/>
                     </div>
-
                 </div>
 
 

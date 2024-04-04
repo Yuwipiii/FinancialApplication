@@ -20,9 +20,8 @@ class CategoriesController extends Controller
      */
     public function index(): Response
     {
-        $categories = Category::with('user','currency')->where('user_id',Auth::id())->paginate(3);
-        $currencies  = Currency::all();
-        return Inertia::render('Category/CategoryList',['categories'=>$categories,'currencies'=>$currencies]);
+        $categories = Category::with('user')->where('user_id',Auth::id())->paginate(3);
+        return Inertia::render('Category/CategoryList',['categories'=>$categories]);
     }
 
     /**
@@ -42,7 +41,7 @@ class CategoriesController extends Controller
      */
     public function show(string $id): Response
     {
-        $category = Category::with('user','currency')->where('id',$id)->where('user_id',Auth::id())->first();
+        $category = Category::with('user')->where('id',$id)->where('user_id',Auth::id())->first();
         return Inertia::render('Category/CategoryShow',['category'=>$category]);
     }
 

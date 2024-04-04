@@ -29,7 +29,6 @@ class ExpenseCreateRequest extends FormRequest
             'category_id'=>['nullable','exists:categories,id'],
             'amount'=>['required','numeric','min:1'],
             'date'=>['required','date'],
-            'currency_id'=>['required','exists:currencies,id'],
             'note'=>['nullable','string','min:3']
         ];
     }

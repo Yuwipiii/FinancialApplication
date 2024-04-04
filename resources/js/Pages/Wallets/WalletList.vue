@@ -11,51 +11,47 @@ import InputLabel from "@/Components/InputLabel.vue";
 
 
 export default {
-    components:{
+    components: {
         InputLabel, PrimaryButton, InputError, TextInput,
         Head,
         AuthenticatedLayout,
         Card,
         SimplePaginator
     },
-    data(){
+    data() {
         return {
-            isCreate:false,
-            form:useForm({
+            isCreate: false,
+            form: useForm({
                 name: '',
                 type: '',
-                currency_id: '',
                 balance: ''
             })
         }
     },
-    props:{
-        'wallets':{
-            required:true
-        },
-        'types':{
+    props: {
+        'wallets': {
             required: true
         },
-        'currencies':{
-            required:true
+        'types': {
+            required: true
         }
     },
-    methods:{
+    methods: {
         showCreate() {
             this.isCreate = !this.isCreate;
         },
-        submit(){
-            this.form.post(route('wallets.store'),{
+        submit() {
+            this.form.post(route('wallets.store'), {
                 onSuccess: () => {
                     const $toast = useToast();
                     let instance = $toast.success('You have successfully created a wallet!');
-                    this.isCreate= false;
+                    this.isCreate = false;
                     this.form.reset();
                 },
                 onError: () => {
                     const $toast = useToast();
                     let intance = $toast.error('An error occurred when creating a wallet');
-                    this.isCreate =false;
+                    this.isCreate = false;
                 }
             })
         }
@@ -93,7 +89,8 @@ export default {
                     <Transition name="slide-fade">
                         <div v-if="this.isCreate">
                             <form @submit.prevent="submit" class="bg-slate-800/50 rounded-lg p-3 ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
                                      stroke="currentColor" class="w-8 h-8 stroke-1">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M21 12a2.25 2.25 0 0 0-2.25-2.25H15a3 3 0 1 1-6 0H5.25A2.25 2.25 0 0 0 3 12m18 0v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 9m18 0V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v3"/>
@@ -117,23 +114,12 @@ export default {
                                     <div class="flex mt-1">
                                         <select id="type" class="bg-slate-700/50 rounded-lg " v-model="form.type">
                                             <option disabled value="">Select currency of wallet</option>
-                                            <option v-for="(type,index) in types" :key="index" :value="type">{{type}}</option>
-                                        </select>
-                                    </div>
-                                    <InputError class="mt-2" :message="form.errors.type"/>
-                                </div>
-
-                                <div class="mt-5">
-                                    <InputLabel for="currency" value="Wallet Currency"/>
-                                    <div class="flex mt-1">
-                                        <select id="currency" class="bg-slate-700/50 rounded-lg " v-model="form.currency_id">
-                                            <option disabled value="">Select currency</option>
-                                            <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">
-                                                {{ currency.base }}
+                                            <option v-for="(type,index) in types" :key="index" :value="type">
+                                                {{ type }}
                                             </option>
                                         </select>
                                     </div>
-                                    <InputError class="mt-2" :message="form.errors.currency_id"/>
+                                    <InputError class="mt-2" :message="form.errors.type"/>
                                 </div>
 
 
@@ -168,8 +154,7 @@ export default {
                                 <div v-for="(wallet,index) in this.wallets['data']" :key="index">
                                     <Card :balance="wallet.balance"
                                           :card-name="wallet.name" :card-type="wallet.type"
-                                          :card-id="wallet.id"
-                                          :currency-type="wallet.currency['base']"></Card>
+                                          :card-id="wallet.id"></Card>
                                 </div>
                             </div>
                             <SimplePaginator class="flex justify-self-center"

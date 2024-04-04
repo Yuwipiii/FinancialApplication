@@ -24,17 +24,12 @@ export default {
         return {
             isCreate: false,
             form: useForm({
-                name: '',
-                monthly_limit:1,
-                currency_id:""
+                name: ''
             })
         }
     },
     props: {
         'categories': {
-            required: true
-        },
-        'currencies':{
             required: true
         }
     },
@@ -104,35 +99,6 @@ export default {
                                         autocomplete="name"
                                     />
                                     <InputError class="mt-2" :message="form.errors.name"/>
-                                </div>
-
-                                <div>
-                                    <InputLabel for="monthlyLimit" value="Monthly limit of expense"/>
-                                    <TextInput
-                                        id="monthLiLimit"
-                                        type="number"
-                                        class="mt-1 block w-full bg-slate-700/50"
-                                        v-model="form.monthly_limit"
-                                        required
-                                        min=1,
-                                        step="0.01"
-
-                                    />
-                                    <InputError class="mt-2" :message="form.errors.name"/>
-                                </div>
-
-
-                                <div>
-                                    <InputLabel for="name" value="Currency"/>
-                                    <div class="flex mt-1">
-                                        <select class="mt-1 block w-full bg-slate-700/50 rounded-lg " v-model="form.currency_id">
-                                            <option disabled value="">Select currency</option>
-                                            <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">
-                                                {{ currency.base }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <InputError class="mt-2" :message="form.errors.currency_id"/>
                                 </div>
 
 

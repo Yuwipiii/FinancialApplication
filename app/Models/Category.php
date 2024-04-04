@@ -13,9 +13,7 @@ class Category extends Model
 
     protected $fillable = [
         'user_id',
-        'name',
-        'monthly_limit',
-        'currency_id'
+        'name'
     ];
 
     public function user(): BelongsTo
@@ -27,8 +25,4 @@ class Category extends Model
         return $this->hasMany(Expense::class);
     }
 
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Currency::class);
-    }
 }

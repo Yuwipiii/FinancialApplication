@@ -41,8 +41,7 @@
             </div>
             <div>
                 <div class="card-info text-end">
-                    <p><strong class="label">Monthly limit of category expense:</strong> {{ formatPrice(categoryMonthlyLimit) + " " + categoryCurrency.base}}
-                    </p>
+
                 </div>
             </div>
         </div>
@@ -75,13 +74,6 @@ export default {
         categoryName: {
             type: String,
             required: true
-        },
-        categoryMonthlyLimit:{
-            type:Number,
-            required:true
-        },
-        categoryCurrency:{
-            required:true
         }
     },
     methods: {
@@ -95,9 +87,6 @@ export default {
             router.delete(route('categories.destroy', this.categoryId), {
                 onSuccess: () => this.closeDeleteModal(),
             })
-        },
-        formatPrice(value) {
-            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         },
         showCategory() {
             router.get(route('categories.show', this.categoryId))

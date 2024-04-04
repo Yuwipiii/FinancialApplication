@@ -21,8 +21,6 @@ class CategoryFactory extends Factory
         return [
             'name'=>$this->faker->word,
             'user_id'=>User::first(),
-            'currency_id'=>Currency::first(),
-            'monthly_limit'=>$this->faker->randomFloat(2,1,10000)
         ];
     }
 }

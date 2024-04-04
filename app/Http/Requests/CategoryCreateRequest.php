@@ -24,8 +24,6 @@ class CategoryCreateRequest extends FormRequest
     {
         return [
             'name'=>['required','string','min:3','max:100'],
-            'monthly_limit'=>['required','numeric','min:1','max:100000000000000'],
-            'currency_id'=>['required','exists:currencies,id']
         ];
     }
 }

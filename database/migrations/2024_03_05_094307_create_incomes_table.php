@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('income_category_id')->nullable()->constrained()->cascadeOnDelete();
             $table->unsignedDecimal('amount',15,2);
             $table->date('date');
-            $table->foreignId('currency_id')->constrained()->cascadeOnDelete();
             $table->text('note')->nullable();
             $table->timestamps();
         });

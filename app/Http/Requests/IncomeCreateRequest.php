@@ -27,7 +27,6 @@ class IncomeCreateRequest extends FormRequest
             'income_category_id'=>['nullable','exists:income_categories,id'],
             'amount'=>['required','numeric','min:1'],
             'date'=>['required','date'],
-            'currency_id'=>['required','exists:currencies,id'],
             'note'=>['nullable','string','min:3']
         ];
     }

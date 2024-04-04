@@ -72,7 +72,7 @@ export default {
                         {{ expense['category']['name'] }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ expense['amount'] + " " + expense['currency']['base'] }}
+                        {{ expense['amount'] + " KGS"}}
                     </td>
                     <td class="px-6 py-4 text-right">
                         <button @click.stop="confirmDelete"

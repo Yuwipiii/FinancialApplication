@@ -14,6 +14,6 @@ class WalletSeeder extends Seeder
      */
     public function run(): void
     {
-        Wallet::factory(['name'=>"Mbank",'balance'=>20000,'currency_id'=>Currency::where('base',"KGS")->first()->id])->count(1)->create();
+        Wallet::factory(['name'=>"Mbank",'balance'=>20000])->count(1)->create();
     }
 }

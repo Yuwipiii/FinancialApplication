@@ -71,7 +71,7 @@ export default {
                         {{ income['income_category']['name'] }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ income['amount'] + " " + income['currency']['base'] }}
+                        {{ income['amount'] + " KGS"}}
                     </td>
                     <td class="px-6 py-4 text-right grid grid-cols-2 gap-1">
                         <button @click.stop="confirmDelete"

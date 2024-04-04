@@ -128,7 +128,7 @@ export default {
                                 <span class="font-light text-slate-500  text-2xl">Total Balance</span>
                                 <br>
                                 <p class="font-bold text-4xl">
-                                    {{ formatPrice(this.wallet['balance']) + " " + this.wallet.currency['base'] }}</p>
+                                    {{ formatPrice(this.wallet['balance']) + " KGS"}}</p>
                             </div>
                             <div>
 

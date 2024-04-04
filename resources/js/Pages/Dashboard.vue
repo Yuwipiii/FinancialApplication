@@ -23,10 +23,7 @@ export default {
         Head
     },
     props: {
-        'netWorthUSD': {
-            type: Number,
-            required: true
-        }, 'netWorthKGS': {
+        'netWorth': {
             type: Number,
             required: true
         }
@@ -34,17 +31,18 @@ export default {
             required: true
         }, 'categories': {
             required: true
-        }, 'currencies': {
-            required: true
         }, 'incomeCategories': {
             required: true
         }, 'incomes': {
             required: true
         }, 'expenses': {
             required: true
-        }, 'chart':{
-            required:true,
-            type:Object
+        }, 'weeklyExpensesIncomeBarChart': {
+            required: true,
+            type: Object
+        }, 'YearlyExpensesPieChart': {
+            required: true,
+            type: Object
         }
     },
     methods: {
@@ -85,13 +83,7 @@ export default {
                             @click="this.showNetWorth  = !this.showNetWorth">
                             <div class="flex justify-between">
                                 <p class="text-emerald-800 text-2xl">{{
-                                        formatPrice(this.netWorthUSD)
-                                    }}</p>
-                                <p class="text-emerald-800 text-2xl">USD</p>
-                            </div>
-                            <div class="flex justify-between">
-                                <p class="text-emerald-800 text-2xl">{{
-                                        formatPrice(this.netWorthKGS)
+                                        formatPrice(this.netWorth)
                                     }}</p>
                                 <p class="text-emerald-800 text-2xl">KGS</p>
                             </div>
@@ -108,7 +100,7 @@ export default {
                                         </div>
                                         <div>
                                             <p class="text-emerald-800">
-                                                {{ formatPrice(wallet.balance) + " " + wallet.currency['base'] }}
+                                                {{ formatPrice(wallet.balance) + " KGS"}}
                                             </p>
                                         </div>
                                     </div>
@@ -122,10 +114,9 @@ export default {
                                 Transaction</h2>
                             <div class="grid grid-cols-2 gap-1">
                                 <ExpenseCreateForm
-                                    :categories="categories" :wallets='wallets'
-                                    :currencies="currencies">
+                                    :categories="categories" :wallets='wallets'>
                                 </ExpenseCreateForm>
-                                <IncomeCreateForm :currencies="currencies" :income-categories="incomeCategories"
+                                <IncomeCreateForm  :income-categories="incomeCategories"
                                                   :wallets="wallets"></IncomeCreateForm>
                             </div>
 
@@ -134,7 +125,16 @@ export default {
                         <div class="col-span-2">
                             <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">Recent
                                 Transactions</h2>
-                            <apexchart :width="chart.width" :height="chart.height" :type="chart.type" :options="chart.options" :series="chart.series"></apexchart>
+                            <apexchart :width="YearlyExpensesPieChart.width"
+                                       :height="YearlyExpensesPieChart.height"
+                                       :type="YearlyExpensesPieChart.type"
+                                       :options="YearlyExpensesPieChart.options"
+                                       :series="YearlyExpensesPieChart.series"></apexchart>
+                            <apexchart :width="weeklyExpensesIncomeBarChart.width"
+                                       :height="weeklyExpensesIncomeBarChart.height"
+                                       :type="weeklyExpensesIncomeBarChart.type"
+                                       :options="weeklyExpensesIncomeBarChart.options"
+                                       :series="weeklyExpensesIncomeBarChart.series"></apexchart>
                         </div>
                     </div>
                 </div>

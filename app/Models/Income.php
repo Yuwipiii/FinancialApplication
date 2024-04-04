@@ -12,7 +12,7 @@ class Income extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'wallet_id', 'income_category_id', 'amount', 'date', 'currency_id', 'note'];
+    protected $fillable = ['user_id', 'wallet_id', 'income_category_id', 'amount', 'date', 'note'];
 
 
     public function user(): BelongsTo
@@ -28,11 +28,6 @@ class Income extends Model
     public function wallet(): BelongsTo
     {
         return $this->belongsTo(Wallet::class);
-    }
-
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Currency::class);
     }
 }
 

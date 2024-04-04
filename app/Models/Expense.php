@@ -17,7 +17,6 @@ class Expense extends Model
         'category_id',
         'amount',
         'date',
-        'currency_id',
         'created_at'
     ];
 
@@ -33,9 +32,5 @@ class Expense extends Model
     public function wallet(): BelongsTo
     {
         return $this->belongsTo(Wallet::class);
-    }
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Currency::class);
     }
 }

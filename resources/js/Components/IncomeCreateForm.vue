@@ -13,7 +13,6 @@ export default {
     props: {
         wallets: {required: true},
         incomeCategories: {required: true},
-        currencies: {required: true}
     },
     data() {
         return {
@@ -22,7 +21,6 @@ export default {
                 income_category_id: '',
                 amount: 1,
                 date: '',
-                currency_id: 1,
                 note: ''
             }),
             showModal: false
@@ -91,18 +89,6 @@ export default {
                         <InputError class="mt-2" :message="form.errors.income_category_id"/>
                     </div>
 
-                    <div>
-                        <InputLabel for="name" value="Currency"/>
-                        <div class="flex mt-1">
-                            <select class="bg-slate-200/50 rounded-lg " v-model="form.currency_id">
-                                <option disabled value="">Select currency</option>
-                                <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">
-                                    {{ currency.base }}
-                                </option>
-                            </select>
-                        </div>
-                        <InputError class="mt-2" :message="form.errors.currency_id"/>
-                    </div>
 
                     <div>
                         <InputLabel for="date" value="Date:"/>

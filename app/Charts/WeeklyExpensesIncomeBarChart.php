@@ -39,12 +39,11 @@ class WeeklyExpensesIncomeBarChart
                 ->where('user_id', $id)
                 ->whereDate('date', $date->toDateString())
                 ->get();
-            $expensesUSD[] = $expensesOfDay->where('currency.base', 'USD')->sum('amount');
-            $expensesKGS[] = $expensesOfDay->where('currency.base', 'KGS')->sum('amount');
-            $incomesKGS[] = $incomesOfDay->where('currency.base', 'KGS')->sum('amount');
-            $incomesUSD[] = $incomesOfDay->where('currency.base', 'USD')->sum('amount');
+            $expensesUSD[] = round($expensesOfDay->where('currency.base', 'USD')->sum('amount'),2);
+            $expensesKGS[] = round($expensesOfDay->where('currency.base', 'KGS')->sum('amount'),2);
+            $incomesKGS[] = round($incomesOfDay->where('currency.base', 'KGS')->sum('amount'),2);
+            $incomesUSD[] = round($incomesOfDay->where('currency.base', 'USD')->sum('amount'),2);
         }
-        //TODO Сделать отображение сумм после запятой две
 
         return $this->chart->barChart()
             ->setTitle('Last 7 days')
@@ -53,6 +52,6 @@ class WeeklyExpensesIncomeBarChart
             ->addData('Incomes KGS',$incomesKGS)
             ->addData('Incomes USD',$incomesUSD)
             ->setXAxis($weekDays)
-            ->toVue();
+             ->toVue();
     }
 }

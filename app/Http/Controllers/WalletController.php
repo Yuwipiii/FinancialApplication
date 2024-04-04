@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Walllet\WalletCreateRequest;
 use App\Http\Requests\Walllet\WalletUpdateRequest;
-use App\Models\Currency;
 use App\Models\Wallet;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Application;
@@ -22,10 +21,9 @@ class WalletController extends Controller
      */
     public function index(): Response
     {
-        $wallets = Wallet::with('user','currency')->where('user_id',Auth::id())->paginate(2);
+        $wallets = Wallet::with('user')->where('user_id',Auth::id())->paginate(2);
         $types = Wallet::TYPES;
-        $currencies = Currency::all();
-        return Inertia::render('Wallets/WalletList',['wallets'=>$wallets,'types'=>$types,'currencies'=>$currencies]);
+        return Inertia::render('Wallets/WalletList',['wallets'=>$wallets,'types'=>$types]);
     }
 
     /**

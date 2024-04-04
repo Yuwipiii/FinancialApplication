@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->foreignId('currency_id')->constrained()->cascadeOnDelete();
-            $table->unsignedDecimal('monthly_limit',15,2);
             $table->timestamps();
         });
     }

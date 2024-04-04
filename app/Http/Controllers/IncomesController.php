@@ -12,13 +12,13 @@ class IncomesController extends Controller
 {
     public function index(): \Inertia\Response
     {
-        $incomes = Income::with('currency', 'wallet', 'income_category')->where('user_id',Auth::id())->get();
+        $incomes = Income::with( 'wallet', 'income_category')->where('user_id',Auth::id())->get();
         return Inertia::render('Incomes/IncomesList',['incomes'=>$incomes]);
     }
 
     public function destroy(string $id): \Illuminate\Http\RedirectResponse
     {
-        $income = Income::with('wallet', 'income_category', 'currency')->where('user_id', Auth::id())->where('id', $id)->first();
+        $income = Income::with('wallet', 'income_category')->where('user_id', Auth::id())->where('id', $id)->first();
         $wallet = $income->wallet;
         $wallet->balance -= $income->amount;
         $wallet->update();

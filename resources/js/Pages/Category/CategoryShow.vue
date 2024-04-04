@@ -17,8 +17,6 @@ export default {
             isEdit: false,
             form: useForm({
                 name: this.category['name'],
-                monthly_limit: this.category['monthly_limit'],
-                currency_id: this.category['currency_id']
             })
         }
     },
@@ -46,9 +44,6 @@ export default {
                     this.isEdit =false;
                 }
             })
-        },
-        formatPrice(value) {
-            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         }
     }
 }
@@ -103,21 +98,6 @@ export default {
                                     <InputError class="mt-2" :message="form.errors.name"/>
                                 </div>
 
-                                <div>
-                                    <InputLabel for="monthlyLimit" value="Monthly limit of expense"/>
-                                    <TextInput
-                                        id="monthLiLimit"
-                                        type="number"
-                                        class="mt-1 block w-full bg-slate-700/50"
-                                        v-model="form.monthly_limit"
-                                        required
-                                        min=1,
-                                        step="0.01"
-
-                                    />
-                                    <InputError class="mt-2" :message="form.errors.name"/>
-                                </div>
-
                                 <div class="flex items-center justify-end mt-4">
                                     <PrimaryButton class="ms-4">
                                         Edit
@@ -128,11 +108,6 @@ export default {
                         <div v-else>
                             <div class="text-center">
                                 <span class="font-light text-slate-500  text-2xl">Monthly limit</span>
-                                <br>
-                                <p class="font-bold text-4xl">
-                                    {{
-                                        formatPrice(this.category['monthly_limit']) + " " + this.category['currency']['base']
-                                    }}</p>
                             </div>
                         </div>
                     </Transition>
