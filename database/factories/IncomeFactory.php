@@ -25,7 +25,7 @@ class IncomeFactory extends Factory
             'wallet_id'=>Wallet::first()->id,
             'income_category_id'=>IncomeCategory::first()->id,
             'amount'=>$this->faker->numberBetween(1,10000),
-            'date'=>$this->faker->date('Y-m-d'),
+            'date'=>$this->faker->dateTimeBetween('-1 week','now'),
             'currency_id'=>Currency::first(),
             'note'=>$this->faker->words(4,3)
         ];

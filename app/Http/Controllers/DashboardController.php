@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\MothlyExpensesChart;
+use App\Charts\WeeklyExpensesIncomeBarChart;
 use App\Http\Requests\ExpenseCreateRequest;
 use App\Http\Requests\IncomeCreateRequest;
-use App\Http\Requests\TransferCreateRequest;
 use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Models\IncomeCategory;
-use App\Models\Transfer;
 use App\Models\Wallet;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
@@ -23,7 +23,7 @@ use Inertia\Response;
 
 class DashboardController extends Controller
 {
-    public function dashboard(): Response
+    public function dashboard(WeeklyExpensesIncomeBarChart $chart): Response
     {
         $wallets = Wallet::with('user', 'currency')->where('user_id', Auth::id())->get();
         $currencies = Currency::all();
@@ -33,7 +33,7 @@ class DashboardController extends Controller
         $incomeCategories = IncomeCategory::with('user')->where('user_id', Auth::id())->get();
         $incomes = Income::with('currency', 'wallet', 'income_category')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
         $expenses = Expense::with('currency', 'wallet', 'category')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
-        return Inertia::render('Dashboard', ['incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorthKGS' => $netWorthKGS, 'netWorthUSD' => $netWorthUSD, 'expenses' => $expenses, 'incomes' => $incomes, 'categories' => $categories, 'currencies' => $currencies]);
+        return Inertia::render('Dashboard', ['chart'=>$chart->build(Auth::id()),'incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorthKGS' => $netWorthKGS, 'netWorthUSD' => $netWorthUSD, 'expenses' => $expenses, 'incomes' => $incomes, 'categories' => $categories, 'currencies' => $currencies]);
     }
 
     public function createExpense(ExpenseCreateRequest $request): RedirectResponse

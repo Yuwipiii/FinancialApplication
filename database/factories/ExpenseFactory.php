@@ -25,7 +25,7 @@ class ExpenseFactory extends Factory
             'user_id'=>User::first(),
             'category_id'=> Category::where('user_id',User::first()->id)->inRandomOrder()->first(),
             'amount'=>$this->faker->randomFloat(2,1,100),
-            'date'=> $this->faker->dateTimeBetween('now','+1 month'),
+            'date'=> $this->faker->dateTimeBetween('-1 week','now'),
             'currency_id'=>$this->faker->randomElement(Currency::all()->pluck('id'))
         ];
     }

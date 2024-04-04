@@ -42,6 +42,9 @@ export default {
             required: true
         }, 'expenses': {
             required: true
+        }, 'chart':{
+            required:true,
+            type:Object
         }
     },
     methods: {
@@ -55,9 +58,7 @@ export default {
         return {
             showNetWorth: false,
             showExpense: false,
-            showIncome: false,
-            showIncomeTable: false,
-            showExpenseTable: false
+            showIncome: false
         }
     }
 }
@@ -133,30 +134,7 @@ export default {
                         <div class="col-span-2">
                             <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">Recent
                                 Transactions</h2>
-                            <div class="grid grid-cols-2  rounded-lg border-2  border-slate-400">
-                                <div
-                                    @click="this.showExpenseTable  = !this.showExpenseTable;this.showIncomeTable =false;this.showNetWorth=false "
-                                    class="flex justify-center border-r-2 border-slate-400  pt-4 pb-4  hover:bg-slate-400/50">
-                                    Expense
-                                </div>
-                                <div
-                                    @click="this.showIncomeTable  = !this.showIncomeTable;this.showExpenseTable =false;this.showNetWorth=false"
-                                    class="flex justify-center border-r-2 border-slate-400  pt-4 pb-4  hover:bg-slate-400/50">
-                                    Income
-                                </div>
-
-                            </div>
-                            <div v-if="this.showIncomeTable">
-                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
-                                    Recent incomes</h2>
-                                <IncomesTable :incomes="incomes"></IncomesTable>
-                            </div>
-                            <div v-else-if="showExpenseTable">
-                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">
-                                    Recent expenses</h2>
-                                <ExpensesTable :expenses="expenses">
-                                </ExpensesTable>
-                            </div>
+                            <apexchart :width="chart.width" :height="chart.height" :type="chart.type" :options="chart.options" :series="chart.series"></apexchart>
                         </div>
                     </div>
                 </div>
