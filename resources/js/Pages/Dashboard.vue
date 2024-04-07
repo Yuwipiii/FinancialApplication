@@ -40,16 +40,22 @@ export default {
         }, 'weeklyExpensesIncomeBarChart': {
             required: true,
             type: Object
-        }, 'YearlyExpensesPieChart': {
+        }, 'monthlyExpensesPieChart': {
             required: true,
             type: Object
+        }, 'incomesSum': {
+            required: true
+        }, 'expensesSum': {
+            required: true
+        }, 'currentMonth': {
+            required: true
         }
     },
     methods: {
         formatPrice(value) {
             return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-        }, showWallet(cardId) {
-            router.get(route('wallets.show', cardId),)
+        }, walletsIndex() {
+            router.get(route('wallets.index'));
         }
     },
     data() {
@@ -75,61 +81,68 @@ export default {
         <template #main>
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div>
-                        <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">Net
-                            Worth</h2>
+                    <div class="grid grid-cols-6 gap-2 mb-10">
                         <div
-                            class="flex flex-col bg-slate-400 p-4 rounded-lg shadow-2xl hover:scale-95 hover:bg-slate-400/50 ps-5 pe-5"
-                            @click="this.showNetWorth  = !this.showNetWorth">
-                            <div class="flex justify-between">
-                                <p class="text-emerald-800 text-2xl">{{
-                                        formatPrice(this.netWorth)
-                                    }}</p>
-                                <p class="text-emerald-800 text-2xl">KGS</p>
+                            class="md:col-span-2 lg:col-span-2 col-span-6 mb-10 bg-slate-400 rounded-lg shadow-xl hover:scale-95 hover:bg-slate-400/50"
+                            @click="walletsIndex">
+                            <div class="grid grid-cols-1 p-10">
+                                <h1 class="text-xl">Total money</h1>
+                                <div>
+                                    <p class="text-emerald-800 text-3xl me-1">{{
+                                            formatPrice(this.netWorth)
+                                        }} KGS</p>
+                                </div>
                             </div>
                         </div>
-                        <Transition name="bounce">
-                            <div
-                                v-if="this.showNetWorth">
-                                <div v-for="(wallet,index) in this.wallets" :key="index">
-                                    <div @click="showWallet(wallet.id)"
-                                         class="flex mt-3 justify-around bg-slate-200 pt-2 pb-2 rounded-lg shadow-2xl hover:scale-95 hover:bg-slate-400/50 ">
-                                        <div>
-                                            <p>{{ wallet.name }}</p>
-                                            <p>{{ wallet.type }}</p>
+                        <div class="lg:col-span-4 md:col-span-4 col-span-6 mb-10">
+                            <div class="grid grid-cols-2 gap-2 bg-gray-200 rounded-lg shadow-xl p-4">
+                                <h1 class="col-span-2 text-2xl">Statistics for {{ this.currentMonth }}</h1>
+                                <div class="col-span-1">
+                                    <div
+                                        class="bg-gray-300 rounded-lg p-4">
+                                        <div class="grid grid-cols-1">
+                                            <h1>Your incomes</h1>
+                                            <div>
+                                                <p class="text-emerald-800 text-2xl me-1">{{
+                                                        formatPrice(this.incomesSum)
+                                                    }} KGS</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p class="text-emerald-800">
-                                                {{ formatPrice(wallet.balance) + " KGS"}}
-                                            </p>
+                                    </div>
+                                </div>
+                                <div class="col-span-1">
+                                    <div
+                                        class="bg-gray-300 rounded-lg p-4">
+                                        <div class="grid grid-cols-1">
+                                            <h1>Your Expenses</h1>
+                                            <div>
+                                                <p class="text-red-800 text-2xl me-1">{{
+                                                        formatPrice(this.expensesSum)
+                                                    }} KGS</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </Transition>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="col-span-2">
-                            <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">New
+                        </div>
+
+                        <div class="col-span-6 bg-gray-200 p-5 rounded-lg shadow-xl mb-15">
+                            <h2 class="font-semibold text-2xl  text-gray-800 leading-tight text-center mb-4">New
                                 Transaction</h2>
                             <div class="grid grid-cols-2 gap-1">
                                 <ExpenseCreateForm
                                     :categories="categories" :wallets='wallets'>
                                 </ExpenseCreateForm>
-                                <IncomeCreateForm  :income-categories="incomeCategories"
+                                <IncomeCreateForm :income-categories="incomeCategories"
                                                   :wallets="wallets"></IncomeCreateForm>
                             </div>
-
                         </div>
+                    </div>
 
-                        <div class="col-span-2">
-                            <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center mb-4">Recent
-                                Transactions</h2>
-                            <apexchart :width="YearlyExpensesPieChart.width"
-                                       :height="YearlyExpensesPieChart.height"
-                                       :type="YearlyExpensesPieChart.type"
-                                       :options="YearlyExpensesPieChart.options"
-                                       :series="YearlyExpensesPieChart.series"></apexchart>
+                    <div class="grid grid-cols-5 gap-2 bg-gray-200 rounded-lg shadow-xl p-10">
+                        <h2 class="font-semibold col-span-5  text-2xl text-gray-800 leading-tight text-center mb-4">
+                            Analytics</h2>
+                        <div class="col-span-3">
                             <apexchart :width="weeklyExpensesIncomeBarChart.width"
                                        :height="weeklyExpensesIncomeBarChart.height"
                                        :type="weeklyExpensesIncomeBarChart.type"
@@ -144,14 +157,6 @@ export default {
 </template>
 
 <style scoped>
-.bounce-enter-active {
-    animation: bounce-in 0.5s;
-}
-
-.bounce-leave-active {
-    animation: bounce-in 0.5s reverse;
-}
-
 @keyframes bounce-in {
     0% {
         transform: scale(0);

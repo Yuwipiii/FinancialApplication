@@ -42,7 +42,7 @@ class WalletController extends Controller
      */
     public function show(string $id): Response
     {
-        $wallet = Wallet::with('user','currency')->where('id',$id)->first();
+        $wallet = Wallet::with('user')->where('id',$id)->first();
         $types = Wallet::TYPES;
         return Inertia::render('Wallets/WalletsShow',['wallet'=>$wallet,'types'=>$types]);
     }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Charts\WeeklyExpensesIncomeBarChart;
-use App\Charts\YearlyExpensesPieChart;
 use App\Http\Requests\ExpenseCreateRequest;
 use App\Http\Requests\IncomeCreateRequest;
 use App\Models\Category;
@@ -23,7 +22,7 @@ use Inertia\Response;
 
 class DashboardController extends Controller
 {
-    public function dashboard(WeeklyExpensesIncomeBarChart $weeklyExpensesIncomeBarChart,YearlyExpensesPieChart $YearlyExpensesPieChart): Response
+    public function dashboard(WeeklyExpensesIncomeBarChart $weeklyExpensesIncomeBarChart): Response
     {
         $wallets = Wallet::with('user')->where('user_id', Auth::id())->get();
         $currencies = Currency::all();
@@ -31,8 +30,11 @@ class DashboardController extends Controller
         $categories = Category::with('user')->where('user_id', Auth::id())->get();
         $incomeCategories = IncomeCategory::with('user')->where('user_id', Auth::id())->get();
         $incomes = Income::with('wallet', 'income_category')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
+        $incomesSum = $incomes->pluck('amount')->sum();
         $expenses = Expense::with( 'wallet', 'category')->where('user_id', Auth::id())->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
-        return Inertia::render('Dashboard', ['YearlyExpensesPieChart'=>$YearlyExpensesPieChart->build(Auth::id()),'weeklyExpensesIncomeBarChart'=>$weeklyExpensesIncomeBarChart->build(Auth::id()),'incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorth' => $netWorth,  'expenses' => $expenses, 'incomes' => $incomes, 'categories' => $categories, 'currencies' => $currencies]);
+        $expensesSum = $expenses->pluck("amount")->sum();
+        $currentMonth = now()->format("F Y");
+        return Inertia::render('Dashboard', ['currentMonth'=>$currentMonth,'expensesSum'=>$expensesSum,'incomesSum'=>$incomesSum,'weeklyExpensesIncomeBarChart'=>$weeklyExpensesIncomeBarChart->build(Auth::id()),'incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorth' => $netWorth,  'expenses' => $expenses, 'incomes' => $incomes, 'categories' => $categories, 'currencies' => $currencies]);
     }
 
     public function createExpense(ExpenseCreateRequest $request): RedirectResponse

@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class WeeklyExpensesIncomeBarChart
 {
-    protected $chart;
+    protected LarapexChart $chart;
 
     public function __construct(LarapexChart $chart)
     {
@@ -23,35 +23,30 @@ class WeeklyExpensesIncomeBarChart
         $weekDays = [];
         $currentDate = Carbon::now();
         $startDate = $currentDate->copy()->subDays(6);
-        $expensesUSD = [];
-        $expensesKGS = [];
-        $incomesUSD = [];
-        $incomesKGS = [];
+        $expenses = [];
+        $incomes = [];
         for ($i = 0; $i < 7; $i++) {
             $date = $startDate->copy()->addDays($i);
             $formattedDate = $date->format('D j-M-Y');
             $weekDays[] = $formattedDate;
-            $expensesOfDay = Expense::with('currency','user')
+            $expensesOfDay = Expense::with('user')
                 ->where('user_id', $id)
                 ->whereDate('date', $date->toDateString())
                 ->get();
-            $incomesOfDay = Income::with('currency','user')
+            $incomesOfDay = Income::with('user')
                 ->where('user_id', $id)
                 ->whereDate('date', $date->toDateString())
                 ->get();
-            $expensesUSD[] = round($expensesOfDay->where('currency.base', 'USD')->sum('amount'),2);
-            $expensesKGS[] = round($expensesOfDay->where('currency.base', 'KGS')->sum('amount'),2);
-            $incomesKGS[] = round($incomesOfDay->where('currency.base', 'KGS')->sum('amount'),2);
-            $incomesUSD[] = round($incomesOfDay->where('currency.base', 'USD')->sum('amount'),2);
+            $expenses[] = round($expensesOfDay->sum('amount'), 2);
+            $incomes[] = round($incomesOfDay->sum('amount'), 2);
         }
 
-        return $this->chart->barChart()
+        return $this->chart->horizontalBarChart()
             ->setTitle('Last 7 days')
-            ->addData('Expenses USD', $expensesUSD)
-            ->addData('Expenses KGS', $expensesKGS)
-            ->addData('Incomes KGS',$incomesKGS)
-            ->addData('Incomes USD',$incomesUSD)
+            ->addData('Expenses', $expenses)
+            ->addData('Incomes', $incomes)
             ->setXAxis($weekDays)
-             ->toVue();
+            ->setGrid('#3F51B5', 0.1)
+            ->toVue();
     }
 }
