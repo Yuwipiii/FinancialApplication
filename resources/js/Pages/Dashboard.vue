@@ -9,9 +9,12 @@ import IncomesTable from "@/Components/IncomesTable.vue";
 import ExpensesTable from "@/Components/ExpensesTable.vue";
 import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
 
 export default {
     components: {
+        InputLabel, InputError,
         SecondaryButton,
         Modal,
         ExpensesTable,
@@ -49,6 +52,18 @@ export default {
             required: true
         }, 'currentMonth': {
             required: true
+        }, 'monthlyExpensesChart': {
+            required: true,
+            type: Object
+        }, 'monthlyIncomesChart': {
+            required: true,
+            type: Object
+        }, 'yearlyExpensesChart': {
+            required: true,
+            type: Object
+        }, 'yearlyIncomesChart': {
+            required: true,
+            type: Object
         }
     },
     methods: {
@@ -62,7 +77,10 @@ export default {
         return {
             showNetWorth: false,
             showExpense: false,
-            showIncome: false
+            showIncome: false,
+            showWeekly: true,
+            showYearly: false,
+            showMonthly: false
         }
     }
 }
@@ -142,12 +160,65 @@ export default {
                     <div class="grid grid-cols-5 gap-2 bg-gray-200 rounded-lg shadow-xl p-10">
                         <h2 class="font-semibold col-span-5  text-2xl text-gray-800 leading-tight text-center mb-4">
                             Analytics</h2>
-                        <div class="col-span-3">
-                            <apexchart :width="weeklyExpensesIncomeBarChart.width"
-                                       :height="weeklyExpensesIncomeBarChart.height"
-                                       :type="weeklyExpensesIncomeBarChart.type"
-                                       :options="weeklyExpensesIncomeBarChart.options"
-                                       :series="weeklyExpensesIncomeBarChart.series"></apexchart>
+                        <div class="col-span-5 grid grid-cols-3 gap-1 mb-10">
+                            <div
+                                class="p-3 rounded-lg  border-2 bg-gray-100 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 shadow-xl"
+                                @click="showWeekly = true;showYearly =false;showMonthly=false">
+                                Last 7 days
+                            </div>
+                            <div
+                                class="p-3 rounded-lg  border-2 bg-gray-100 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 shadow-xl"
+                                @click="showMonthly=true;showYearly=false;showWeekly=false">Current month
+                            </div>
+                            <div
+                                class="p-3 rounded-lg  border-2 bg-gray-100 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 shadow-xl"
+                                @click="showYearly=true;showWeekly= false;showMonthly=false">Current year
+                            </div>
+                        </div>
+                        <div class="col-span-5">
+                            <div v-show="showWeekly">
+                                <apexchart :width="weeklyExpensesIncomeBarChart.width"
+                                           :height="weeklyExpensesIncomeBarChart.height"
+                                           :type="weeklyExpensesIncomeBarChart.type"
+                                           :options="weeklyExpensesIncomeBarChart.options"
+                                           :series="weeklyExpensesIncomeBarChart.series"
+                                ></apexchart>
+                            </div>
+                            <div v-show="showYearly">
+                                Yearly
+                            </div>
+                            <div v-show="showMonthly">
+                                <div class="grid grid-cols-2">
+                                    <apexchart class="col-span-1" :width="monthlyExpensesChart.width"
+                                               :height="monthlyExpensesChart.height"
+                                               :type="monthlyExpensesChart.type"
+                                               :options="monthlyExpensesChart.options"
+                                               :series="monthlyExpensesChart.series"
+                                    ></apexchart>
+                                    <apexchart class="col-span-1" :width="monthlyIncomesChart.width"
+                                               :height="monthlyIncomesChart.height"
+                                               :type="monthlyIncomesChart.type"
+                                               :options="monthlyIncomesChart.options"
+                                               :series="monthlyIncomesChart.series"
+                                    ></apexchart>
+                                </div>
+                            </div>
+                            <div v-show="showYearly">
+                                <div class="grid grid-cols-2">
+                                    <apexchart class="col-span-1" :width="yearlyExpensesChart.width"
+                                               :height="yearlyExpensesChart.height"
+                                               :type="yearlyExpensesChart.type"
+                                               :options="yearlyExpensesChart.options"
+                                               :series="yearlyExpensesChart.series"
+                                    ></apexchart>
+                                    <apexchart class="col-span-1" :width="yearlyIncomesChart.width"
+                                               :height="yearlyIncomesChart.height"
+                                               :type="yearlyIncomesChart.type"
+                                               :options="yearlyIncomesChart.options"
+                                               :series="yearlyIncomesChart.series"
+                                    ></apexchart>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -59,7 +59,7 @@ export default {
 <template>
     <div
         @click="this.showModal= true"
-        class="flex justify-center rounded-lg  border-2 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50">
+        class="flex justify-center rounded-lg  border-2 bg-gray-100 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50">
         Expense
     </div>
     <Modal :show="this.showModal" @close="closeModal">

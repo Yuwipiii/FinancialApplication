@@ -19,7 +19,6 @@ class WeeklyExpensesIncomeBarChart
 
     public function build(string $id): array
     {
-        $user = User::where('id', $id)->first();
         $weekDays = [];
         $currentDate = Carbon::now();
         $startDate = $currentDate->copy()->subDays(6);
@@ -46,7 +45,9 @@ class WeeklyExpensesIncomeBarChart
             ->addData('Expenses', $expenses)
             ->addData('Incomes', $incomes)
             ->setXAxis($weekDays)
-            ->setGrid('#3F51B5', 0.1)
+            ->setGrid('#3F51B5', 0.3)
+            ->setColors(['#FF2D00', '#5ED600'])
+            ->setFontColor('#000000')
             ->toVue();
     }
 }
