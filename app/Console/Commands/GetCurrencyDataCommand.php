@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\Currency;
-use App\Models\Wallet;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
@@ -26,56 +25,50 @@ class GetCurrencyDataCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        $responseUSD = Http::withHeaders([
+        $currencyCodes = ['USD', 'EUR', 'CNY'];
+
+        foreach ($currencyCodes as $currencyCode) {
+            $responseKGS = Http::withHeaders([
                 'x-apikey' => env('CURRENCY_API_KEY'),
-                'host' => 'api.forexapi.eu']
-        )->get('https://api.forexapi.eu/v2/live?base=USD&counter=KGS&format=json');
-        $responseKGS = Http::withHeaders([
+                'host' => 'api.forexapi.eu'
+            ])->get("https://api.forexapi.eu/v2/live?base=KGS&counter={$currencyCode}&format=json");
+
+            if ($responseKGS->ok()) {
+                $dataJsonKGS = $responseKGS->json();
+                $midKGS = $dataJsonKGS['quotes'][$currencyCode]['mid'];
+                $timeKGS = date('Y-m-d H:i:s', $dataJsonKGS['quotes'][$currencyCode]['timestamp']);
+
+                Currency::updateOrCreate(
+                    ['base' => 'KGS', 'counter' => $currencyCode],
+                    ['mid' => $midKGS, 'time' => $timeKGS]
+                );
+
+                $this->info("Currency conversion from KGS to $currencyCode saved successfully.");
+            } else {
+                $this->error("Failed to fetch currency conversion from KGS to $currencyCode.");
+            }
+
+            $responseCurrency = Http::withHeaders([
                 'x-apikey' => env('CURRENCY_API_KEY'),
-                'host' => 'api.forexapi.eu']
-        )->get('https://api.forexapi.eu/v2/live?base=KGS&counter=USD&format=json');
+                'host' => 'api.forexapi.eu'
+            ])->get("https://api.forexapi.eu/v2/live?base={$currencyCode}&counter=KGS&format=json");
 
-        if ($responseKGS->ok()) {
-            $dataJson = $responseKGS->json();
-            if (Currency::where('base', 'KGS')->exists()) {
-                $currencyKGStoUSD = Currency::where('base', 'KGS')->first();
+            if ($responseCurrency->ok()) {
+                $dataJsonCurrency = $responseCurrency->json();
+                $midCurrency = $dataJsonCurrency['quotes']['KGS']['mid'];
+                $timeCurrency = date('Y-m-d H:i:s', $dataJsonCurrency['quotes']['KGS']['timestamp']);
+
+                Currency::updateOrCreate(
+                    ['base' => $currencyCode, 'counter' => 'KGS'],
+                    ['mid' => $midCurrency, 'time' => $timeCurrency]
+                );
+
+                $this->info("Currency conversion from $currencyCode to KGS saved successfully.");
             } else {
-                $currencyKGStoUSD = new Currency();
+                $this->error("Failed to fetch currency conversion from $currencyCode to KGS.");
             }
-            $currencyKGStoUSD->base = $dataJson['base'];
-            $currencyKGStoUSD->counter = $dataJson['quotes']['USD']['counter'];
-            $currencyKGStoUSD->mid = $dataJson['quotes']['USD']['mid'];
-            $currencyKGStoUSD->time = date('Y-m-d H:i:s', $dataJson['quotes']['USD']['timestamp']);
-            if (Currency::where('base', 'KGS')->exists()) {
-                $currencyKGStoUSD->update();
-            } else {
-                $currencyKGStoUSD->save();
-            }
-        } else {
-            echo $responseKGS;
         }
-        if ($responseUSD->ok()) {
-            $dataJson = $responseUSD->json();
-            if (Currency::where('base', 'USD')->exists()) {
-                $currencyUSDtoKGS = Currency::where('base', 'USD')->first();
-            } else {
-                $currencyUSDtoKGS = new Currency();
-            }
-            $currencyUSDtoKGS->base = $dataJson['base'];
-            $currencyUSDtoKGS->counter = $dataJson['quotes']['KGS']['counter'];
-            $currencyUSDtoKGS->mid = $dataJson['quotes']['KGS']['mid'];
-            $currencyUSDtoKGS->time = date('Y-m-d H:i:s', $dataJson['quotes']['KGS']['timestamp']);
-            if (Currency::where('base', 'USD')->exists()) {
-                $currencyUSDtoKGS->update();
-            } else {
-                $currencyUSDtoKGS->save();
-            }
-        } else {
-            echo $responseUSD;
-        }
-
-
     }
 }

@@ -145,14 +145,21 @@ export default {
                         </div>
 
                         <div class="col-span-6 bg-gray-200 p-5 rounded-lg shadow-xl mb-15">
-                            <h2 class="font-semibold text-2xl  text-gray-800 leading-tight text-center mb-4">New
-                                Transaction</h2>
-                            <div class="grid grid-cols-2 gap-1">
-                                <ExpenseCreateForm
-                                    :categories="categories" :wallets='wallets'>
-                                </ExpenseCreateForm>
-                                <IncomeCreateForm :income-categories="incomeCategories"
-                                                  :wallets="wallets"></IncomeCreateForm>
+                            <div class="grid grid-cols-5">
+                                <div class="col-span-5 md:col-span-3 lg:col-span-3">
+                                    <h2 class="font-semibold text-2xl  text-gray-800 leading-tight text-center mb-4">New
+                                        Transaction</h2>
+                                    <div class="grid grid-cols-2 gap-1">
+                                        <ExpenseCreateForm
+                                            :categories="categories" :wallets='wallets'>
+                                        </ExpenseCreateForm>
+                                        <IncomeCreateForm :income-categories="incomeCategories"
+                                                          :wallets="wallets"></IncomeCreateForm>
+                                    </div>
+                                </div>
+                                <div class="col-span-5 md:col-span-2 lg:col-span-2">
+
+                                </div>
                             </div>
                         </div>
                     </div>
