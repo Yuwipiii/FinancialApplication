@@ -10,6 +10,6 @@ class Currency extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable=['base','counter','mid'];
+    protected $fillable=['base','counter','mid','time'];
 
 }

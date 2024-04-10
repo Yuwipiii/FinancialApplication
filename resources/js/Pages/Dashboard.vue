@@ -11,9 +11,11 @@ import Modal from "@/Components/Modal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
+import TextInput from "@/Components/TextInput.vue";
 
 export default {
     components: {
+        TextInput,
         InputLabel, InputError,
         SecondaryButton,
         Modal,
@@ -35,10 +37,6 @@ export default {
         }, 'categories': {
             required: true
         }, 'incomeCategories': {
-            required: true
-        }, 'incomes': {
-            required: true
-        }, 'expenses': {
             required: true
         }, 'weeklyExpensesIncomeBarChart': {
             required: true,
@@ -64,6 +62,8 @@ export default {
         }, 'yearlyIncomesChart': {
             required: true,
             type: Object
+        }, 'currencies': {
+            required: true
         }
     },
     methods: {
@@ -71,6 +71,17 @@ export default {
             return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         }, walletsIndex() {
             router.get(route('wallets.index'));
+        }, async convertCurrency() {
+            try {
+                const response = await axios.get(`v1/api/convert/${this.fromCurrency}/${this.toCurrency}/${this.amount}`);
+                if (response.data.status === 200) {
+                    this.convertedAmount = response.data.data;
+                } else {
+                    this.convertedError = response.data.message;
+                }
+            } catch (error) {
+                this.convertedError = "Incorrect input";
+            }
         }
     },
     data() {
@@ -80,7 +91,12 @@ export default {
             showIncome: false,
             showWeekly: true,
             showYearly: false,
-            showMonthly: false
+            showMonthly: false,
+            fromCurrency: '',
+            toCurrency: '',
+            amount: null,
+            convertedAmount: null,
+            convertedError: null
         }
     }
 }
@@ -143,7 +159,6 @@ export default {
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-span-6 bg-gray-200 p-5 rounded-lg shadow-xl mb-15">
                             <h2 class="font-semibold text-2xl  text-gray-800 leading-tight text-center mb-4">New
                                 Transaction</h2>
@@ -153,6 +168,46 @@ export default {
                                 </ExpenseCreateForm>
                                 <IncomeCreateForm :income-categories="incomeCategories"
                                                   :wallets="wallets"></IncomeCreateForm>
+                            </div>
+                        </div>
+                        <div class="col-span-6 lg:col-span-3 bg-gray-200 p-5 rounded-lg shadow-xl mb-15">
+                            <h2 class="font-semibold text-2xl  text-gray-800 leading-tight text-center mb-4">
+                                Currency Converter</h2>
+                            <div class="flex justify-around gap-2 mb-4">
+                                <div>
+                                    <div class="text-sm">From currency</div>
+                                    <select class="bg-slate-200/50 rounded-lg" v-model="fromCurrency">
+                                        <option disabled value="">From</option>
+                                        <option v-for="(currency,index) in this.currencies" :key="index"
+                                                :value="currency.base">
+                                            {{ currency.base }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <div class="text-sm">Amount</div>
+                                    <input type="number" min="1" step="0.1" v-model="amount"
+                                           class="bg-slate-200/50  rounded w-full"/>
+                                </div>
+                                <div>
+                                    <div class="text-sm">To currency</div>
+                                    <select class="bg-slate-200/50 rounded-lg" v-model="toCurrency">
+                                        <option disabled value="">To</option>
+                                        <option v-for="(currency,index) in this.currencies" :key="index"
+                                                :value="currency.base">
+                                            {{ currency.base }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button @click="convertCurrency" class="bg-green-500 px-4 py-2 rounded-full w-full mb-4">
+                                Convert
+                            </button>
+                            <div v-if="convertedAmount !== null" class="text-2xl text-emerald-800 text-center mb-4">
+                                {{ convertedAmount + " " + toCurrency }}
+                            </div>
+                            <div v-else-if="convertedError !== null" class="text-2xl text-center text-red-800 mb-4">
+                                {{ convertedError }}
                             </div>
                         </div>
                     </div>

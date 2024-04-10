@@ -39,7 +39,7 @@ class DashboardController extends Controller
         $expenses = Expense::with('wallet', 'category')->where('user_id', $userId)->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
         $expensesSum = $expenses->pluck("amount")->sum();
         $currentMonth = now()->format("F Y");
-        return Inertia::render('Dashboard', ['yearlyExpensesChart'=>$yearlyExpensesChart->build($userId),'yearlyIncomesChart'=>$yearlyIncomesChart->build($userId),'monthlyIncomesChart'=>$monthlyIncomesChart->build($userId),'monthlyExpensesChart'=>$monthlyExpensesChart->build($userId),'currentMonth' => $currentMonth, 'expensesSum' => $expensesSum, 'incomesSum' => $incomesSum, 'weeklyExpensesIncomeBarChart' => $weeklyExpensesIncomeBarChart->build($userId), 'incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorth' => $netWorth, 'expenses' => $expenses, 'incomes' => $incomes, 'categories' => $categories, 'currencies' => $currencies]);
+        return Inertia::render('Dashboard', ['yearlyExpensesChart'=>$yearlyExpensesChart->build($userId),'yearlyIncomesChart'=>$yearlyIncomesChart->build($userId),'monthlyIncomesChart'=>$monthlyIncomesChart->build($userId),'monthlyExpensesChart'=>$monthlyExpensesChart->build($userId),'currentMonth' => $currentMonth, 'expensesSum' => $expensesSum, 'incomesSum' => $incomesSum, 'weeklyExpensesIncomeBarChart' => $weeklyExpensesIncomeBarChart->build($userId), 'incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorth' => $netWorth,'categories' => $categories, 'currencies' => $currencies]);
     }
 
     public function createExpense(ExpenseCreateRequest $request): RedirectResponse
