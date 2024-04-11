@@ -27,47 +27,31 @@ class GetCurrencyDataCommand extends Command
      */
     public function handle(): void
     {
-        $currencyCodes = ['USD', 'EUR', 'CNY'];
+        $currencyCodes = ['USD', 'EUR', 'CNY','KGS'];
 
-        foreach ($currencyCodes as $currencyCode) {
-            $responseKGS = Http::withHeaders([
-                'x-apikey' => env('CURRENCY_API_KEY'),
-                'host' => 'api.forexapi.eu'
-            ])->get("https://api.forexapi.eu/v2/live?base=KGS&counter={$currencyCode}&format=json");
+        foreach ($currencyCodes as $baseCurrency) {
+            foreach ($currencyCodes as $counterCurrency) {
+                if ($baseCurrency !== $counterCurrency) { // Skip if base and counter currencies are the same
+                    $response = Http::withHeaders([
+                        'x-apikey' => env('CURRENCY_API_KEY'),
+                        'host' => 'api.forexapi.eu'
+                    ])->get("https://api.forexapi.eu/v2/live?base={$baseCurrency}&counter={$counterCurrency}&format=json");
 
-            if ($responseKGS->ok()) {
-                $dataJsonKGS = $responseKGS->json();
-                $midKGS = $dataJsonKGS['quotes'][$currencyCode]['mid'];
-                $timeKGS = date('Y-m-d H:i:s', $dataJsonKGS['quotes'][$currencyCode]['timestamp']);
+                    if ($response->ok()) {
+                        $dataJson = $response->json();
+                        $mid = $dataJson['quotes'][$counterCurrency]['mid'];
+                        $time = date('Y-m-d H:i:s', $dataJson['quotes'][$counterCurrency]['timestamp']);
 
-                Currency::updateOrCreate(
-                    ['base' => 'KGS', 'counter' => $currencyCode],
-                    ['mid' => $midKGS, 'time' => $timeKGS]
-                );
+                        Currency::updateOrCreate(
+                            ['base' => $baseCurrency, 'counter' => $counterCurrency],
+                            ['mid' => $mid, 'time' => $time]
+                        );
 
-                $this->info("Currency conversion from KGS to $currencyCode saved successfully.");
-            } else {
-                $this->error("Failed to fetch currency conversion from KGS to $currencyCode.");
-            }
-
-            $responseCurrency = Http::withHeaders([
-                'x-apikey' => env('CURRENCY_API_KEY'),
-                'host' => 'api.forexapi.eu'
-            ])->get("https://api.forexapi.eu/v2/live?base={$currencyCode}&counter=KGS&format=json");
-
-            if ($responseCurrency->ok()) {
-                $dataJsonCurrency = $responseCurrency->json();
-                $midCurrency = $dataJsonCurrency['quotes']['KGS']['mid'];
-                $timeCurrency = date('Y-m-d H:i:s', $dataJsonCurrency['quotes']['KGS']['timestamp']);
-
-                Currency::updateOrCreate(
-                    ['base' => $currencyCode, 'counter' => 'KGS'],
-                    ['mid' => $midCurrency, 'time' => $timeCurrency]
-                );
-
-                $this->info("Currency conversion from $currencyCode to KGS saved successfully.");
-            } else {
-                $this->error("Failed to fetch currency conversion from $currencyCode to KGS.");
+                        $this->info("Currency conversion from $baseCurrency to $counterCurrency saved successfully.");
+                    } else {
+                        $this->error("Failed to fetch currency conversion from $baseCurrency to $counterCurrency.");
+                    }
+                }
             }
         }
     }

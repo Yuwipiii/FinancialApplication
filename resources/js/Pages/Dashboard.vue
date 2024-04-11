@@ -179,8 +179,8 @@ export default {
                                     <select class="bg-slate-200/50 rounded-lg" v-model="fromCurrency">
                                         <option disabled value="">From</option>
                                         <option v-for="(currency,index) in this.currencies" :key="index"
-                                                :value="currency.base">
-                                            {{ currency.base }}
+                                                :value="currency">
+                                            {{ currency }}
                                         </option>
                                     </select>
                                 </div>
@@ -194,8 +194,8 @@ export default {
                                     <select class="bg-slate-200/50 rounded-lg" v-model="toCurrency">
                                         <option disabled value="">To</option>
                                         <option v-for="(currency,index) in this.currencies" :key="index"
-                                                :value="currency.base">
-                                            {{ currency.base }}
+                                                :value="currency">
+                                            {{ currency }}
                                         </option>
                                     </select>
                                 </div>

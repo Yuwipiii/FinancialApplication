@@ -10,7 +10,6 @@ use App\Charts\YearlyIncomesChart;
 use App\Http\Requests\ExpenseCreateRequest;
 use App\Http\Requests\IncomeCreateRequest;
 use App\Models\Category;
-use App\Models\Currency;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Models\IncomeCategory;
@@ -21,6 +20,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -30,7 +30,7 @@ class DashboardController extends Controller
     {
         $userId = Auth::id();
         $wallets = Wallet::with('user')->where('user_id', $userId)->get();
-        $currencies = Currency::all();
+        $currencies = DB::table('currencies')->distinct()->pluck('base');
         $netWorth = number_format(array_sum($wallets->pluck('balance')->toArray()), 2, '.', ' ');
         $categories = Category::with('user')->where('user_id', $userId)->get();
         $incomeCategories = IncomeCategory::with('user')->where('user_id', $userId)->get();
