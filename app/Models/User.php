@@ -19,6 +19,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
@@ -43,6 +44,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::created(function ($user) {
+            $user->categories()->createMany(
+                ['name' => 'Food'],
+                ['name' => 'Transportation'],
+                ['name' => 'Housing'],
+                ['name' => 'Entertainment and hobbies'],
+                ['name' => 'Debts and loans']);
+            $user->incomeCategories()->createMany(
+                ['name' => 'Salary'],
+                ['name' => 'Investments'],
+                ['name' => 'Gifts']);
+        });
+    }
 
     public function wallets(): HasMany
     {
