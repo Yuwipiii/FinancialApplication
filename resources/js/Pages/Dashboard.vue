@@ -200,11 +200,11 @@ export default {
                                     </select>
                                 </div>
                             </div>
-                            <button @click="convertCurrency" class="bg-green-500 px-4 py-2 rounded-full w-full mb-4">
+                            <button @click="convertCurrency" class="bg-green-500 px-4 py-2 rounded-full w-full mb-15">
                                 Convert
                             </button>
                             <div v-if="convertedAmount !== null" class="text-2xl text-emerald-800 text-center mb-4">
-                                {{ convertedAmount + " " + toCurrency }}
+                                {{ formatPrice(convertedAmount) + " " + toCurrency }}
                             </div>
                             <div v-else-if="convertedError !== null" class="text-2xl text-center text-red-800 mb-4">
                                 {{ convertedError }}
