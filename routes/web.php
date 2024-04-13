@@ -31,6 +31,8 @@ Route::resource('incomeCategories', \App\Http\Controllers\IncomeCategoriesContro
 
 Route::resource('incomes', \App\Http\Controllers\IncomesController::class)->except(['create', 'show', 'edit', 'update'])->middleware(['auth']);
 Route::resource('expenses', \App\Http\Controllers\ExpensesController::class)->except(['create', 'show', 'edit', 'update'])->middleware(['auth']);
+Route::resource('goals', \App\Http\Controllers\GoalsController::class)->except(['create', 'show', 'edit', 'update'])->middleware(['auth']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
