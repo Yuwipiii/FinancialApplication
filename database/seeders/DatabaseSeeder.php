@@ -2,28 +2,26 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+ use App\Models\User;
+ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Currency;
-use App\Models\Income;
-use App\Models\IncomeCategory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    use WithoutModelEvents;
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
 
-        \App\Models\User::factory()->create([
+        User::factory([
             'name' => 'Eldos Ulanbekov',
             'email' => 'test@example.com',
-        ]);
+        ])->create();
         Currency::factory()->create(['base' => 'USD', 'counter' => 'KGS', 'mid' => '89.33']);
         Currency::factory()->create(['base' => 'KGS', 'counter' => 'USD', 'mid' => '0.011']);
-        $this->call([WalletSeeder::class, CategorySeeder::class, ExpenseSeeder::class]);
-        IncomeCategory::factory(2)->create();
-        Income::factory(4)->create();
+        $this->call([WalletSeeder::class]);
     }
 }

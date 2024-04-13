@@ -94,7 +94,7 @@ export default {
             showMonthly: false,
             fromCurrency: '',
             toCurrency: '',
-            amount: null,
+            amount: 1,
             convertedAmount: null,
             convertedError: null
         }
