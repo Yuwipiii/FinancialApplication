@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('target_amount',15,2);
             $table->decimal('current_amount',15,2);
             $table->boolean('is_completed')->default(false);
+            $table->unsignedBigInteger('category_id')->nullable()->default(null);
             $table->timestamps();
         });
     }

@@ -7,7 +7,6 @@ import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import {useToast} from "vue-toast-notification";
-import IncomeCategory from "@/Components/IncomeCategory.vue";
 import Goal from "@/Components/Goal.vue";
 
 export default {

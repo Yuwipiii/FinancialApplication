@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->unsignedBigInteger('goal_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('goal_id')->nullable();
             $table->timestamps();
         });
     }

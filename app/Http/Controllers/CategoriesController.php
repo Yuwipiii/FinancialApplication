@@ -6,6 +6,7 @@ use App\Http\Requests\CategoryCreateRequest;
 use App\Http\Requests\CategoryUpdateRequest;
 use App\Models\Category;
 use App\Models\Currency;
+use App\Models\Goal;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -20,8 +21,8 @@ class CategoriesController extends Controller
      */
     public function index(): Response
     {
-        $categories = Category::with('user')->where('user_id',Auth::id())->paginate(3);
-        return Inertia::render('Category/CategoryList',['categories'=>$categories]);
+        $categories = Category::with('user')->where('user_id', Auth::id())->paginate(3);
+        return Inertia::render('Category/CategoryList', ['categories' => $categories]);
     }
 
     /**
@@ -41,8 +42,8 @@ class CategoriesController extends Controller
      */
     public function show(string $id): Response
     {
-        $category = Category::with('user')->where('id',$id)->where('user_id',Auth::id())->first();
-        return Inertia::render('Category/CategoryShow',['category'=>$category]);
+        $category = Category::with('user')->where('id', $id)->where('user_id', Auth::id())->first();
+        return Inertia::render('Category/CategoryShow', ['category' => $category]);
     }
 
     /**
@@ -52,7 +53,7 @@ class CategoriesController extends Controller
     {
         $category = Category::find($id);
         $category->update($request->validated());
-        return redirect(route('categories.show',$category->id));
+        return redirect(route('categories.show', $category->id));
     }
 
     /**
@@ -60,7 +61,11 @@ class CategoriesController extends Controller
      */
     public function destroy(string $id): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        $category = Category::with('user')->where('id',$id)->where('user_id',Auth::id())->delete();
+        $category = Category::with('user')->where('id', $id)->where('user_id', Auth::id())->first();
+        if ($category->goal_id !== null) {
+            $category->goal()->delete();
+        }
+        $category->delete();
         return redirect(route('categories.index'));
 
     }

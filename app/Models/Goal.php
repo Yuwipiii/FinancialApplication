@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Goal extends Model
 {
     use HasFactory;
-    protected $fillable=['user_id','current_amount','target_amount','is_completed','name'];
+    protected $fillable=['id','user_id','current_amount','target_amount','is_completed','name','category_id'];
 
     public function user(): BelongsTo
     {
