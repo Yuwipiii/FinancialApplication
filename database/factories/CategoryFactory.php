@@ -21,6 +21,7 @@ class CategoryFactory extends Factory
         return [
             'name'=>$this->faker->word,
             'user_id'=>User::first(),
+            'goal_id'=>null
         ];
     }
 }

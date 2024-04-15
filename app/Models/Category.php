@@ -13,7 +13,8 @@ class Category extends Model
 
     protected $fillable = [
         'user_id',
-        'name'
+        'name',
+        'is_goal'
     ];
 
     public function user(): BelongsTo
@@ -23,6 +24,11 @@ class Category extends Model
     public function expenses(): HasMany
     {
         return $this->hasMany(Expense::class);
+    }
+
+    public function goal(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Goal::class);
     }
 
 }

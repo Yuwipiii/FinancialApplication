@@ -15,4 +15,9 @@ class Goal extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function category(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Category::class);
+    }
 }
