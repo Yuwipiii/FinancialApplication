@@ -1,45 +1,62 @@
 <template>
-    <div @click="showIncomeCategory" >
+    <div @click="showIncomeCategory">
         <div class="card group/item  bg-slate-800/50 hover:bg-stone-400 drop-shadow-lg">
-            <div class="flex flex-col mb-3">
-                <div class="flex justify-between">
-                    <strong class="card-name">{{ goalName.charAt(0).toUpperCase() + goalName.slice(1) }}</strong>
-                    <div class="group/edit invisible  group-hover/item:visible">
-                        <DangerButton  @click.stop="confirmDelete">
-                            <svg class=" w-4 h-4 group-hover/edit:translate-x-0.0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor" >
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
-                            </svg>
-                        </DangerButton>
-
+            <div class="grid grid-cols-2  mb-3">
+                <div class="col-span-1 mb-2">
+                    <strong
+                        class="card-name text-2xl">{{ goal.name.charAt(0).toUpperCase() + goal.name.slice(1) }}</strong>
+                </div>
+                <div class="col-span-1 place-self-end group/edit invisible  group-hover/item:visible mb-2">
+                    <DangerButton @click.stop="confirmDelete">
+                        <svg class=" w-4 h-4 group-hover/edit:translate-x-0.0" xmlns="http://www.w3.org/2000/svg"
+                             fill="none" viewBox="0 0 24 24"
+                             stroke-width="1.5"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+                        </svg>
+                    </DangerButton>
+                </div>
+                <div class="col-span-2 lg:col-span-1 hidden sm:block">
+                    <div><strong>Accumulated:</strong>{{ goal.current_amount }} KGS</div>
+                    <div><strong>Required:</strong>
+                        {{ goal.target_amount }} KGS
                     </div>
-
-
-                    <Modal :show="this.showDeleteModal" @close="closeDeleteModal">
-                        <div class="p-6">
-                            <h2 class="text-lg font-medium text-gray-900">Are you sure you want to delete goal
-                                ?</h2>
-
-                            <p class="mt-1 text-sm text-gray-600">
-                                After deleting the goal, the entire expense history and data associated with the
-                                goal will be permanently lost
-                            </p>
-                            <div class="mt-6 flex justify-end">
-                                <SecondaryButton @click="closeDeleteModal"> Cancel</SecondaryButton>
-
-                                <DangerButton
-                                    class="ms-3"
-                                    @click="deleteIncomeCategory"
-                                >Confirm
-                                </DangerButton>
-                            </div>
-                        </div>
-                    </Modal>
+                </div>
+                <div class="col-span-2 lg:col-span-1 place-self-end">
+                    <circle-progress :is-bg-shadow="true"
+                                     :bg-shadow="{
+                        inset: true,
+                        vertical: 2,
+                        horizontal: 2,
+                        blur: 4,
+                        opacity: .4,
+                         color: '#000000'
+                        }" :show-percent="true"  :size="90" fill-color="#1d8a19"
+                                     :percent="Math.round((goal.current_amount*100)/goal.target_amount)"/>
                 </div>
             </div>
         </div>
+        <Modal :show="this.showDeleteModal" @close="closeDeleteModal">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900">Are you sure you want to delete goal
+                    ?</h2>
+
+                <p class="mt-1 text-sm text-gray-600">
+                    After deleting the goal, the entire expense history and data associated with the
+                    goal will be permanently lost
+                </p>
+                <div class="mt-6 flex justify-end">
+                    <SecondaryButton @click="closeDeleteModal"> Cancel</SecondaryButton>
+
+                    <DangerButton
+                        class="ms-3"
+                        @click="deleteIncomeCategory"
+                    >Confirm
+                    </DangerButton>
+                </div>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -52,22 +69,28 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import {router} from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import "vue3-circle-progress/dist/circle-progress.css";
+import CircleProgress from "vue3-circle-progress";
 
 
 export default {
-    components: {PrimaryButton, InputLabel, InputError, SecondaryButton, DangerButton, Modal, TextInput},
+    components: {
+        PrimaryButton,
+        InputLabel,
+        InputError,
+        SecondaryButton,
+        DangerButton,
+        Modal,
+        TextInput,
+        CircleProgress
+    },
     data() {
         return {
-            showDeleteModal: false
+            showDeleteModal: false,
         }
     },
     props: {
-        goalId: {
-            type: Number,
-            required: true
-        },
-        goalName: {
-            type: String,
+        goal: {
             required: true
         }
     },
@@ -79,24 +102,29 @@ export default {
             this.showDeleteModal = false;
         },
         deleteIncomeCategory() {
-            router.delete(route('goal.destroy', this.categoryId), {
+            router.delete(route('goals.destroy', this.goal.id), {
                 onSuccess: () => this.closeDeleteModal(),
             })
         },
         showIncomeCategory() {
-            router.get(route('goals.show', this.categoryId))
+            router.get(route('goals.show', this.goal.id))
         }
     }
 };
 
 </script>
 
-<style scoped>
+<style lang="scss">
 .card {
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
     color: black;
+}
+.current-counter {
+    &::after {
+        content: "%";
+    }
 }
 
 </style>

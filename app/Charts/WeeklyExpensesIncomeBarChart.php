@@ -26,7 +26,7 @@ class WeeklyExpensesIncomeBarChart
         $incomes = [];
         for ($i = 0; $i < 7; $i++) {
             $date = $startDate->copy()->addDays($i);
-            $formattedDate = $date->format('D j-M-Y');
+            $formattedDate = $date->format('j M Y');
             $weekDays[] = $formattedDate;
             $expensesOfDay = Expense::with('user')
                 ->where('user_id', $id)

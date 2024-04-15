@@ -126,10 +126,9 @@ export default {
                             </form>
                         </div>
                         <div v-else>
-                            <div class="grid grid-cols-2 gap-2">
+                            <div class="grid grid-cols-1 bg:grid-cols-2 md:grid-cols-2 gap-2">
                                 <div v-for="(goal,index) in this.goals['data']" :key="index">
-                                    <Goal :goal-name="goal.name"
-                                                    :goal-id="goal.id"></Goal>
+                                    <Goal :goal="goal"></Goal>
                                 </div>
                             </div>
                             <SimplePaginator class="flex justify-self-center"
