@@ -24,6 +24,7 @@ export default {
             isEdit: false,
             form: useForm({
                 name: this.goal['name'],
+                target_amount:this.goal['target_amount']
 
             })
         }
@@ -104,6 +105,21 @@ export default {
                                         autocomplete="name"
                                     />
                                     <InputError class="mt-2" :message="form.errors.name"/>
+                                </div>
+
+                                <div>
+                                    <InputLabel for="target_amount" value="Target amount:"/>
+                                    <TextInput
+                                        id="target_amount"
+                                        type="number"
+                                        class="mt-1  w-full bg-slate-700/50"
+                                        v-model="form.target_amount"
+                                        required
+                                        autocomplete="target_amount"
+                                        min="1"
+                                        step="0.01"
+                                    />
+                                    <InputError class="mt-2" :message="form.errors.target_amount"/>
                                 </div>
 
                                 <div class="flex items-center justify-end mt-4">

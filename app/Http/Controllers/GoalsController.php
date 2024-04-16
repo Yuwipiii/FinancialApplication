@@ -12,8 +12,8 @@ class GoalsController extends Controller
 {
     public function index(): \Inertia\Response
     {
-        $goals = Goal::with('user','category')->where('user_id', Auth::id())->paginate(2);
-        return Inertia::render('Goals/GoalList',['goals'=>$goals]);
+        $goals = Goal::with('user', 'category')->where('user_id', Auth::id())->paginate(2);
+        return Inertia::render('Goals/GoalList', ['goals' => $goals]);
     }
 
     public function store(GoalCreateRequest $request): \Illuminate\Http\RedirectResponse
@@ -22,7 +22,7 @@ class GoalsController extends Controller
         $goal->user_id = Auth::id();
         $goal->current_amount = 0;
         $goal->save();
-        $goalCategory = new Category(['name'=>"Expenses for the goal: $goal->name",'user_id'=>Auth::id()]);
+        $goalCategory = new Category(['name' => "Expenses for the goal: $goal->name", 'user_id' => Auth::id()]);
         $goalCategory->save();
         $goalCategory->goal()->save($goal);
         $goal->category()->save($goalCategory);
@@ -37,16 +37,22 @@ class GoalsController extends Controller
         return redirect()->back();
     }
 
-    public function show(string $id):\Inertia\Response
+    public function show(string $id): \Inertia\Response
     {
-        $goal = Goal::with('category','user')->where('user_id',Auth::id())->findOrFail($id);
-        return Inertia::render('Goals/GoalShow',['goal'=>$goal]); 
+        $goal = Goal::with('category', 'user')->where('user_id', Auth::id())->findOrFail($id);
+        return Inertia::render('Goals/GoalShow', ['goal' => $goal]);
     }
 
-    public function update(){ 
-        
+    public function update(GoalCreateRequest $request, string $id): \Illuminate\Http\RedirectResponse
+    {
+        $goal = Goal::with('category', 'user')->where('user_id', Auth::id())->findOrFail($id);
+        $data = $request->validated();
+        if ($data['target_amount'] >= $goal->target_amount) {
+            $goal->is_completed = true;
+            $goal->update($data);
+        } else {
+            $goal->update($data);
+        }
+        return redirect(route('goals.index'));
     }
-
-
-
 }
