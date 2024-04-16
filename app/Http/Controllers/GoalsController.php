@@ -37,9 +37,14 @@ class GoalsController extends Controller
         return redirect()->back();
     }
 
-    public function show()
+    public function show(string $id):\Inertia\Response
     {
+        $goal = Goal::with('category','user')->where('user_id',Auth::id())->findOrFail($id);
+        return Inertia::render('Goals/GoalShow',['goal'=>$goal]); 
+    }
 
+    public function update(){ 
+        
     }
 
 
