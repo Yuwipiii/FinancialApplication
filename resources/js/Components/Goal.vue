@@ -17,7 +17,7 @@
                         </svg>
                     </DangerButton>
                 </div>
-                <div class="col-span-2 lg:col-span-1 hidden sm:block">
+                <div class="col-span-2 lg:col-span-1 hidden sm:block text-start">
                     <div><strong>Accumulated:</strong>{{ goal.current_amount }} KGS</div>
                     <div><strong>Required:</strong>
                         {{ goal.target_amount }} KGS
