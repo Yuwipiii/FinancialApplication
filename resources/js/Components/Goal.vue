@@ -33,7 +33,7 @@
                         opacity: .4,
                          color: '#000000'
                         }" :show-percent="true"  :size="90" fill-color="#1d8a19"
-                                     :percent="Math.round((goal.current_amount*100)/goal.target_amount)"/>
+                                     :percent="Math.round((goal.current_amount*100)/goal.target_amount) <=100?Math.round((goal.current_amount*100)/goal.target_amount):100"/>
                 </div>
             </div>
         </div>

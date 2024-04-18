@@ -47,7 +47,7 @@ class GoalsController extends Controller
     {
         $goal = Goal::with('category', 'user')->where('user_id', Auth::id())->findOrFail($id);
         $data = $request->validated();
-        if ($data['target_amount'] >= $goal->target_amount) {
+        if ($data['target_amount'] >= $goal->current_amount) {
             $goal->is_completed = true;
             $goal->update($data);
         } else {

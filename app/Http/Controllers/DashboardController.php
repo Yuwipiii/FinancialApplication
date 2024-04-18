@@ -11,6 +11,7 @@ use App\Http\Requests\ExpenseCreateRequest;
 use App\Http\Requests\IncomeCreateRequest;
 use App\Models\Category;
 use App\Models\Expense;
+use App\Models\Goal;
 use App\Models\Income;
 use App\Models\IncomeCategory;
 use App\Models\Wallet;
@@ -44,9 +45,20 @@ class DashboardController extends Controller
 
     public function createExpense(ExpenseCreateRequest $request): RedirectResponse
     {
-        $expense = new Expense($request->validated());
+        $data = $request->validated();
+        $category = Category::with('goal')->findOrFail($data['category_id']);
+        $expense = new Expense($data);
         $expense->user_id = Auth::id();
         $expense->save();
+        if($category->goal_id != null){
+            $goal = Goal::with('category')->findOrFail($category->goal_id);
+            $goal->current_amount += $data['amount'];
+            if($goal->current_amount >= $goal->target_amount){
+                $goal->is_completed = true;
+            }
+            $goal->update();
+            $category->update();
+        }
         $toWallet = $expense->wallet;
         $toWallet->balance -= $expense->amount;
         $toWallet->update();

@@ -18,6 +18,11 @@ class ExpensesController extends Controller
     public function destroy(string $id): \Illuminate\Http\RedirectResponse
     {
         $expense = Expense::with('wallet')->where('user_id', Auth::id())->where('id', $id)->first();
+        if($expense->category->goal_id != null){
+            $goal = $expense->category->goal;
+            $goal->current_amount -= $expense->amount;
+            $goal->update();
+        }
         $wallet = $expense->wallet;
         $wallet->balance -= $expense->amount;
         $wallet->update();
