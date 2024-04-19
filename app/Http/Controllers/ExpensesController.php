@@ -24,7 +24,7 @@ class ExpensesController extends Controller
             $goal->update();
         }
         $wallet = $expense->wallet;
-        $wallet->balance -= $expense->amount;
+        $wallet->balance += $expense->amount;
         $wallet->update();
         $expense->delete();
         return redirect()->back();
