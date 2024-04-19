@@ -23,7 +23,7 @@ export default {
         return {
             form: useForm({
                 wallet_id: '',
-                category_id: '',
+                category_id: null,
                 amount: 1,
                 date: '',
                 note: ''

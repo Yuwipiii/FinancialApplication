@@ -65,7 +65,7 @@ export default {
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ expense['date'] }}
                     </td>
-                    <td class="px-6 py-4" v-if="expenses['category'] === null">
+                    <td class="px-6 py-4" v-if="expenses['category'] == null">
                         Other
                     </td>
                     <td class="px-6 py-4" v-else>

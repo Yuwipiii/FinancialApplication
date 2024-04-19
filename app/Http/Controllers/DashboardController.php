@@ -47,11 +47,11 @@ class DashboardController extends Controller
     public function createExpense(ExpenseCreateRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $category = Category::with('goal')->findOrFail($data['category_id']);
+        $category = Category::with('goal')->where($data['category_id'])->first();
         $expense = new Expense($data);
         $expense->user_id = Auth::id();
         $expense->save();
-        if($category->goal_id != null){
+        if($category?->goal_id != null && $category != null){
             $goal = Goal::with('category')->findOrFail($category->goal_id);
             $goal->current_amount += $data['amount'];
             if($goal->current_amount >= $goal->target_amount){
