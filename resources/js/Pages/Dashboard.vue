@@ -104,7 +104,6 @@ export default {
         }
     }
 }
-//TODO Исправить ошибку с показом Icnomes в графиках
 </script>
 
 <template>
