@@ -12,6 +12,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
+import GoalCarousel from "@/Components/GoalCarousel.vue";
 
 export default {
     components: {
@@ -25,7 +26,8 @@ export default {
         ExpenseCreateForm,
         Card,
         AuthenticatedLayout,
-        Head
+        Head,
+        GoalCarousel
     },
     props: {
         'netWorth': {
@@ -64,6 +66,8 @@ export default {
             type: Object
         }, 'currencies': {
             required: true
+        },'goals':{
+            required:true
         }
     },
     methods: {
@@ -94,7 +98,7 @@ export default {
             showMonthly: false,
             fromCurrency: '',
             toCurrency: '',
-            amount: null,
+            amount: 1,
             convertedAmount: null,
             convertedError: null
         }
@@ -129,9 +133,9 @@ export default {
                             </div>
                         </div>
                         <div class="lg:col-span-4 md:col-span-4 col-span-6 mb-10">
-                            <div class="grid grid-cols-2 gap-2 bg-gray-200 rounded-lg shadow-xl p-4">
-                                <h1 class="col-span-2 text-2xl">Statistics for {{ this.currentMonth }}</h1>
-                                <div class="col-span-1">
+                            <div class="grid grid-cols-6 gap-2 bg-gray-200 rounded-lg shadow-xl p-4">
+                                <h1 class="col-span-6 text-2xl">Statistics for {{ this.currentMonth }}</h1>
+                                <div class="col-span-3">
                                     <div
                                         class="bg-gray-300 rounded-lg p-4">
                                         <div class="grid grid-cols-1">
@@ -144,7 +148,7 @@ export default {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-span-1">
+                                <div class="col-span-3">
                                     <div
                                         class="bg-gray-300 rounded-lg p-4">
                                         <div class="grid grid-cols-1">
@@ -170,7 +174,7 @@ export default {
                                                   :wallets="wallets"></IncomeCreateForm>
                             </div>
                         </div>
-                        <div class="col-span-6 lg:col-span-3 bg-gray-200 p-5 rounded-lg shadow-xl mb-15">
+                        <div class="col-span-6 bg-gray-200 p-5 rounded-lg shadow-xl mb-15">
                             <h2 class="font-semibold text-2xl  text-gray-800 leading-tight text-center mb-4">
                                 Currency Converter</h2>
                             <div class="flex justify-around gap-2 mb-4">
@@ -200,17 +204,22 @@ export default {
                                     </select>
                                 </div>
                             </div>
-                            <button @click="convertCurrency" class="bg-green-500 px-4 py-2 rounded-full w-full mb-4">
+                            <button @click="convertCurrency" class="bg-green-500 px-4 py-2 rounded-full w-full mb-15">
                                 Convert
                             </button>
                             <div v-if="convertedAmount !== null" class="text-2xl text-emerald-800 text-center mb-4">
-                                {{ convertedAmount + " " + toCurrency }}
+                                {{ formatPrice(convertedAmount) + " " + toCurrency }}
                             </div>
                             <div v-else-if="convertedError !== null" class="text-2xl text-center text-red-800 mb-4">
                                 {{ convertedError }}
                             </div>
                         </div>
-                    </div>
+                        <div  class="col-span-6" >
+                            <h2 class="font-semibold text-2xl  text-gray-800 leading-tight text-center mb-4">
+                                Goals</h2>
+                            <GoalCarousel :goals="goals"></GoalCarousel>
+                        </div>
+                        </div>
 
                     <div class="grid grid-cols-5 gap-2 bg-gray-200 rounded-lg shadow-xl p-10">
                         <h2 class="font-semibold col-span-5  text-2xl text-gray-800 leading-tight text-center mb-4">
@@ -230,6 +239,7 @@ export default {
                                 @click="showYearly=true;showWeekly= false;showMonthly=false">Current year
                             </div>
                         </div>
+
                         <div class="col-span-5">
                             <div v-show="showWeekly">
                                 <apexchart :width="weeklyExpensesIncomeBarChart.width"

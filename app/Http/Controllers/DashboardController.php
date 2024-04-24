@@ -11,6 +11,7 @@ use App\Http\Requests\ExpenseCreateRequest;
 use App\Http\Requests\IncomeCreateRequest;
 use App\Models\Category;
 use App\Models\Expense;
+use App\Models\Goal;
 use App\Models\Income;
 use App\Models\IncomeCategory;
 use App\Models\Wallet;
@@ -39,14 +40,26 @@ class DashboardController extends Controller
         $expenses = Expense::with('wallet', 'category')->where('user_id', $userId)->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
         $expensesSum = $expenses->pluck("amount")->sum();
         $currentMonth = now()->format("F Y");
-        return Inertia::render('Dashboard', ['yearlyExpensesChart'=>$yearlyExpensesChart->build($userId),'yearlyIncomesChart'=>$yearlyIncomesChart->build($userId),'monthlyIncomesChart'=>$monthlyIncomesChart->build($userId),'monthlyExpensesChart'=>$monthlyExpensesChart->build($userId),'currentMonth' => $currentMonth, 'expensesSum' => $expensesSum, 'incomesSum' => $incomesSum, 'weeklyExpensesIncomeBarChart' => $weeklyExpensesIncomeBarChart->build($userId), 'incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorth' => $netWorth,'categories' => $categories, 'currencies' => $currencies]);
+        $goals = Goal::with('category')->where('user_id', $userId)->get()->toArray();
+        return Inertia::render('Dashboard', ['goals'=>$goals,'yearlyExpensesChart'=>$yearlyExpensesChart->build($userId),'yearlyIncomesChart'=>$yearlyIncomesChart->build($userId),'monthlyIncomesChart'=>$monthlyIncomesChart->build($userId),'monthlyExpensesChart'=>$monthlyExpensesChart->build($userId),'currentMonth' => $currentMonth, 'expensesSum' => $expensesSum, 'incomesSum' => $incomesSum, 'weeklyExpensesIncomeBarChart' => $weeklyExpensesIncomeBarChart->build($userId), 'incomeCategories' => $incomeCategories, 'wallets' => $wallets, 'netWorth' => $netWorth,'categories' => $categories, 'currencies' => $currencies]);
     }
 
     public function createExpense(ExpenseCreateRequest $request): RedirectResponse
     {
-        $expense = new Expense($request->validated());
+        $data = $request->validated();
+        $category = Category::with('goal')->where('id',$data['category_id'])->first();
+        $expense = new Expense($data);
         $expense->user_id = Auth::id();
         $expense->save();
+        if($category?->goal_id != null && $category != null){
+            $goal = Goal::with('category')->findOrFail($category->goal_id);
+            $goal->current_amount += $data['amount'];
+            if($goal->current_amount >= $goal->target_amount){
+                $goal->is_completed = true;
+            }
+            $goal->update();
+            $category->update();
+        }
         $toWallet = $expense->wallet;
         $toWallet->balance -= $expense->amount;
         $toWallet->update();

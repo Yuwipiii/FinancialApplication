@@ -16,10 +16,10 @@ class ApiV1Controller extends Controller
             'status' => 200
         ]);
     }
-    protected function error(): \Illuminate\Http\JsonResponse
+    protected function error($message): \Illuminate\Http\JsonResponse
     {
         return response()->json([
-            'message' => 'Conversion rate not found',
+            'message' => $message,
             'status' => 404,
         ]);
     }

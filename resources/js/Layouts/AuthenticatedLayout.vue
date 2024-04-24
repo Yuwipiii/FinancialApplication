@@ -44,6 +44,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('expenses.index')" :active="route().current('expenses.index')">
                                     Expense List
                                 </NavLink>
+                                <NavLink :href="route('goals.index')" :active="route().current('goals.index')">
+                                    Goals
+                                </NavLink>
                             </div>
                         </div>
 
@@ -134,10 +137,13 @@ const showingNavigationDropdown = ref(false);
                             Income Category
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('incomes.index')" :active="route().current('incomes.index')">
-                            Income List
+                            Incomes
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('expenses.index')" :active="route().current('expenses.index')">
-                            Expense List
+                            Expenses
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('goals.index')" :active="route().current('goals.index')">
+                            Goals
                         </ResponsiveNavLink>
                     </div>
 
