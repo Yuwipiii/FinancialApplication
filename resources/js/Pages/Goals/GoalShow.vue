@@ -7,24 +7,30 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import SimplePaginator from "@/Components/Pagination.vue";
+import "vue3-circle-progress/dist/circle-progress.css";
+import CircleProgress from "vue3-circle-progress";
+import {g} from "../../../../public/build/assets/app-C12X6nEi.js";
+import ExpensesTable from "@/Components/ExpensesTable.vue";
 
 
 export default {
     components: {
+        ExpensesTable,
         InputError,
         TextInput,
         InputLabel,
         PrimaryButton,
         Head,
         AuthenticatedLayout,
-        SimplePaginator
+        SimplePaginator,
+        CircleProgress
     },
     data() {
         return {
             isEdit: false,
             form: useForm({
                 name: this.goal['name'],
-                target_amount:this.goal['target_amount']
+                target_amount: this.goal['target_amount']
 
             })
         }
@@ -33,11 +39,18 @@ export default {
         'goal': {
             type: Object,
             required: true
+        },
+        'expenses':{
+            required: true
         }
     },
     methods: {
+        g,
         showEdit() {
             this.isEdit = !this.isEdit;
+        },
+        formatPrice(value) {
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         },
         submit() {
             this.form.put(route('goals.update', this.goal['id']), {
@@ -130,7 +143,71 @@ export default {
                             </form>
                         </div>
                         <div v-else>
-
+                            <div class="grid grid-cols-6 gap-2 bg-gray-200 rounded-lg shadow-xl p-4">
+                                <h1 class="col-span-6 text-2xl">Statistics for {{ goal.name }}</h1>
+                                <div class="col-span-3">
+                                    <div
+                                        class="bg-gray-300 rounded-lg p-4">
+                                        <div class="grid grid-cols-1">
+                                            <h1>Current amount</h1>
+                                            <div>
+                                                <p class="text-emerald-800 text-2xl me-1">{{
+                                                        formatPrice(goal.current_amount)
+                                                    }} KGS</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-span-3">
+                                    <div
+                                        class="bg-gray-300 rounded-lg p-4">
+                                        <div class="grid grid-cols-1">
+                                            <h1>Target amount</h1>
+                                            <div>
+                                                <p class="text-red-800 text-2xl me-1">{{
+                                                        formatPrice(goal.target_amount)
+                                                    }} KGS</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-span-6">
+                                    <div
+                                        class="bg-gray-300 rounded-lg p-4">
+                                        <div class="grid grid-cols-2">
+                                            <h1 class="col-span-2">The remaining amount</h1>
+                                            <div class="col-span-1">
+                                                <div v-if="!goal.is_completed">
+                                                    <p  class="text-red-800 text-2xl me-1">{{
+                                                            formatPrice(goal.target_amount)
+                                                        }} KGS</p>
+                                                </div>
+                                                <div v-else>
+                                                    <p class="text-emerald-800 text-2xl">
+                                                        The goal has been achieved
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-span-1 justify-self-end">
+                                                <circle-progress :is-bg-shadow="true" :bg-shadow="{
+                                                                inset: true,
+                                                                vertical: 2,
+                                                                horizontal: 2,
+                                                                blur: 4,
+                                                                opacity: .4,
+                                                                color: '#000000'}"
+                                                                 :show-percent="true" :size="90" fill-color="#1d8a19"
+                                                                 :percent="Math.round((goal.current_amount*100)/goal.target_amount) <=100?Math.round((goal.current_amount*100)/goal.target_amount):100"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-span-6">
+                                    <h2>Expenses for the goal</h2>
+                                        <ExpensesTable :expenses="expenses">
+                                        </ExpensesTable>
+                                </div>
+                            </div>
                         </div>
                     </Transition>
                 </div>

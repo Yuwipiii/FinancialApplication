@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GoalCreateRequest;
 use App\Models\Category;
+use App\Models\Expense;
 use App\Models\Goal;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -40,7 +41,8 @@ class GoalsController extends Controller
     public function show(string $id): \Inertia\Response
     {
         $goal = Goal::with('category', 'user')->where('user_id', Auth::id())->findOrFail($id);
-        return Inertia::render('Goals/GoalShow', ['goal' => $goal]);
+        $expenses = Expense::with('user','wallet','category')->where('category_id',$goal->category->id)->get();
+        return Inertia::render('Goals/GoalShow', ['goal' => $goal,'expenses' => $expenses]);
     }
 
     public function update(GoalCreateRequest $request, string $id): \Illuminate\Http\RedirectResponse
