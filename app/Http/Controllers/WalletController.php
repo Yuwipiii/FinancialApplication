@@ -34,7 +34,7 @@ class WalletController extends Controller
         $wallet = new Wallet($request->validated());
         $wallet->user_id = Auth::id();
         $wallet->save();
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->back();
     }
 
     /**
