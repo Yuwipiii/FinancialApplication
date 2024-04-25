@@ -1,5 +1,5 @@
 <template>
-    <div @click="showIncomeCategory">
+    <div @click="showGoal">
         <div class="card group/item  bg-slate-800/50 hover:bg-stone-400 drop-shadow-lg">
             <div class="grid grid-cols-2  mb-3">
                 <div class="col-span-1 mb-2">
@@ -51,7 +51,7 @@
 
                     <DangerButton
                         class="ms-3"
-                        @click="deleteIncomeCategory"
+                        @click="deleteGoal"
                     >Confirm
                     </DangerButton>
                 </div>
@@ -101,12 +101,12 @@ export default {
         closeDeleteModal() {
             this.showDeleteModal = false;
         },
-        deleteIncomeCategory() {
+        deleteGoal() {
             router.delete(route('goals.destroy', this.goal.id), {
                 onSuccess: () => this.closeDeleteModal(),
             })
         },
-        showIncomeCategory() {
+        showGoal() {
             router.get(route('goals.show', this.goal.id))
         }
     }

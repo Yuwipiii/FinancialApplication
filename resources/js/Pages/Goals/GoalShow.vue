@@ -9,7 +9,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import SimplePaginator from "@/Components/Pagination.vue";
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
-import {g} from "../../../../public/build/assets/app-C12X6nEi.js";
 import ExpensesTable from "@/Components/ExpensesTable.vue";
 
 
@@ -45,7 +44,6 @@ export default {
         }
     },
     methods: {
-        g,
         showEdit() {
             this.isEdit = !this.isEdit;
         },
@@ -62,7 +60,7 @@ export default {
                 },
                 onError: () => {
                     const $toast = useToast();
-                    let intance = $toast.error('An error occurred when updating a goal');
+                    let instance = $toast.error('An error occurred when updating a goal');
                     this.isEdit = false;
                 }
             })
@@ -144,7 +142,7 @@ export default {
                         </div>
                         <div v-else>
                             <div class="grid grid-cols-6 gap-2 bg-gray-200 rounded-lg shadow-xl p-4">
-                                <h1 class="col-span-6 text-2xl">Statistics for {{ goal.name }}</h1>
+                                <h1 class="col-span-6 text-2xl">Statistics for {{ goal['name'] }}</h1>
                                 <div class="col-span-3">
                                     <div
                                         class="bg-gray-300 rounded-lg p-4">
@@ -177,9 +175,9 @@ export default {
                                         <div class="grid grid-cols-2">
                                             <h1 class="col-span-2">The remaining amount</h1>
                                             <div class="col-span-1">
-                                                <div v-if="!goal.is_completed">
+                                                <div v-if="!goal['is_completed']">
                                                     <p  class="text-red-800 text-2xl me-1">{{
-                                                            formatPrice(goal.target_amount)
+                                                            formatPrice(goal['target_amount'])
                                                         }} KGS</p>
                                                 </div>
                                                 <div v-else>
@@ -189,7 +187,7 @@ export default {
                                                 </div>
                                             </div>
                                             <div class="col-span-1 justify-self-end">
-                                                <circle-progress :is-bg-shadow="true" :bg-shadow="{
+                                                <CircleProgress :is-bg-shadow="true" :bg-shadow="{
                                                                 inset: true,
                                                                 vertical: 2,
                                                                 horizontal: 2,

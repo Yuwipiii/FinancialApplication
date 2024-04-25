@@ -17,7 +17,10 @@ export default {
             form: useForm({
                 name: this.wallet['name'],
                 type: ''
-            })
+            }),
+            showWeekly:false,
+            showYearly:false,
+            showMonthly:false
         }
     },
     props: {
@@ -28,6 +31,33 @@ export default {
         'wallet': {
             type: Object,
             required: true
+        },
+        'currentMonth': {
+            required: true
+        },
+        'incomes': {
+            required: true
+        }, 'incomesSum': {
+            required: true
+        }, 'expenses': {
+            required: true
+        }, 'expensesSum': {
+            required: true
+        },'monthlyWalletExpensesChart':{
+            required:true,
+            type:Object
+        },'monthlyWalletIncomesChart':{
+            required:true,
+            type:Object
+        },'weeklyWalletExpenseIncomesChart':{
+            required:true,
+            type:Object
+        },'yearlyWalletExpensesChart':{
+            required:true,
+            type:Object
+        },'yearlyWalletIncomesChart':{
+            required:true,
+            type:Object
         }
     },
     methods: {
@@ -124,14 +154,104 @@ export default {
                             </form>
                         </div>
                         <div v-else>
-                            <div class="text-center">
-                                <span class="font-light text-slate-500  text-2xl">Total Balance</span>
-                                <br>
-                                <p class="font-bold text-4xl">
-                                    {{ formatPrice(this.wallet['balance']) + " KGS"}}</p>
-                            </div>
-                            <div>
+                            <div class="grid-cols-3">
+                                <div class="col-span-3 text-center mb-5">
+                                    <span class="font-light text-slate-500  text-2xl">Total Balance</span>
+                                    <br>
+                                    <p class="font-bold text-4xl">
+                                        {{ formatPrice(this.wallet['balance']) + " KGS" }}</p>
+                                </div>
+                                <div class="col-span-3 grid grid-cols-6 gap-2 bg-gray-200 rounded-lg shadow-xl p-4">
+                                    <h1 class="col-span-6 text-2xl">Statistics for {{ this.currentMonth }}</h1>
+                                    <div class="col-span-3">
+                                        <div
+                                            class="bg-gray-300 rounded-lg p-4">
+                                            <div class="grid grid-cols-1">
+                                                <h1>Your incomes</h1>
+                                                <div>
+                                                    <p class="text-emerald-800 text-2xl me-1">{{
+                                                            formatPrice(this.incomesSum)
+                                                        }} KGS</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-span-3">
+                                        <div
+                                            class="bg-gray-300 rounded-lg p-4">
+                                            <div class="grid grid-cols-1">
+                                                <h1>Your Expenses</h1>
+                                                <div>
+                                                    <p class="text-red-800 text-2xl me-1">{{
+                                                            formatPrice(this.expensesSum)
+                                                        }} KGS</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-span-3 grid grid-cols-5 gap-2 bg-gray-200 rounded-lg shadow-xl p-10">
+                                    <h2 class="font-semibold col-span-5  text-2xl text-gray-800 leading-tight text-center mb-4">
+                                        Analytics</h2>
+                                    <div class="col-span-5 grid grid-cols-3 gap-1 mb-10">
+                                        <div
+                                            class="p-3 rounded-lg  border-2 bg-gray-100 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 shadow-xl"
+                                            @click="showWeekly = true;showYearly =false;showMonthly=false">
+                                            Last 7 days
+                                        </div>
+                                        <div
+                                            class="p-3 rounded-lg  border-2 bg-gray-100 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 shadow-xl"
+                                            @click="showMonthly=true;showYearly=false;showWeekly=false">Current month
+                                        </div>
+                                        <div
+                                            class="p-3 rounded-lg  border-2 bg-gray-100 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 shadow-xl"
+                                            @click="showYearly=true;showWeekly= false;showMonthly=false">Current year
+                                        </div>
+                                    </div>
 
+                                    <div class="col-span-5">
+                                        <div v-show="showWeekly">
+                                            <apexchart :width="weeklyWalletExpenseIncomesChart.width"
+                                                       :height="weeklyWalletExpenseIncomesChart.height"
+                                                       :type="weeklyWalletExpenseIncomesChart.type"
+                                                       :options="weeklyWalletExpenseIncomesChart.options"
+                                                       :series="weeklyWalletExpenseIncomesChart.series"
+                                            ></apexchart>
+                                        </div>
+                                        <div v-show="showMonthly">
+                                            <div class="grid grid-cols-2">
+                                                <apexchart class="col-span-1" :width="monthlyWalletExpensesChart.width"
+                                                           :height="monthlyWalletExpensesChart.height"
+                                                           :type="monthlyWalletExpensesChart.type"
+                                                           :options="monthlyWalletExpensesChart.options"
+                                                           :series="monthlyWalletExpensesChart.series"
+                                                ></apexchart>
+                                                <apexchart class="col-span-1" :width="monthlyWalletIncomesChart.width"
+                                                           :height="monthlyWalletIncomesChart.height"
+                                                           :type="monthlyWalletIncomesChart.type"
+                                                           :options="monthlyWalletIncomesChart.options"
+                                                           :series="monthlyWalletIncomesChart.series"
+                                                ></apexchart>
+                                            </div>
+                                        </div>
+                                        <div v-show="showYearly">
+                                            <div class="grid grid-cols-2">
+                                                <apexchart class="col-span-1" :width="yearlyWalletExpensesChart.width"
+                                                           :height="yearlyWalletExpensesChart.height"
+                                                           :type="yearlyWalletExpensesChart.type"
+                                                           :options="yearlyWalletExpensesChart.options"
+                                                           :series="yearlyWalletExpensesChart.series"
+                                                ></apexchart>
+                                                <apexchart class="col-span-1" :width="yearlyWalletIncomesChart.width"
+                                                           :height="yearlyWalletIncomesChart.height"
+                                                           :type="yearlyWalletExpensesChart.type"
+                                                           :options="yearlyWalletExpensesChart.options"
+                                                           :series="yearlyWalletIncomesChart.series"
+                                                ></apexchart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </Transition>
