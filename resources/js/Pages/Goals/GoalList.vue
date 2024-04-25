@@ -48,7 +48,7 @@ export default {
                 },
                 onError: (error) => {
                     const $toast = useToast();
-                    let intance = $toast.error('An error occurred when creating a goal');
+                    let instance = $toast.error('An error occurred when creating a goal');
                     this.isCreate = false;
                 }
             })

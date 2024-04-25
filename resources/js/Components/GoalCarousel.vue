@@ -36,7 +36,6 @@ import 'vue3-carousel/dist/carousel.css'
 import Goal from "@/Components/Goal.vue";
 import {router} from "@inertiajs/vue3";
 
-//TODO Исправить оштбку при переходе
 export default defineComponent({
     props: {
         'goals': {
