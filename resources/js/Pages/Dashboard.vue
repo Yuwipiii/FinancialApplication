@@ -218,7 +218,6 @@ export default {
                             <GoalCarousel :goals="goals"></GoalCarousel>
                         </div>
                         </div>
-
                     <div class="grid grid-cols-5 gap-2 bg-gray-200 rounded-lg shadow-xl p-10">
                         <h2 class="font-semibold col-span-5  text-2xl text-gray-800 leading-tight text-center mb-4">
                             Analytics</h2>
@@ -246,9 +245,6 @@ export default {
                                            :options="weeklyExpensesIncomeBarChart.options"
                                            :series="weeklyExpensesIncomeBarChart.series"
                                 ></apexchart>
-                            </div>
-                            <div v-show="showYearly">
-                                Yearly
                             </div>
                             <div v-show="showMonthly">
                                 <div class="grid grid-cols-2">
