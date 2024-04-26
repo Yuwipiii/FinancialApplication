@@ -13,7 +13,8 @@ export default {
     data() {
         return {
             showDeleteModal: false,
-            showEditModal: false
+            showEditModal: false,
+            showExpenseModal:false
         }
     }, methods: {
         confirmDelete() {
@@ -21,11 +22,15 @@ export default {
         },
         closeDeleteModal() {
             this.showDeleteModal = false;
+        },closeExpenseModal(){
+          this.showExpenseModal = false;
         },
         deleteIncome(id) {
             router.delete(route('expenses.destroy', id), {
                 onSuccess: () => this.closeDeleteModal(),
             })
+        },showExpense(){
+            this.showExpenseModal  =true;
         }
     }
 }
@@ -51,30 +56,30 @@ export default {
                         Amount
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        <span class="sr-only">Edit</span>
+                        Action
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(expense,index) in this.expenses" :key="index"
-                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row"
-                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <tr    v-for="(expense,index) in this.expenses" :key="index" @click="showExpense()"
+                    class="grid-cols-5 bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th  scope="row"
+                        class="col-span-1 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ expense['wallet']['name'] }}
                     </th>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td class="col-span-1 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ expense['date'] }}
                     </td>
-                    <td class="px-6 py-4" v-if="expense['category'] == null">
+                    <td class="col-span-1 px-6 py-4" v-if="expense['category'] == null">
                         Other
                     </td>
-                    <td class="px-6 py-4" v-else>
+                    <td class="col-span-1 px-6 py-4" v-else>
                         {{ expense['category']['name'] }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="col-span-1 px-6 py-4">
                         {{ expense['amount'] + " KGS"}}
                     </td>
-                    <td class="px-6 py-4 text-right">
+                    <td class="col-span-1 px-6 py-4 text-right">
                         <button @click.stop="confirmDelete"
                                 class="font-medium text-gray-900 bg-red-700      rounded-lg p-2 ark:text-white hover:underline">
                             Delete
@@ -94,6 +99,20 @@ export default {
                                         @click="deleteIncome(expense['id'])"
                                     >Confirm
                                     </DangerButton>
+                                </div>
+                            </div>
+                        </Modal>
+                        <Modal :show="this.showExpenseModal" @close="closeExpenseModal">
+                            <div class="p-6">
+                                <h2 class="text-2xl ">Note for expense</h2>
+                                <div v-if="expense['note'] === null">
+                                    There are no notes{{expense['note']}}
+                                </div>
+                                <div v-else>
+                                    {{expense['note']}}
+                                </div>
+                                <div class="mt-6 flex justify-end">
+                                    <SecondaryButton @click="closeExpenseModal"> Cancel</SecondaryButton>
                                 </div>
                             </div>
                         </Modal>

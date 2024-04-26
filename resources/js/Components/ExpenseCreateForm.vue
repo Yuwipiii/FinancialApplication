@@ -25,7 +25,7 @@ export default {
                 wallet_id: '',
                 category_id: null,
                 amount: 1,
-                date: '',
+                date: "",
                 note: ''
             }),
             showModal: false
@@ -104,7 +104,6 @@ export default {
                             v-model="form.date"
                             required
                             autocomplete="date"
-
                         />
                         <InputError class="mt-2" :message="form.errors.date"/>
                     </div>

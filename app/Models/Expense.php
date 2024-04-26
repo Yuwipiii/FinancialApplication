@@ -17,7 +17,8 @@ class Expense extends Model
         'category_id',
         'amount',
         'date',
-        'created_at'
+        'created_at',
+        'note'
     ];
 
     public function user(): BelongsTo
