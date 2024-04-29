@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Charts\MonthlyExpensesChart;
 use App\Charts\MonthlyIncomesChart;
 use App\Charts\WeeklyExpensesIncomeBarChart;
 use App\Charts\YearlyExpensesChart;
 use App\Charts\YearlyIncomesChart;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Expenses\ExpenseCreateRequest;
 use App\Http\Requests\Incomes\IncomeCreateRequest;
 use App\Models\Category;

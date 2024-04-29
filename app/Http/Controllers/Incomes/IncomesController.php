@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Incomes;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Incomes\IncomeUpdateRequest;
 use App\Models\Income;
 use Illuminate\Support\Facades\Auth;

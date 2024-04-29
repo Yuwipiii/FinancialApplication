@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Wallet;
 
 use App\Charts\Wallet\MonthlyWalletExpensesChart;
 use App\Charts\Wallet\MonthlyWalletIncomesChart;
 use App\Charts\Wallet\WeeklyWalletExpenseIncomesChart;
 use App\Charts\Wallet\YearlyWalletExpensesChart;
 use App\Charts\Wallet\YearlyWalletIncomesChart;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Walllet\WalletCreateRequest;
 use App\Http\Requests\Walllet\WalletUpdateRequest;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Wallet;
-use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Http\RedirectResponse;
 
 
 class WalletController extends Controller

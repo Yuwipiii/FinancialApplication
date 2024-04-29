@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Incomes;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Incomes\IncomeCategoryRequest;
 use App\Models\IncomeCategory;
 use Illuminate\Foundation\Application;
