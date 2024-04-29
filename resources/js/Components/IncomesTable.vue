@@ -4,16 +4,19 @@ import DangerButton from "@/Components/DangerButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import {router} from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import ExpenseEditForm from "@/Components/ExpenseEditForm.vue";
+import IncomeEditForm from "@/Components/IncomeEditForm.vue";
 
 export default {
-    components: {PrimaryButton, SecondaryButton, DangerButton, Modal},
+    components: {IncomeEditForm, ExpenseEditForm, PrimaryButton, SecondaryButton, DangerButton, Modal},
     props: {
         incomes: {required: true}
     },
     data() {
         return {
             showDeleteModal: false,
-            showEditModal: false
+            showEditModal: false,
+            showIncomeModal: false
         }
     }, methods: {
         confirmDelete() {
@@ -22,10 +25,15 @@ export default {
         closeDeleteModal() {
             this.showDeleteModal = false;
         },
+        closeIncomeModal() {
+            this.showIncomeModal = false;
+        },
         deleteIncome(id) {
             router.delete(route('incomes.destroy', id), {
                 onSuccess: () => this.closeDeleteModal(),
             })
+        }, showIncome() {
+            this.showIncomeModal = true;
         }
     }
 }
@@ -56,7 +64,7 @@ export default {
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(income,index) in this.incomes" :key="index"
+                <tr v-for="(income,index) in this.incomes" :key="index" @click="showIncome"
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ income['wallet']['name'] }}
@@ -73,10 +81,12 @@ export default {
                     <td class="px-6 py-4">
                         {{ income['amount'] + " KGS"}}
                     </td>
-                    <td class="px-6 py-4 text-right grid grid-cols-2 gap-1">
+                    <td class="col-span-1 px-6 py-4 text-start">
                         <button @click.stop="confirmDelete"
-                                class="font-medium text-gray-900 bg-red-700      rounded-lg p-2 ark:text-white hover:underline">
-                            Delete
+                                class="font-medium text-gray-900 bg-red-700 rounded-lg p-2 hover:bg-red-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                            </svg>
                         </button>
                         <Modal :show="this.showDeleteModal" @close="closeDeleteModal">
                             <div class="p-6">
@@ -93,6 +103,25 @@ export default {
                                         @click="deleteIncome(income['id'])"
                                     >Confirm
                                     </DangerButton>
+                                </div>
+                            </div>
+                        </Modal>
+                        <Modal :show="this.showIncomeModal" @close="closeIncomeModal">
+                            <div class="p-6">
+                                <div class="bg-gray-300 rounded-xl p-3">
+                                    <h2 class="text-2xl ">Note for income</h2>
+                                    <div v-if="income['note'] === null">
+                                        There are no notes
+                                    </div>
+                                    <div v-else>
+                                        {{ income['note'] }}
+                                    </div>
+                                </div>
+                                <div class="mt-4 bg-gray-300 rounded-xl p-3">
+                                    <IncomeEditForm :income="income"></IncomeEditForm>
+                                </div>
+                                <div class="mt-6 flex justify-end">
+                                    <SecondaryButton @click="closeIncomeModal" >Cancel</SecondaryButton>
                                 </div>
                             </div>
                         </Modal>

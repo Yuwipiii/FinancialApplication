@@ -208,7 +208,6 @@ export default {
                                             @click="showYearly=true;showWeekly= false;showMonthly=false">Current year
                                         </div>
                                     </div>
-
                                     <div class="col-span-5">
                                         <div v-show="showWeekly">
                                             <apexchart :width="weeklyWalletExpenseIncomesChart.width"

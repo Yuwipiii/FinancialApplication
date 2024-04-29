@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Incomes;
 
-use App\Http\Requests\IncomeCreateRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Incomes\IncomeUpdateRequest;
 use App\Models\Income;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -23,6 +23,17 @@ class IncomesController extends Controller
         $wallet->balance -= $income->amount;
         $wallet->update();
         $income->delete();
+        return redirect()->back();
+    }
+
+    public function update(Income $income,IncomeUpdateRequest $request): \Illuminate\Http\RedirectResponse
+    {
+        $data = $request->validated();
+        $wallet = $income->wallet;
+        $wallet->balance -=$income->amount;
+        $wallet->balance += $data['amount'];
+        $wallet->update();
+        $income->update($data);
         return redirect()->back();
     }
 }

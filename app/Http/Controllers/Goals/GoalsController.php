@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Goals;
 
-use App\Http\Requests\GoalCreateRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Goal\GoalCreateRequest;
 use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Goal;

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class IncomeCreateRequest extends FormRequest
+class CategoryCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,7 @@ class IncomeCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'wallet_id'=>['required','exists:wallets,id'],
-            'income_category_id'=>['nullable','exists:income_categories,id'],
-            'amount'=>['required','numeric','min:1'],
-            'date'=>['required','date'],
-            'note'=>['nullable','string','min:3']
+            'name'=>['required','string','min:3','max:100'],
         ];
     }
 }
