@@ -32,8 +32,8 @@ Route::resource('incomeCategories', \App\Http\Controllers\IncomeCategoriesContro
 Route::resource('goals', \App\Http\Controllers\GoalsController::class)->except('edit', 'create');
 
 
-Route::resource('incomes', \App\Http\Controllers\IncomesController::class)->except(['create', 'show', 'edit', 'update']);
-Route::resource('expenses', \App\Http\Controllers\ExpensesController::class)->except(['create', 'show', 'edit', 'update']);
+Route::resource('incomes', \App\Http\Controllers\IncomesController::class)->except(['create', 'show', 'edit']);
+Route::resource('expenses', \App\Http\Controllers\ExpensesController::class)->except(['create', 'show', 'edit']);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

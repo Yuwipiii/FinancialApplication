@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Expenses;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class GoalCreateRequest extends FormRequest
+class ExpenseUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,9 @@ class GoalCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:3', 'max:100'],
-            'target_amount' => ['required', 'numeric', 'min:1'],
+            'amount'=>['required','numeric','min:1'],
+            'date'=>['required','date'],
+            'note'=>['nullable','string','min:3']
         ];
     }
 }

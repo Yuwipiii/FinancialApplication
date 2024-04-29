@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Expenses\ExpenseUpdateRequest;
 use App\Models\Expense;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -27,6 +27,17 @@ class ExpensesController extends Controller
         $wallet->balance += $expense->amount;
         $wallet->update();
         $expense->delete();
+        return redirect()->back();
+    }
+
+    public function update(Expense $expense, ExpenseUpdateRequest $request): \Illuminate\Http\RedirectResponse
+    {
+        $data = $request->validated();
+        $wallet = $expense->wallet;
+        $wallet->balance += $expense->amount;
+        $wallet->balance -= $data['amount'];
+        $wallet->update();
+        $expense->update($data);
         return redirect()->back();
     }
 }

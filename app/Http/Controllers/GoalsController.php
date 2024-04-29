@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GoalCreateRequest;
+use App\Http\Requests\Goal\GoalCreateRequest;
 use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Goal;
