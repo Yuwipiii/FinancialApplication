@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Charts\MonthlyExpensesChart;
-use App\Charts\MonthlyIncomesChart;
+use App\Charts\Expenses\MonthlyExpensesChart;
+use App\Charts\Expenses\YearlyExpensesChart;
+use App\Charts\Incomes\MonthlyIncomesChart;
+use App\Charts\Incomes\YearlyIncomesChart;
 use App\Charts\WeeklyExpensesIncomeBarChart;
-use App\Charts\YearlyExpensesChart;
-use App\Charts\YearlyIncomesChart;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Expenses\ExpenseCreateRequest;
 use App\Http\Requests\Incomes\IncomeCreateRequest;

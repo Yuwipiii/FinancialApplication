@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Charts;
+namespace App\Charts\Incomes;
 
 use App\Models\Income;
 use App\Models\IncomeCategory;
