@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Incomes;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Incomes\IncomeCategoryRequest;
+use App\Http\Requests\Category\IncomeCategoryRequest;
 use App\Models\IncomeCategory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;

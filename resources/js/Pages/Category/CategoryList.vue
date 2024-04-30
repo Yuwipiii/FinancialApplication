@@ -48,7 +48,6 @@ export default {
                 onError: () => {
                     const $toast = useToast();
                     let intance = $toast.error('An error occurred when creating an expense category');
-                    this.isCreate =false;
                 }
             })
         }
