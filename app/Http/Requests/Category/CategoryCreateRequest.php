@@ -24,6 +24,7 @@ class CategoryCreateRequest extends FormRequest
     {
         return [
             'name'=>['required','string','min:3','max:100'],
+            'monthly_limit'=>['nullable', 'numeric', 'min:1'],
         ];
     }
 }

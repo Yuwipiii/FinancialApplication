@@ -16,14 +16,24 @@ export default {
         return {
             isEdit: false,
             form: useForm({
-                name: this.category['name'],
-            })
+                name: this.category.name,
+                monthly_limit: this.category.monthly_limit
+            }),
+            showMonthly: false,
+            showYearly: false
         }
     },
     props: {
         'category': {
             type: Object,
             required: true
+        }, 'categoryTotal': {
+            required: true
+        }, 'categoryCurrentMonthTotal': {
+            required: true
+        }, 'yearlyCategoryChart': {
+            required: true,
+            type: Object
         }
     },
     methods: {
@@ -31,19 +41,22 @@ export default {
             this.isEdit = !this.isEdit;
         },
         submit() {
-            this.form.put(route('categories.update',this.category['id']),{
+            this.form.put(route('categories.update', this.category['id']), {
                 onSuccess: () => {
                     const $toast = useToast();
                     let instance = $toast.success('You have successfully updated a expense category!');
-                    this.isEdit= false;
+                    this.isEdit = false;
                     this.form.reset();
                 },
                 onError: () => {
                     const $toast = useToast();
-                    let intance = $toast.error('An error occurred when updating an expense category');
-                    this.isEdit =false;
+                    let instance = $toast.error('An error occurred when updating an expense category');
                 }
             })
+        },
+        formatPrice(value) {
+            if(value === "")return 0;
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         }
     }
 }
@@ -97,6 +110,20 @@ export default {
                                     />
                                     <InputError class="mt-2" :message="form.errors.name"/>
                                 </div>
+                                <div>
+                                    <InputLabel for="monthly_limit" value="Monthly limit for expense:"/>
+                                    <TextInput
+                                        id="monthly_limit"
+                                        type="number"
+                                        class="mt-1  w-full bg-slate-700/50"
+                                        v-model="form.monthly_limit"
+                                        required
+                                        autocomplete="monthly_limit"
+                                        min="1"
+                                        step="0.01"
+                                    />
+                                    <InputError class="mt-2" :message="form.errors.monthly_limit"/>
+                                </div>
 
                                 <div class="flex items-center justify-end mt-4">
                                     <PrimaryButton class="ms-4">
@@ -106,8 +133,33 @@ export default {
                             </form>
                         </div>
                         <div v-else>
-                            <div class="text-center">
-                                <span class="font-light text-slate-500  text-2xl">Monthly limit</span>
+                            <div class="grid-cols-3">
+                                <div class="col-span-3 text-center mb-5">
+                                    <div><span class="font-light text-slate-500  text-2xl">Total Expenses</span>
+                                        <br>
+                                        <p class="font-bold text-4xl">
+                                            {{ formatPrice(categoryTotal) + " KGS" }}</p>
+                                    </div>
+                                    <div>
+                                        <span class="font-light text-slate-500  text-2xl">Expenses for this month</span>
+                                        <br>
+                                        <p class="font-bold text-4xl">
+                                            {{ formatPrice(categoryCurrentMonthTotal) + " KGS" }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-3 grid grid-cols-5 gap-2 bg-gray-200 rounded-lg shadow-xl p-10">
+                                    <h2 class="font-semibold col-span-5  text-2xl text-gray-800 leading-tight text-center mb-4">
+                                        Analytics</h2>
+                                    <div class="col-span-5">
+                                        <apexchart class="col-span-1" :width="yearlyCategoryChart.width"
+                                                   :height="yearlyCategoryChart.height"
+                                                   :type="yearlyCategoryChart.type"
+                                                   :options="yearlyCategoryChart.options"
+                                                   :series="yearlyCategoryChart.series"
+                                        ></apexchart>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </Transition>

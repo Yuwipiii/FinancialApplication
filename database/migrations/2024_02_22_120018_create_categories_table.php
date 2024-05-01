@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->unsignedBigInteger('goal_id')->nullable();
+            $table->unsignedDecimal('monthly_limit',15,2)->nullable();
             $table->timestamps();
         });
     }

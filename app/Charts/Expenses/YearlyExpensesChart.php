@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Charts;
+namespace App\Charts\Expenses;
 
 use App\Models\Category;
 use App\Models\Expense;
