@@ -26,8 +26,6 @@ class MonthlyWalletExpensesChart
             $expensesData[] = round($expenses->where('wallet_id',$walletId)->whereBetween('date', [$startOfMonth, $endOfMonth])->pluck('amount')->sum(),2);
         }
         $expensesCategory = $expensesCategory->pluck('name')->toArray();
-        $expensesCategory[] = "Other";
-        $expensesData[] = round(Expense::with('category')->where('user_id',$id)->where('wallet_id',$walletId)->where('category_id',null)->whereBetween('date', [$startOfMonth, $endOfMonth])->pluck('amount')->sum(),2);
         return $this->chart->pieChart()
             ->setTitle('Expenses for' . now()->format("F Y"))
             ->addData($expensesData)

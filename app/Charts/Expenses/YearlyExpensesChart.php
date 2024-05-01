@@ -26,8 +26,6 @@ class YearlyExpensesChart
             $expensesData[] = round($expenses->whereBetween('date', [$startOfYear, $endOfYear])->pluck('amount')->sum(),2);
         }
         $expensesCategory = $expensesCategory->pluck('name')->toArray();
-        $expensesCategory[] = "Other";
-        $expensesData[] = round(Expense::with('category')->where('user_id',$id)->where('category_id',null)->whereBetween('date', [$startOfYear, $endOfYear])->pluck('amount')->sum(),2);
         return $this->chart->pieChart()
             ->setTitle('Expenses for' . now()->format("Y"))
             ->addData($expensesData)
