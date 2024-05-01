@@ -25,6 +25,13 @@ export default {
         'incomeCategory': {
             type: Object,
             required: true
+        },'incomeCategoryTotal':{
+            required: true
+        },'incomeCategoryCurrentMonthTotal':{
+            required:true
+        },'yearlyIncomeCategoryChart':{
+            type:Object,
+            required:true
         }
     },
     methods: {
@@ -41,10 +48,12 @@ export default {
                 },
                 onError: () => {
                     const $toast = useToast();
-                    let intance = $toast.error('An error occurred when updating an income category');
-                    this.isEdit =false;
+                    let instance = $toast.error('An error occurred when updating an income category');
                 }
             })
+        },formatPrice(value) {
+            if(value === "")return 0;
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         }
     }
 }
@@ -107,7 +116,34 @@ export default {
                             </form>
                         </div>
                         <div v-else>
+                            <div class="grid-cols-3">
+                                <div class="col-span-3 text-center mb-5">
+                                    <div><span class="font-light text-slate-500  text-2xl">Total Income</span>
+                                        <br>
+                                        <p class="font-bold text-4xl">
+                                            {{formatPrice(incomeCategoryTotal) +" KGS" }}</p>
+                                    </div>
+                                    <div>
+                                        <span class="font-light text-slate-500  text-2xl">Income for this month</span>
+                                        <br>
+                                        <p class="font-bold text-4xl">
+                                            {{ formatPrice(incomeCategoryCurrentMonthTotal)+ " KGS"}}</p>
+                                    </div>
+                                </div>
 
+                                <div class="col-span-3 grid grid-cols-5 gap-2 bg-gray-200 rounded-lg shadow-xl p-10">
+                                    <h2 class="font-semibold col-span-5  text-2xl text-gray-800 leading-tight text-center mb-4">
+                                        Analytics</h2>
+                                    <div class="col-span-5">
+                                        <apexchart class="col-span-1" :width="yearlyIncomeCategoryChart.width"
+                                                   :height="yearlyIncomeCategoryChart.height"
+                                                   :type="yearlyIncomeCategoryChart.type"
+                                                   :options="yearlyIncomeCategoryChart.options"
+                                                   :series="yearlyIncomeCategoryChart.series"
+                                        ></apexchart>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </Transition>
                 </div>

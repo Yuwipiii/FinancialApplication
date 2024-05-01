@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Incomes;
 
+use App\Charts\IncomeCategory\YearlyIncomeCategoryChart;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\IncomeCategoryRequest;
 use App\Models\IncomeCategory;
+use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -37,10 +39,12 @@ class IncomeCategoriesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id): Response
+    public function show(string $id,YearlyIncomeCategoryChart $yearlyIncomeCategoryChart): Response
     {
         $incomeCategory = IncomeCategory::with('user')->where('user_id',Auth::id())->where('id',$id)->first();
-        return Inertia::render('IncomeCategory/IncomeCategoryShow',['incomeCategory'=>$incomeCategory]);
+        $incomeCategoryTotal = $incomeCategory->incomes->pluck('amount')->sum();
+        $incomeCategoryCurrentMonthTotal = $incomeCategory->incomes->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->pluck('amount')->sum();
+        return Inertia::render('IncomeCategory/IncomeCategoryShow',['yearlyIncomeCategoryChart'=>$yearlyIncomeCategoryChart->build($id),'incomeCategoryTotal'=>$incomeCategoryTotal,'incomeCategory'=>$incomeCategory,'incomeCategoryCurrentMonthTotal'=>$incomeCategoryCurrentMonthTotal]);
     }
 
     /**
