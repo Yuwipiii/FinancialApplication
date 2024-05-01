@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->unsignedBigInteger('goal_id')->nullable();
+            $table->unsignedDecimal('monthly_limit',15,2)->nullable();
             $table->timestamps();
         });
     }

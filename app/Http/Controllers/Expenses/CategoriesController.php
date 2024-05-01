@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Expenses;
 
+use App\Charts\Category\YearlyCategoryChart;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CategoryCreateRequest;
 use App\Http\Requests\Category\CategoryUpdateRequest;
 use App\Models\Category;
+use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -39,10 +41,12 @@ class CategoriesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id): Response
+    public function show(string $id,YearlyCategoryChart $yearlyCategoryChart): Response
     {
         $category = Category::with('user')->where('id', $id)->where('user_id', Auth::id())->first();
-        return Inertia::render('Category/CategoryShow', ['category' => $category]);
+        $categoryTotal = $category->expenses->pluck('amount')->sum();
+        $categoryCurrentMonthTotal = $category->expenses->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->pluck('amount')->sum();
+        return Inertia::render('Category/CategoryShow', ['yearlyCategoryChart'=>$yearlyCategoryChart->build($id),'categoryCurrentMonthTotal'=>$categoryCurrentMonthTotal,'categoryTotal'=>$categoryTotal,'category' => $category]);
     }
 
     /**

@@ -7,7 +7,6 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import SimplePaginator from "@/Components/Pagination.vue";
-import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import ExpensesTable from "@/Components/ExpensesTable.vue";
 

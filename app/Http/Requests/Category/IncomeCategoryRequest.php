@@ -23,7 +23,7 @@ class IncomeCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required','unique:incomes,name','string','min:3','max:100']
+            'name'=>['required','string','min:3','max:100']
         ];
     }
 }

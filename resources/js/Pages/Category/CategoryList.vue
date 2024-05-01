@@ -24,7 +24,8 @@ export default {
         return {
             isCreate: false,
             form: useForm({
-                name: ''
+                name: '',
+                monthly_limit:1
             })
         }
     },
@@ -47,7 +48,7 @@ export default {
                 },
                 onError: () => {
                     const $toast = useToast();
-                    let intance = $toast.error('An error occurred when creating an expense category');
+                    let instance = $toast.error('An error occurred when creating an expense category');
                 }
             })
         }
@@ -99,8 +100,20 @@ export default {
                                     />
                                     <InputError class="mt-2" :message="form.errors.name"/>
                                 </div>
-
-
+                                <div>
+                                    <InputLabel for="monthly_limit" value="Monthly limit for expense:"/>
+                                    <TextInput
+                                        id="monthly_limit"
+                                        type="number"
+                                        class="mt-1  w-full bg-slate-700/50"
+                                        v-model="form.monthly_limit"
+                                        required
+                                        autocomplete="monthly_limit"
+                                        min="1"
+                                        step="0.01"
+                                    />
+                                    <InputError class="mt-2" :message="form.errors.monthly_limit"/>
+                                </div>
                                 <div class="flex items-center justify-end mt-4">
 
                                     <PrimaryButton class="ms-4">
@@ -112,8 +125,7 @@ export default {
                         <div v-else>
                             <div class="grid grid-cols-2 gap-2">
                                 <div v-for="(category,index) in this.categories['data']" :key="index">
-                                    <Category :category-currency="category['currency']"
-                                              :category-monthly-limit="category.monthly_limit"
+                                    <Category :category-monthly-limit="category.monthly_limit"
                                               :category-name="category.name"
                                               :category-id='category.id'></Category>
                                 </div>

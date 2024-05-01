@@ -23,7 +23,8 @@ class CategoryCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required','unique:categories,name','string','min:3','max:100'],
+            'name'=>['required','string','min:3','max:100'],
+            'monthly_limit'=>['nullable', 'numeric', 'min:1'],
         ];
     }
 }

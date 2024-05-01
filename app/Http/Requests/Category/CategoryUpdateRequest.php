@@ -4,6 +4,7 @@ namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class CategoryUpdateRequest extends FormRequest
 {
@@ -23,7 +24,8 @@ class CategoryUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required','unique:categories,name','string','min:3','max:100'],
+            'name'=>['required','string','min:3','max:100'],
+            'monthly_limit'=>['nullable', 'numeric', 'min:1'],
         ];
     }
 }
