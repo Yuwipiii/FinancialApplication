@@ -26,8 +26,6 @@ class MonthlyIncomesChart
             $incomesData[] = round($incomes->whereBetween('date', [$startOfMonth, $endOfMonth])->pluck('amount')->sum(), 2);
         }
         $incomesCategory = $incomesCategory->pluck('name')->toArray();
-        $incomesCategory[] = "Other";
-        $incomesData[] = round(Income::with('income_category')->where('user_id',$id)->where('income_category_id',null)->whereBetween('date', [$startOfMonth, $endOfMonth])->pluck('amount')->sum(),2);
         return $this->chart->pieChart()
             ->setTitle('Incomes for' . now()->format("F Y"))
             ->addData($incomesData)

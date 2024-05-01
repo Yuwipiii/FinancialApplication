@@ -26,8 +26,6 @@ class YearlyWalletIncomesChart
             $incomesData[] = round($incomes->where('wallet_id',$walletId)->whereBetween('date', [$startOfYear, $endOfYear])->pluck('amount')->sum(),2);
         }
         $incomesCategory = $incomesCategory->pluck('name')->toArray();
-        $incomesCategory[] = "Other";
-        $incomesData[] = round(Income::with('income_category')->where('user_id',$id)->where('wallet_id',$walletId)->where('income_category_id',null)->whereBetween('date', [$startOfYear, $endOfYear])->pluck('amount')->sum(),2);
         return $this->chart->pieChart()
             ->setTitle('Incomes for' . now()->format("Y"))
             ->addData($incomesData)
