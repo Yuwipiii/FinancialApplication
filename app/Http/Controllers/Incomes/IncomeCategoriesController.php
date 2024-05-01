@@ -19,7 +19,7 @@ class IncomeCategoriesController extends Controller
      */
     public function index(): Response
     {
-        $incomeCategories = IncomeCategory::with('user')->where('user_id',Auth::id())->paginate(2);
+        $incomeCategories = IncomeCategory::with('user')->where('user_id',Auth::id())->paginate(4);
         return Inertia::render('IncomeCategory/IncomeCategoryList',['incomeCategories'=>$incomeCategories]);
     }
 

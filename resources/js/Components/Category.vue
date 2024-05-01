@@ -90,7 +90,7 @@ export default {
             router.get(route('categories.show', this.categoryId))
         },
         formatPrice(value) {
-            if (value !== "") return "";
+            if (value === "") return "";
             return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         }
     }

@@ -22,7 +22,7 @@ class CategoriesController extends Controller
      */
     public function index(): Response
     {
-        $categories = Category::with('user')->where('user_id', Auth::id())->paginate(3);
+        $categories = Category::with('user')->where('user_id', Auth::id())->paginate(4);
         return Inertia::render('Category/CategoryList', ['categories' => $categories]);
     }
 

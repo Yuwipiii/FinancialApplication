@@ -50,16 +50,23 @@ class User extends Authenticatable
     {
         parent::boot();
         static::created(function ($user) {
-            $user->categories()->createMany(
-                ['name' => 'Food'],
-                ['name' => 'Transportation'],
-                ['name' => 'Housing'],
-                ['name' => 'Entertainment and hobbies'],
-                ['name' => 'Debts and loans']);
-            $user->incomeCategories()->createMany(
-                ['name' => 'Salary'],
+            $categories = [ ['name' => 'Food','monthly_limit'=>0],
+                ['name' => 'Transportation','monthly_limit'=>0],
+                ['name' => 'Housing','monthly_limit'=>0],
+                ['name' => 'Entertainment and hobbies','monthly_limit'=>0],
+                ['name' => 'Debts and loans','monthly_limit'=>0],
+                ['name'=>"Other",'monthly_limit'=>0],];
+            $incomeCategory = [['name' => 'Salary'],
                 ['name' => 'Investments'],
-                ['name' => 'Gifts']);
+                ['name' => 'Gifts'],
+                ['name' => 'Other']];
+
+            foreach ($incomeCategory as $category) {
+                $user->incomecategories()->create($category);
+            }
+            foreach ($categories as $category) {
+                $user->categories()->create($category);
+            }
         });
     }
 
