@@ -107,12 +107,13 @@ export default {
 </script>
 
 <template>
-    <Head title="Dashboard"></Head>
+    <Head title="Dashboard">
+    </Head>
     <AuthenticatedLayout>
         <template #header>
             <div class="flex justify-center">
                 <div>
-                    <h2 class="font-semibold text-2xl text-gray-800 leading-tight">Welcome to My Budget Dashboard</h2>
+                    <h2 class="font-semibold text-2xl  leading-tight">Welcome to My Budget Dashboard</h2>
                 </div>
             </div>
         </template>
@@ -174,7 +175,7 @@ export default {
                                                   :wallets="wallets"></IncomeCreateForm>
                             </div>
                         </div>
-                        <div class="col-span-6 bg-gray-200 p-5 rounded-lg shadow-xl mb-15">
+                        <div class="lg:col-span-3 md:col-span-3 col-span-6  bg-gray-200 p-5 rounded-lg shadow-xl mb-15">
                             <h2 class="font-semibold text-2xl  text-gray-800 leading-tight text-center mb-4">
                                 Currency Converter</h2>
                             <div class="flex justify-around gap-2 mb-4">
@@ -213,6 +214,10 @@ export default {
                             <div v-else-if="convertedError !== null" class="text-2xl text-center text-red-800 mb-4">
                                 {{ convertedError }}
                             </div>
+                        </div>
+                        <div class="lg:col-span-3 md:col-span-3 col-span-6  bg-gray-200 p-5 rounded-lg shadow-xl mb-15">
+
+
                         </div>
                         <div  class="col-span-6" >
                             <GoalCarousel :goals="goals"></GoalCarousel>

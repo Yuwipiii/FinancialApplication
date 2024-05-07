@@ -40,9 +40,9 @@ export default {
 <template>
     <div class="mt-4">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <table class="w-full table-auto text-sm text-left rtl:text-right text-gray-400">
                 <thead
-                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    class="text-xs uppercase bg-slate-400 text-black">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         From
@@ -63,12 +63,12 @@ export default {
                 </thead>
                 <tbody>
                 <tr v-for="(expense,index) in this.expenses" :key="index" @click="showExpense()"
-                    class="grid-cols-5 bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    class="grid-cols-5 border-b bg-gray-200 text-black  hover:bg-gray-200">
                     <th scope="row"
-                        class="col-span-1 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        class="col-span-1 px-6 py-4 font-medium  whitespace-nowrap ">
                         {{ expense['wallet']['name'] }}
                     </th>
-                    <td class="col-span-1 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td class="col-span-1 px-6 py-4 font-medium  whitespace-nowrap ">
                         {{ expense['date'] }}
                     </td>
                     <td class="col-span-1 px-6 py-4" v-if="expense['category'] == null">

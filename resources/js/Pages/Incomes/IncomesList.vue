@@ -20,7 +20,7 @@ export default {
         <template #header>
             <div class="flex justify-between">
                 <div>
-                    <h2 class="font-semibold text-2xl text-gray-800 leading-tight">Incomes List</h2>
+                    <h2 class="font-semibold text-2xl leading-tight">Incomes List</h2>
                 </div>
             </div>
         </template>

@@ -64,7 +64,7 @@ export default {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Expense Category</h2>
+                <h2 class="font-semibold text-xl leading-tight">Expense Category</h2>
                 <button @click="this.showCreate">
                     <svg v-if="!isCreate === true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                          stroke-width="1.5"

@@ -83,12 +83,12 @@ export default {
         <template #header>
             <div class="flex justify-between">
                 <div>
-                    <h2 class="font-semibold text-2xl text-gray-800 leading-tight">{{ wallet['name'] }}</h2>
+                    <h2 class="font-semibold text-2xl  leading-tight">{{ wallet['name'] }}</h2>
                     <span>{{ wallet['type'] }}</span>
                 </div>
                 <div>
                     <button @click="this.showEdit"
-                            class="ms-2 inline-flex px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                            class="ms-2 inline-flex px-4 py-2 bg-white border border-gray-200 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
                         <svg v-if="!isEdit === true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                              stroke-width="1.5"
                              stroke="currentColor" class="w-4 h-4">
