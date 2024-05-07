@@ -111,7 +111,7 @@ export default {
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <Transition name="slide-fade">
                         <div v-if="this.isEdit">
-                            <form @submit.prevent="submit" class="bg-slate-800/50 rounded-lg p-3 ">
+                            <form @submit.prevent="submit" class="bg-gray-600 rounded-lg p-3 ">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor" class="w-8 h-8 stroke-1">
@@ -123,7 +123,7 @@ export default {
                                     <TextInput
                                         id="name"
                                         type="text"
-                                        class="mt-1 block w-full bg-slate-700/50"
+                                        class="mt-1 block w-full bg-gray-700 text-gray-200"
                                         v-model="form.name"
                                         required
                                         autofocus
@@ -135,7 +135,7 @@ export default {
                                 <div class="mt-5">
                                     <InputLabel for="name" value="Wallet Type"/>
                                     <div class="flex mt-1">
-                                        <select class="bg-slate-700/50 rounded-lg " v-model="form.type">
+                                        <select class="bg-gray-700 rounded-lg text-gray-200" v-model="form.type">
                                             <option disabled value="">Select currency of wallet</option>
                                             <option v-for="(type,index) in types" :key="index" :value="type">{{ type }}
                                             </option>
@@ -154,22 +154,22 @@ export default {
                             </form>
                         </div>
                         <div v-else>
-                            <div class="grid-cols-3">
+                            <div class="grid grid-cols-3 gap-2">
                                 <div class="col-span-3 text-center mb-5">
-                                    <span class="font-light text-slate-500  text-2xl">Total Balance</span>
+                                    <span class="font-light text-gray-200  text-2xl">Total Balance</span>
                                     <br>
-                                    <p class="font-bold text-4xl">
+                                    <p class="font-bold text-4xl text-gray-200">
                                         {{ formatPrice(this.wallet['balance']) + " KGS" }}</p>
                                 </div>
-                                <div class="col-span-3 grid grid-cols-6 gap-2 bg-gray-200 rounded-lg shadow-xl p-4">
+                                <div class="col-span-3 grid grid-cols-6 gap-2 text-gray-200 bg-gray-600 rounded-lg shadow-xl p-4">
                                     <h1 class="col-span-6 text-2xl">Statistics for {{ this.currentMonth }}</h1>
                                     <div class="col-span-3">
                                         <div
-                                            class="bg-gray-300 rounded-lg p-4">
+                                            class="bg-gray-700 rounded-lg p-4">
                                             <div class="grid grid-cols-1">
                                                 <h1>Your incomes</h1>
                                                 <div>
-                                                    <p class="text-emerald-800 text-2xl me-1">{{
+                                                    <p class="text-emerald-600 text-2xl me-1">{{
                                                             formatPrice(this.incomesSum)
                                                         }} KGS</p>
                                                 </div>
@@ -178,11 +178,11 @@ export default {
                                     </div>
                                     <div class="col-span-3">
                                         <div
-                                            class="bg-gray-300 rounded-lg p-4">
+                                            class="bg-gray-700 rounded-lg p-4">
                                             <div class="grid grid-cols-1">
                                                 <h1>Your Expenses</h1>
                                                 <div>
-                                                    <p class="text-red-800 text-2xl me-1">{{
+                                                    <p class="text-red-600 text-2xl me-1">{{
                                                             formatPrice(this.expensesSum)
                                                         }} KGS</p>
                                                 </div>
@@ -190,21 +190,21 @@ export default {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-span-3 grid grid-cols-5 gap-2 bg-gray-200 rounded-lg shadow-xl p-10">
-                                    <h2 class="font-semibold col-span-5  text-2xl text-gray-800 leading-tight text-center mb-4">
+                                <div class="col-span-3 grid grid-cols-5 gap-2 bg-gray-600 text-gray-200 rounded-lg shadow-xl p-10">
+                                    <h2 class="font-semibold col-span-5  text-2xl  leading-tight text-center mb-4">
                                         Analytics</h2>
                                     <div class="col-span-5 grid grid-cols-3 gap-1 mb-10">
                                         <div
-                                            class="p-3 rounded-lg  border-2 bg-gray-100 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 shadow-xl"
+                                            class="p-3 rounded-lg  bg-gray-700  pt-4 pb-4 hover:scale-95 hover:bg-gray-400 shadow-xl"
                                             @click="showWeekly = true;showYearly =false;showMonthly=false">
                                             Last 7 days
                                         </div>
                                         <div
-                                            class="p-3 rounded-lg  border-2 bg-gray-100 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 shadow-xl"
+                                            class="p-3 rounded-lg  bg-gray-700  pt-4 pb-4 hover:scale-95 hover:bg-gray-400 shadow-xl"
                                             @click="showMonthly=true;showYearly=false;showWeekly=false">Current month
                                         </div>
                                         <div
-                                            class="p-3 rounded-lg  border-2 bg-gray-100 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50 shadow-xl"
+                                            class="p-3 rounded-lg  bg-gray-700  pt-4 pb-4 hover:scale-95 hover:bg-gray-400 shadow-xl"
                                             @click="showYearly=true;showWeekly= false;showMonthly=false">Current year
                                         </div>
                                     </div>

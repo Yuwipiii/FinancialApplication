@@ -27,9 +27,10 @@ class YearlyExpensesChart
         }
         $expensesCategory = $expensesCategory->pluck('name')->toArray();
         return $this->chart->pieChart()
-            ->setTitle('Expenses for' . now()->format("Y"))
+            ->setTitle('Expenses for ' . now()->format("Y"))
             ->addData($expensesData)
             ->setLabels($expensesCategory)
+            ->setFontColor('#e5e7eb')
             ->toVue();
     }
 }

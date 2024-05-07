@@ -30,6 +30,9 @@ class YearlyWalletIncomesChart
             ->setTitle('Incomes for' . now()->format("Y"))
             ->addData($incomesData)
             ->setLabels($incomesCategory)
+            ->setGrid('#e5e7eb', 0.3)
+            ->setColors(['#FF2D00', '#5ED600'])
+            ->setFontColor('#e5e7eb')
             ->toVue();
     }
 }

@@ -44,17 +44,16 @@ export default {
 </script>
 
 <template>
-    <form @submit.prevent="submit">
+    <form @submit.prevent="submit" >
         <div class="grid justify-items-stretch">
-            <h2 class="text-lg font-medium text-gray-900">Expense Edit</h2>
+            <h2 class="text-lg font-medium text-gray-200">Expense Edit</h2>
             <div class="flex flex-col gap-1">
-
                 <div>
                     <InputLabel for="date" value="Date:"/>
                     <TextInput
                         id="date"
                         type="date"
-                        class="mt-1  w-full bg-slate-700/50"
+                        class="mt-1  w-full bg-gray-600 text-gray-200"
                         v-model="form.date"
                         required
                         autocomplete="date"
@@ -69,7 +68,7 @@ export default {
                 <TextInput
                     id="amount"
                     type="number"
-                    class="mt-1  w-full bg-slate-700/50"
+                    class="mt-1  w-full bg-gray-600 text-gray-200"
                     v-model="form.amount"
                     required
                     autocomplete="amount"
@@ -84,7 +83,7 @@ export default {
                 <TextInput
                     id="note"
                     type="text"
-                    class="mt-1  w-full bg-slate-700/50"
+                    class="mt-1  w-full bg-gray-600 text-gray-200"
                     v-model="form.note"
                     autocomplete="note"
                 />

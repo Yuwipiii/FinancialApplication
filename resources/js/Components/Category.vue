@@ -1,8 +1,8 @@
 <template>
     <div @click="showCategory" >
-        <div class="card group/item  bg-slate-800/50 hover:bg-stone-400 drop-shadow-lg">
+        <div class="card group/item  bg-gray-600 hover:bg-gray-400 drop-shadow-lg">
             <div class="flex flex-col mb-3">
-                <div class="flex justify-between">
+                <div class="flex justify-between text-gray-200">
                     <strong class="card-name">{{ categoryName.charAt(0).toUpperCase() + categoryName.slice(1) }}</strong>
                     <div class="group/edit invisible  group-hover/item:visible">
                         <DangerButton  @click.stop="confirmDelete">
@@ -15,11 +15,11 @@
                         </DangerButton>
                     </div>
                     <Modal :show="this.showDeleteModal" @close="closeDeleteModal">
-                        <div class="p-6">
-                            <h2 class="text-lg font-medium text-gray-900">Are you sure you want to delete category expense
+                        <div class="p-6 bg-gray-600">
+                            <h2 class="text-lg font-medium text-gray-200">Are you sure you want to delete category expense
                                 ?</h2>
 
-                            <p class="mt-1 text-sm text-gray-600">
+                            <p class="mt-1 text-sm text-gray-200">
                                 After deleting the category, the entire expense history and data associated with the
                                 wallet will be permanently lost
                             </p>
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div>
-                <div class="card-info text-end">
+                <div class="card-info text-end text-gray-200">
                     <p><strong>Monthly limit: </strong>{{formatPrice(categoryMonthlyLimit)}} KGS</p>
                 </div>
             </div>

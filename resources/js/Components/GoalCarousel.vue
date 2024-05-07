@@ -1,18 +1,18 @@
 <template>
     <div v-if="goals.length === 0">
-        <div class="card group/item bg-gray-200 p-5">
-            <h2 class="font-semibold text-2xl  text-gray-800 leading-tight text-center mb-4">
+        <div class="card group/item bg-gray-700 p-5 bt-5">
+            <h2 class="font-semibold text-2xl  text-gray-200 leading-tight text-center mb-4">
                 Goals</h2>
-            <p class="text-2xl text-center">
-                <p>You don't have any goals yet</p>
+            <p class="text-2xl text-center text-gray-200 ">
+                You don't have any goals yet
             </p>
-            <button @click="createGoal" class="bg-green-600 mt-5 px-4 py-2 rounded-full w-full mb-15">
+            <button @click="createGoal" class="bg-emerald-600 mt-5 px-4 py-2 rounded-full text-gray-200  w-full mb-15">
                 Create goal
             </button>
         </div>
     </div>
     <div v-else>
-        <h2 class="font-semibold text-2xl  text-gray-800 leading-tight text-center mb-4">
+        <h2 class="font-semibold text-2xl  text-gray-200 leading-tight text-center mb-4 mt-5">
             Goals</h2>
         <Carousel>
             <Slide v-for="goal in goals" :key="goal">

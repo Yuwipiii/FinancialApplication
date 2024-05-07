@@ -45,9 +45,9 @@ class WeeklyExpensesIncomeBarChart
             ->addData('Expenses', $expenses)
             ->addData('Incomes', $incomes)
             ->setXAxis($weekDays)
-            ->setGrid('#3F51B5', 0.3)
+            ->setGrid('#e5e7eb', 0.3)
             ->setColors(['#FF2D00', '#5ED600'])
-            ->setFontColor('#000000')
+            ->setFontColor('#e5e7eb')
             ->toVue();
     }
 }

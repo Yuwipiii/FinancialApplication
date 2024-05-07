@@ -85,14 +85,14 @@ export default {
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <Transition name="slide-fade">
                         <div v-if="this.isCreate">
-                            <form @submit.prevent="submit" class="bg-slate-800/50 rounded-lg p-3 ">
-                                <h1 class="block font-medium text-2xl">Create new expense category</h1>
+                            <form @submit.prevent="submit" class="bg-gray-600 rounded-lg p-3 ">
+                                <h1 class="block font-medium text-2xl text-gray-200">Create new expense category</h1>
                                 <div>
                                     <InputLabel for="name" value="Expense category name"/>
                                     <TextInput
                                         id="name"
                                         type="text"
-                                        class="mt-1 block w-full bg-slate-700/50"
+                                        class="mt-1 block w-full bg-gray-700 text-gray-200"
                                         v-model="form.name"
                                         required
                                         autofocus
@@ -105,7 +105,7 @@ export default {
                                     <TextInput
                                         id="monthly_limit"
                                         type="number"
-                                        class="mt-1  w-full bg-slate-700/50"
+                                        class="mt-1  w-full bg-gray-700 text-gray-200"
                                         v-model="form.monthly_limit"
                                         required
                                         autocomplete="monthly_limit"

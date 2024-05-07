@@ -65,7 +65,7 @@ export default {
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex justify-between">
+            <div class="flex justify-between text-gray-200">
                 <h2 class="font-semibold text-xl  leading-tight">Wallets</h2>
                 <button @click="this.showCreate">
                     <svg v-if="!isCreate === true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -88,7 +88,7 @@ export default {
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <Transition name="slide-fade">
                         <div v-if="this.isCreate">
-                            <form @submit.prevent="submit" class="bg-slate-800/50 rounded-lg p-3 ">
+                            <form @submit.prevent="submit" class="bg-gray-600 rounded-lg p-3 text-gray-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor" class="w-8 h-8 stroke-1">
@@ -100,7 +100,7 @@ export default {
                                     <TextInput
                                         id="name"
                                         type="text"
-                                        class="mt-1 block w-full bg-slate-700/50"
+                                        class="mt-1 block w-full bg-gray-700"
                                         v-model="form.name"
                                         required
                                         autofocus
@@ -112,7 +112,7 @@ export default {
                                 <div class="mt-5">
                                     <InputLabel for="type" value="Wallet Type"/>
                                     <div class="flex mt-1">
-                                        <select id="type" class="bg-slate-700/50 rounded-lg " v-model="form.type">
+                                        <select id="type" class="bg-gray-700 rounded-lg " v-model="form.type">
                                             <option disabled value="">Select currency of wallet</option>
                                             <option v-for="(type,index) in types" :key="index" :value="type">
                                                 {{ type }}
@@ -128,7 +128,7 @@ export default {
                                     <TextInput
                                         id="balance"
                                         type="number"
-                                        class="mt-1 block w-full bg-slate-700/50"
+                                        class="mt-1 block w-full bg-gray-700"
                                         v-model="form.balance"
                                         required
                                         autofocus
@@ -150,15 +150,17 @@ export default {
                             </form>
                         </div>
                         <div v-else>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div v-for="(wallet,index) in this.wallets['data']" :key="index">
-                                    <Card :balance="wallet.balance"
-                                          :card-name="wallet.name" :card-type="wallet.type"
-                                          :card-id="wallet.id"></Card>
+                            <div v-if="wallets['data'].length !== 0">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div v-for="(wallet,index) in this.wallets['data']" :key="index">
+                                        <Card :balance="wallet.balance"
+                                              :card-name="wallet.name" :card-type="wallet.type"
+                                              :card-id="wallet.id"></Card>
+                                    </div>
                                 </div>
+                                <SimplePaginator class="flex justify-self-center"
+                                                 :paginator="wallets"></SimplePaginator>
                             </div>
-                            <SimplePaginator class="flex justify-self-center"
-                                             :paginator="wallets"></SimplePaginator>
                         </div>
                     </Transition>
                 </div>
