@@ -30,6 +30,9 @@ class YearlyWalletExpensesChart
             ->setTitle('Expenses for' . now()->format("Y"))
             ->addData($expensesData)
             ->setLabels($expensesCategory)
+            ->setGrid('#e5e7eb', 0.3)
+            ->setColors(['#FF2D00', '#5ED600'])
+            ->setFontColor('#e5e7eb')
             ->toVue();
     }
 }

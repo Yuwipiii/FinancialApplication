@@ -30,6 +30,7 @@ class YearlyIncomesChart
             ->setTitle('Incomes for' . now()->format("Y"))
             ->addData($incomesData)
             ->setLabels($incomesCategory)
+            ->setFontColor('#e5e7eb')
             ->toVue();
     }
 }

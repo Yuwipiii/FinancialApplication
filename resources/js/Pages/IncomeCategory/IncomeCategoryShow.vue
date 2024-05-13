@@ -67,11 +67,11 @@ export default {
         <template #header>
             <div class="flex justify-between">
                 <div>
-                    <h2 class="font-semibold text-2xl text-gray-800 leading-tight">{{ incomeCategory['name'] }}</h2>
+                    <h2 class="font-semibold text-2xl  leading-tight">{{ incomeCategory['name'] }}</h2>
                 </div>
                 <div>
                     <button @click="this.showEdit"
-                            class="ms-2 inline-flex px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                            class="ms-2 inline-flex px-4 py-2 bg-white border border-gray-200 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
                         <svg v-if="!isEdit === true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                              stroke-width="1.5"
                              stroke="currentColor" class="w-4 h-4">
@@ -93,13 +93,13 @@ export default {
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <Transition name="slide-fade">
                         <div v-if="this.isEdit">
-                            <form @submit.prevent="submit" class="bg-slate-800/50 rounded-lg p-3 ">
+                            <form @submit.prevent="submit" class="bg-gray-600 rounded-lg p-3 ">
                                 <div>
                                     <InputLabel for="name" value="Category name"/>
                                     <TextInput
                                         id="name"
                                         type="text"
-                                        class="mt-1 block w-full bg-slate-700/50"
+                                        class="mt-1 block w-full bg-gray-600 text-gray-200"
                                         v-model="form.name"
                                         required
                                         autofocus
@@ -117,22 +117,22 @@ export default {
                         </div>
                         <div v-else>
                             <div class="grid-cols-3">
-                                <div class="col-span-3 text-center mb-5">
-                                    <div><span class="font-light text-slate-500  text-2xl">Total Income</span>
+                                <div class="col-span-3 text-center mb-5 text-gray-200">
+                                    <div><span class="font-light    text-2xl">Total Income</span>
                                         <br>
-                                        <p class="font-bold text-4xl">
+                                        <p class="font-bold text-4xl text-emerald-600">
                                             {{formatPrice(incomeCategoryTotal) +" KGS" }}</p>
                                     </div>
                                     <div>
-                                        <span class="font-light text-slate-500  text-2xl">Income for this month</span>
+                                        <span class="font-light   text-2xl">Income for this month</span>
                                         <br>
-                                        <p class="font-bold text-4xl">
+                                        <p class="font-bold text-4xl text-emerald-600">
                                             {{ formatPrice(incomeCategoryCurrentMonthTotal)+ " KGS"}}</p>
                                     </div>
                                 </div>
 
-                                <div class="col-span-3 grid grid-cols-5 gap-2 bg-gray-200 rounded-lg shadow-xl p-10">
-                                    <h2 class="font-semibold col-span-5  text-2xl text-gray-800 leading-tight text-center mb-4">
+                                <div class="col-span-3 grid grid-cols-5 gap-2 bg-gray-600 rounded-lg shadow-xl p-10">
+                                    <h2 class="font-semibold col-span-5  text-2xl text-gray-200 leading-tight text-center mb-4">
                                         Analytics</h2>
                                     <div class="col-span-5">
                                         <apexchart class="col-span-1" :width="yearlyIncomeCategoryChart.width"

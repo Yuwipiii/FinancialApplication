@@ -1,8 +1,8 @@
 <template>
     <div @click="showWallet">
-        <div class="card group/item  bg-slate-800/50 hover:bg-stone-400 drop-shadow-lg">
+        <div class="card group/item  bg-gray-600 hover:bg-gray-500 drop-shadow-lg">
             <div class="flex flex-col mb-3">
-                <div class="flex justify-between">
+                <div class="flex justify-between text-gray-200">
                     <strong class="card-name">{{ cardName.charAt(0).toUpperCase() + cardName.slice(1) }}</strong>
                     <div class="group/edit invisible  group-hover/item:visible">
                         <DangerButton @click.stop="confirmDelete">
@@ -16,38 +16,36 @@
                         </DangerButton>
 
                     </div>
-
-
-                    <Modal :show="this.showDeleteModal" @close="closeDeleteModal">
-                        <div class="p-6">
-                            <h2 class="text-lg font-medium text-gray-900">Are you sure you want to delete your
-                                wallet
-                                ?</h2>
-
-                            <p class="mt-1 text-sm text-gray-600">
-                                After deleting the wallet, the entire expense history and data associated with the
-                                wallet will be permanently lost
-                            </p>
-                            <div class="mt-6 flex justify-end">
-                                <SecondaryButton @click="closeDeleteModal"> Cancel</SecondaryButton>
-
-                                <DangerButton
-                                    class="ms-3"
-                                    @click="deleteWallet"
-                                >Confirm
-                                </DangerButton>
-                            </div>
-                        </div>
-                    </Modal>
                 </div>
-                <span class="card-type">Type: {{ cardType }}</span>
+                <span class="card-type  text-gray-200">Type: {{ cardType }}</span>
             </div>
             <div>
-                <div class="card-info text-end">
+                <div class="card-info text-end text-gray-200">
                     <p><strong class="label text-xl">Balance:</strong> {{ formatPrice(balance) + " KGS" }}
                     </p>
                 </div>
             </div>
+            <Modal :show="this.showDeleteModal" @close="closeDeleteModal">
+                <div class="p-6 bg-gray-600">
+                    <h2 class="text-lg font-medium text-gray-200">Are you sure you want to delete your
+                        wallet
+                        ?</h2>
+
+                    <p class="mt-1 text-sm text-gray-200">
+                        After deleting the wallet, the entire expense history and data associated with the
+                        wallet will be permanently lost
+                    </p>
+                    <div class="mt-6 flex justify-end">
+                        <SecondaryButton @click="closeDeleteModal"> Cancel</SecondaryButton>
+
+                        <DangerButton
+                            class="ms-3"
+                            @click="deleteWallet"
+                        >Confirm
+                        </DangerButton>
+                    </div>
+                </div>
+            </Modal>
         </div>
     </div>
 </template>
@@ -105,7 +103,7 @@ export default {
                 },
                 onError: () => {
                     const $toast = useToast();
-                    let intance = $toast.error('An error occurred when deleted a wallet');
+                    let instance = $toast.error('An error occurred when deleted a wallet');
                 },
             })
         },

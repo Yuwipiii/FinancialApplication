@@ -1,10 +1,10 @@
 <template>
     <div @click="showGoal">
-        <div class="card group/item  bg-slate-800/50 hover:bg-stone-400 drop-shadow-lg">
+        <div class="card group/item bg-gray-600 text-gray-200 hover:bg-gray-500 drop-shadow-lg">
             <div class="grid grid-cols-2  mb-3">
                 <div class="col-span-1 mb-2">
                     <strong
-                        class="card-name text-2xl">{{ goal.name.charAt(0).toUpperCase() + goal.name.slice(1) }}</strong>
+                        class="card-name text-2xl text-start text-gray-200">{{ goal.name.charAt(0).toUpperCase() + goal.name.slice(1) }}</strong>
                 </div>
                 <div class="col-span-1 place-self-end group/edit invisible  group-hover/item:visible mb-2">
                     <DangerButton @click.stop="confirmDelete">
@@ -17,7 +17,7 @@
                         </svg>
                     </DangerButton>
                 </div>
-                <div class="col-span-2 lg:col-span-1 hidden sm:block text-start">
+                <div class="col-span-2 lg:col-span-1 text-gray-200 hidden sm:block text-start">
                     <div><strong>Accumulated:</strong>{{ goal.current_amount }} KGS</div>
                     <div><strong>Required:</strong>
                         {{ goal.target_amount }} KGS
@@ -31,18 +31,18 @@
                         horizontal: 2,
                         blur: 4,
                         opacity: .4,
-                         color: '#000000'
-                        }" :show-percent="true"  :size="90" fill-color="#1d8a19"
+                         color: '#0000',
+                        }" :show-percent="true" :size="90" fill-color="#059669"
                                      :percent="Math.round((goal.current_amount*100)/goal.target_amount) <=100?Math.round((goal.current_amount*100)/goal.target_amount):100"/>
                 </div>
             </div>
         </div>
         <Modal :show="this.showDeleteModal" @close="closeDeleteModal">
-            <div class="p-6">
-                <h2 class="text-lg font-medium text-gray-900">Are you sure you want to delete goal
+            <div class="p-6 bg-gray-600 text-gray-200">
+                <h2 class="text-lg font-medium">Are you sure you want to delete goal
                     ?</h2>
 
-                <p class="mt-1 text-sm text-gray-600">
+                <p class="mt-1 text-sm">
                     After deleting the goal, the entire expense history and data associated with the
                     goal will be permanently lost
                 </p>
@@ -71,6 +71,7 @@ import {router} from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
+import {useToast} from "vue-toast-notification";
 
 
 export default {
@@ -103,7 +104,15 @@ export default {
         },
         deleteGoal() {
             router.delete(route('goals.destroy', this.goal.id), {
-                onSuccess: () => this.closeDeleteModal(),
+                onSuccess: () => {
+                    this.closeDeleteModal();
+                    const $toast = useToast();
+                    let instance = $toast.success('You have successfully deleted a goal!');
+                },
+                onError: () => {
+                    const $toast = useToast();
+                    let instance = $toast.error('An error occurred when deleted a goal');
+                },
             })
         },
         showGoal() {
@@ -121,10 +130,12 @@ export default {
     margin-bottom: 20px;
     color: black;
 }
+
 .current-counter {
     &::after {
         content: "%";
     }
+    color: #e5e7eb;
 }
 
 </style>

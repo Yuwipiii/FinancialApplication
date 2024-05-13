@@ -30,6 +30,7 @@ class MonthlyWalletIncomesChart
             ->setTitle('Incomes for' . now()->format("F Y"))
             ->addData($incomesData)
             ->setLabels($incomesCategory)
+            ->setFontColor('#e5e7eb')
             ->toVue();
     }
 }

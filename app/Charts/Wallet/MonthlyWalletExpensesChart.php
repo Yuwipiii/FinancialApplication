@@ -30,6 +30,7 @@ class MonthlyWalletExpensesChart
             ->setTitle('Expenses for' . now()->format("F Y"))
             ->addData($expensesData)
             ->setLabels($expensesCategory)
+            ->setFontColor('#e5e7eb')
             ->toVue();
     }
 }

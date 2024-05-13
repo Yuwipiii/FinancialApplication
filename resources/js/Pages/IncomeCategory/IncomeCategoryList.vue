@@ -63,7 +63,7 @@ export default {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Income category</h2>
+                <h2 class="font-semibold text-xl  leading-tight">Income category</h2>
                 <button @click="this.showCreate">
                     <svg v-if="!isCreate === true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                          stroke-width="1.5"
@@ -84,14 +84,14 @@ export default {
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <Transition name="slide-fade">
                         <div v-if="this.isCreate">
-                            <form @submit.prevent="submit" class="bg-slate-800/50 rounded-lg p-3 ">
+                            <form @submit.prevent="submit" class="bg-gray-600 rounded-lg p-3 ">
                                 <h1 class="block font-medium text-2xl">Create new income category</h1>
                                 <div>
                                     <InputLabel for="name" value="Income category name"/>
                                     <TextInput
                                         id="name"
                                         type="text"
-                                        class="mt-1 block w-full bg-slate-700/50"
+                                        class="mt-1 block w-full bg-gray-700 text-gray-200"
                                         v-model="form.name"
                                         required
                                         autofocus

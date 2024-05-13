@@ -33,9 +33,10 @@ class YearlyCategoryChart
             ->addData('Expenses',$expensesData)
             ->addLine("Limit",array_fill(0,12,$limit))
             ->setXAxis(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
-            ->setGrid('#3F51B5', 0.2)
             ->setMarkers(['#FF5722', '#E040FB'], 4, 10)
-            ->setColors(['#00BA25','#FF3D00'])
+            ->setGrid('#e5e7eb', 0.3)
+            ->setColors(['#FF2D00', '#5ED600'])
+            ->setFontColor('#e5e7eb')
             ->toVue();
     }
 }

@@ -40,9 +40,9 @@ export default {
 <template>
     <div class="mt-4">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <table class="w-full table-auto text-sm text-left rtl:text-right text-gray-200">
                 <thead
-                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    class="text-xs  uppercase bg-gray-700 text-gray-200">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         From
@@ -63,12 +63,12 @@ export default {
                 </thead>
                 <tbody>
                 <tr v-for="(expense,index) in this.expenses" :key="index" @click="showExpense()"
-                    class="grid-cols-5 bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    class="border-b bg-gray-600 border-gray-700  dark:hover:bg-gray-400">
                     <th scope="row"
-                        class="col-span-1 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        class="col-span-1 px-6 py-4 font-medium  whitespace-nowrap ">
                         {{ expense['wallet']['name'] }}
                     </th>
-                    <td class="col-span-1 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td class="col-span-1 px-6 py-4 font-medium  whitespace-nowrap ">
                         {{ expense['date'] }}
                     </td>
                     <td class="col-span-1 px-6 py-4" v-if="expense['category'] == null">
@@ -82,16 +82,16 @@ export default {
                     </td>
                     <td class="col-span-1 px-6 py-4 text-start">
                         <button @click.stop="confirmDelete"
-                                class="font-medium text-gray-900 bg-red-700 rounded-lg p-2 hover:bg-red-600">
+                                class="font-medium text-gray-200 bg-red-700 rounded-lg p-2 hover:bg-red-400">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                             </svg>
                         </button>
                         <Modal :show="this.showDeleteModal" @close="closeDeleteModal">
-                            <div class="p-6">
-                                <h2 class="text-lg font-medium text-gray-900">Are you sure you want to delete expense
+                            <div class="p-6 bg-gray-600 text-gray-200">
+                                <h2 class="text-lg font-medium">Are you sure you want to delete expense
                                     ?</h2>
-                                <p class="mt-1 text-sm text-gray-600">
+                                <p class="mt-1 text-sm">
                                     After deleting the income, the entire income history and data associated with the
                                     wallet will be permanently lost
                                 </p>
@@ -106,8 +106,8 @@ export default {
                             </div>
                         </Modal>
                         <Modal :show="this.showExpenseModal" @close="closeExpenseModal">
-                            <div class="p-6">
-                                <div class="bg-gray-300 rounded-xl p-3">
+                            <div class="p-6 bg-gray-600 ">
+                                <div class="bg-gray-700 rounded-xl p-3 text-gray-200">
                                     <h2 class="text-2xl ">Note for expense</h2>
                                     <div v-if="expense['note'] === null">
                                         There are no notes
@@ -116,7 +116,7 @@ export default {
                                         {{ expense['note'] }}
                                     </div>
                                 </div>
-                                <div class="mt-4 bg-gray-300 rounded-xl p-3">
+                                <div class="mt-4 bg-gray-700 rounded-xl p-3">
                                     <ExpenseEditForm :expense="expense"></ExpenseEditForm>
                                 </div>
                                 <div class="mt-6 flex justify-end">

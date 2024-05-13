@@ -42,9 +42,7 @@ export default {
                     },
                     onError: () => {
                         const $toast = useToast();
-                        this.closeModal();
-                        let intance = $toast.error('An error occurred when creating an expense');
-                        this.form.reset();
+                        let instance = $toast.error('An error occurred when creating an expense');
                     }
                 }
             );
@@ -59,7 +57,7 @@ export default {
 <template>
     <div
         @click="this.showModal= true"
-        class="flex justify-center rounded-lg  border-2 bg-gray-100 border-slate-400 pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50">
+        class="flex justify-center rounded-lg shadow-lg  bg-gray-700 text-gray-200  pt-4 pb-4 hover:scale-95 hover:bg-slate-400/50">
         Expense
     </div>
     <Modal :show="this.showModal" @close="closeModal">
@@ -86,9 +84,6 @@ export default {
                                 <option disabled value="">Select expense</option>
                                 <option v-for="(category,index) in categories" :key="index" :value="category.id">
                                     {{ category.name }}
-                                </option>
-                                <option :value="null">
-                                    Other
                                 </option>
                             </select>
                         </div>

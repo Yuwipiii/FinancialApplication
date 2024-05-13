@@ -76,11 +76,11 @@ export default {
         <template #header>
             <div class="flex justify-between">
                 <div>
-                    <h2 class="font-semibold text-2xl text-gray-800 leading-tight">{{ goal['name'] }}</h2>
+                    <h2 class="font-semibold text-2xl leading-tight">{{ goal['name'] }}</h2>
                 </div>
                 <div>
                     <button @click="this.showEdit"
-                            class="ms-2 inline-flex px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                            class="ms-2 inline-flex px-4 py-2 bg-white border rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
                         <svg v-if="!isEdit === true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                              stroke-width="1.5"
                              stroke="currentColor" class="w-4 h-4">
@@ -102,13 +102,13 @@ export default {
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <Transition name="slide-fade">
                         <div v-if="this.isEdit">
-                            <form @submit.prevent="submit" class="bg-slate-800/50 rounded-lg p-3 ">
+                            <form @submit.prevent="submit" class="bg-gray-600 rounded-lg p-3 ">
                                 <div>
                                     <InputLabel for="name" value="Category name"/>
                                     <TextInput
                                         id="name"
                                         type="text"
-                                        class="mt-1 block w-full bg-slate-700/50"
+                                        class="mt-1 block w-full bg-gray-600 text-gray-200"
                                         v-model="form.name"
                                         required
                                         autofocus
@@ -122,7 +122,7 @@ export default {
                                     <TextInput
                                         id="target_amount"
                                         type="number"
-                                        class="mt-1  w-full bg-slate-700/50"
+                                        class="mt-1  w-full bg-gray-600 text-gray-200"
                                         v-model="form.target_amount"
                                         required
                                         autocomplete="target_amount"
@@ -140,15 +140,15 @@ export default {
                             </form>
                         </div>
                         <div v-else>
-                            <div class="grid grid-cols-6 gap-2 bg-gray-200 rounded-lg shadow-xl p-4">
+                            <div class="grid grid-cols-6 gap-2 bg-gray-600 text-gray-200 rounded-lg shadow-xl p-4">
                                 <h1 class="col-span-6 text-2xl">Statistics for {{ goal['name'] }}</h1>
                                 <div class="col-span-3">
                                     <div
-                                        class="bg-gray-300 rounded-lg p-4">
+                                        class="bg-gray-700 rounded-lg p-4">
                                         <div class="grid grid-cols-1">
                                             <h1>Current amount</h1>
                                             <div>
-                                                <p class="text-emerald-800 text-2xl me-1">{{
+                                                <p class="text-emerald-600 text-2xl me-1">{{
                                                         formatPrice(goal.current_amount)
                                                     }} KGS</p>
                                             </div>
@@ -157,11 +157,11 @@ export default {
                                 </div>
                                 <div class="col-span-3">
                                     <div
-                                        class="bg-gray-300 rounded-lg p-4">
+                                        class="bg-gray-700 rounded-lg p-4">
                                         <div class="grid grid-cols-1">
                                             <h1>Target amount</h1>
                                             <div>
-                                                <p class="text-red-800 text-2xl me-1">{{
+                                                <p class="text-red-600 text-2xl me-1">{{
                                                         formatPrice(goal.target_amount)
                                                     }} KGS</p>
                                             </div>
@@ -170,17 +170,17 @@ export default {
                                 </div>
                                 <div class="col-span-6">
                                     <div
-                                        class="bg-gray-300 rounded-lg p-4">
+                                        class="bg-gray-700 rounded-lg p-4">
                                         <div class="grid grid-cols-2">
                                             <h1 class="col-span-2">The remaining amount</h1>
                                             <div class="col-span-1">
                                                 <div v-if="!goal['is_completed']">
-                                                    <p  class="text-red-800 text-2xl me-1">{{
+                                                    <p  class="text-red-600 text-2xl me-1">{{
                                                             formatPrice(goal['target_amount'])
                                                         }} KGS</p>
                                                 </div>
                                                 <div v-else>
-                                                    <p class="text-emerald-800 text-2xl">
+                                                    <p class="text-emerald-600 text-2xl">
                                                         The goal has been achieved
                                                     </p>
                                                 </div>
