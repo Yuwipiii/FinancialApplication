@@ -1,66 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Financial Tracker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
 
-## About Laravel
+Financial Tracker is a versatile application designed to help users manage their finances efficiently. It allows the creation of multiple wallets, tracking of expenses, setting savings goals for purchases, and monitoring financial activities through various charts and diagrams. Additionally, the app integrates with a currency converter API to facilitate transactions in different currencies.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Multiple Wallets**: Create and manage multiple wallets to organize your finances.
+- **Expense Tracking**: Record and categorize your expenses to keep track of your spending habits.
+- **Savings Goals**: Set and monitor goals for future purchases, ensuring you save up effectively.
+- **Visualization**: Use charts and diagrams to get a visual representation of your financial activities and trends.
+- **Currency Conversion**: Integrated currency converter API to handle transactions in various currencies seamlessly.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+To get started with Financial Tracker, follow these steps:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/Yuwipiii/FinancialApplication.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd FinancialApplication
+   ```
+3. Install the required dependencies for Laravel:
+   ```sh
+   composer install
+   ```
+4. Install the required dependencies for Vue:
+   ```sh
+   npm install
+   ```
+5. Create a copy of the `.env` file:
+   ```sh
+   cp .env.example .env
+   ```
+6. Generate the application key:
+   ```sh
+   php artisan key:generate
+   ```
+7. Configure your database in the `.env` file:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=your_database
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   ```
+8. Run the database migrations:
+   ```sh
+   php artisan migrate
+   ```
+9. Start the Laravel development server:
+   ```sh
+   php artisan serve
+   ```
+10. In a separate terminal, start the Vue development server:
+    ```sh
+    npm run dev
+    ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Configuration
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+To use the currency converter feature, you'll need to configure the API key:
 
-## Laravel Sponsors
+1. Sign up for an API key from a currency converter service (e.g., ExchangeRate-API, CurrencyLayer).
+2. Add your API key to the `.env` file:
+   ```env
+   CURRENCY_API_KEY=your_api_key_here
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Usage
 
-### Premium Partners
+1. **Create Wallets**: Start by creating different wallets for various purposes (e.g., personal, business, savings).
+2. **Add Expenses**: Log your expenses by selecting the appropriate wallet and category.
+3. **Add Incomes**: Log your incomes by selecting the appropriate wallet and category.
+4. **Set Goals**: Define your savings goals, specifying the target amount and deadline.
+5. **Monitor Finances**: Use the built-in charts and diagrams to visualize your spending patterns, progress towards goals, and overall financial health.
+6. **Currency Conversion**: Convert amounts between different currencies using the integrated currency converter.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+If you have any questions or feedback, please contact us at [support@financialtracker.com](mailto:support@financialtracker.com).
+
+---
+
+Enjoy tracking your finances with Financial Tracker! 🚀
