@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  app:
+    restart: always
+    build:
+      context: .
+      dockerfile: _docker/app/Dockerfile
+    volumes:
+      - ./www:/var/www
+      - ./www/.env.test:/var/www/.env
+    container_name: app
+    networks:
+      - app-network
+
+
+
+  nginx:
+    image: nginx:latest
+    restart: always
+    volumes:
+      - ./www:/var/www
+      - ./_docker/nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - 8000:80
+      - 443:443
+    container_name: nginx
+    networks:
+      - app-network
+
+
+  db:
+    image: mysql:8.0
+    restart: always
+    ports:
+      - 3306
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    volumes:
+      - ./tmp/db_test:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_ROOT_PASSWORD: test
+    container_name: db
+    networks:
+      - app-network
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
