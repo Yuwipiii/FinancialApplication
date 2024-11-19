@@ -8,7 +8,7 @@ services:
       dockerfile: _docker/app/Dockerfile
     volumes:
       - ./www:/var/www
-      - ./www/.env.test:/var/www/.env
+      - ./www/..env.test:/var/www/.env
     container_name: app
     networks:
       - app-network
